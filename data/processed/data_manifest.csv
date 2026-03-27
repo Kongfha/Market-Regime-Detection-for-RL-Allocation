@@ -1,0 +1,10 @@
+dataset_name,path,rows,columns,min_date,max_date
+macro_features_weekly,data/processed/macro_features_weekly.csv,638,22,2014-01-03,2026-03-20
+market_features_daily,data/processed/market_features_daily.csv,3072,37,2014-01-02,2026-03-20
+market_features_weekly,data/processed/market_features_weekly.csv,638,38,2014-01-03,2026-03-20
+model_state_weekly_full,data/processed/model_state_weekly_full.csv,579,78,2014-03-28,2026-03-13
+model_state_weekly_price_macro,data/processed/model_state_weekly_price_macro.csv,579,63,2014-03-28,2026-03-13
+model_state_weekly_recent_full,data/processed/model_state_weekly_recent_full.csv,2,78,2026-03-06,2026-03-13
+news_events_enriched,data/processed/news_events_enriched.csv,80,19,2026-03-06,2026-03-27
+news_features_weekly,data/processed/news_features_weekly.csv,4,16,2026-03-06,2026-03-27
+weekly_asset_targets,data/processed/weekly_asset_targets.csv,638,9,2014-01-03,2026-03-20

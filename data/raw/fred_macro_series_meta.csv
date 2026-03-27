@@ -1,0 +1,11 @@
+series_id,category,frequency,description,suggested_transform
+CPIAUCSL,inflation,monthly,Consumer Price Index for All Urban Consumers: All Items in U.S. City Average,12m pct change
+DFF,rates,daily,Effective Federal Funds Rate,"level, 5d change"
+DGS10,rates,daily,10-Year Treasury Constant Maturity Rate,"level, 5d change"
+ICSA,labor,weekly,Initial Claims,"log level, 4w change"
+INDPRO,activity,monthly,Industrial Production: Total Index,12m pct change
+NFCI,financial_conditions,weekly,Chicago Fed National Financial Conditions Index,"level, 4w change"
+T10Y2Y,yield_curve,daily,10-Year Treasury Constant Maturity Minus 2-Year Treasury Constant Maturity,"level, sign, 5d change"
+T10YIE,inflation_expectations,daily,10-Year Breakeven Inflation Rate,"level, 5d change"
+UMCSENT,sentiment,monthly,University of Michigan: Consumer Sentiment,"level, 3m change"
+UNRATE,labor,monthly,Unemployment Rate,"level, 3m change"
