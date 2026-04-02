@@ -79,7 +79,10 @@ def plot_feature_distributions(df):
         "vix_level",
         "spy_ma_gap_5_20",
         "t10y2y_level",
+        "t10y3m_level",
         "nfci_level",
+        "cfnai_level",
+        "bamlh0a0hym2_level",
     ]
     features_to_plot = [f for f in potential_features if f in df.columns]
     regime_col, regime_order = regime_layout(df)

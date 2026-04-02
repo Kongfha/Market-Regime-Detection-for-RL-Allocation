@@ -293,9 +293,13 @@ def main():
         "vix_level",
         "spy_ma_gap_5_20",
         "t10y2y_level",
+        "t10y3m_level",
+        "t10y3m_sign",
         "nfci_level",
+        "cfnai_level",
         "umcsent_level",
         "dff_level",
+        "bamlh0a0hym2_level",
     ]
     summary_cols = [c for c in summary_candidates if c in df_raw.columns]
     state_frame = df_raw.assign(regime_state=regimes)

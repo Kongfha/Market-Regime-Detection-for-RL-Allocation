@@ -34,11 +34,13 @@ ACF_THRESHOLD = 0.3
 MAX_FEATURES = 12
 MIN_FEATURES = 4
 NON_FEATURE_COLS = ["week_end", "spy_weekly_close", "next_return_spy"]
-CORE_FEATURES = [
-    "spy_vol_20d",
-    "spy_drawdown_60d",
-    "vix_level",
-    "t10y2y_level",
+CORE_FEATURE_GROUPS = [
+    ["spy_vol_20d"],
+    ["spy_drawdown_60d"],
+    ["vix_level"],
+    # Prefer the old curve-level feature when present, but gracefully fall back
+    # to the new 10y-3m curve fields after the macro panel refresh.
+    ["t10y2y_level", "t10y3m_level", "t10y3m_sign"],
 ]
 
 def calculate_bic(log_likelihood, n_features, n_states, n_samples):
@@ -110,7 +112,12 @@ def main():
 
     # Keep a small, diversified set of market-stress features even if the
     # greedy BIC search would otherwise prefer only slow macro series.
-    seed_features = [f for f in CORE_FEATURES if f in df.columns and f not in NON_FEATURE_COLS]
+    seed_features = []
+    for group in CORE_FEATURE_GROUPS:
+        for feature in group:
+            if feature in df.columns and feature not in NON_FEATURE_COLS:
+                seed_features.append(feature)
+                break
 
     print(f"[INFO] Candidates entering search: {len(persist_list)}")
 
