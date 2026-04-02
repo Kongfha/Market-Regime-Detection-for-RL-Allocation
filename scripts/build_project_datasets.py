@@ -16,6 +16,14 @@ import pandas as pd
 TRACKED_ASSETS = ["SPY", "TLT", "GLD"]
 CONTEXT_TICKERS = ["QQQ", "^VIX", "^TNX"]
 ALL_REQUIRED_TICKERS = TRACKED_ASSETS + CONTEXT_TICKERS
+SERIES_PREFIX_ALIASES = {
+    "CPIAUCSL": "cpi",
+}
+FREQUENCY_RELEASE_LAGS = {
+    "daily": pd.Timedelta(days=0),
+    "weekly": pd.Timedelta(days=7),
+    "monthly": pd.DateOffset(months=1),
+}
 
 TOPIC_KEYWORDS = {
     "growth_earnings": [
@@ -140,6 +148,33 @@ IMPACT_KEYWORDS = [
     "war",
 ]
 
+RAW_NEWS_COLUMNS = [
+    "requested_symbol",
+    "news_id",
+    "content_type",
+    "title",
+    "summary",
+    "published_at",
+    "publisher",
+    "canonical_url",
+    "click_url",
+    "related_tickers",
+    "query_relevance_heuristic",
+]
+
+
+def safe_log(series: pd.Series) -> pd.Series:
+    positive = series.where(series > 0)
+    return np.log(positive)
+
+
+def load_news_or_empty(path: Path) -> pd.DataFrame:
+    if path.exists():
+        return pd.read_csv(path)
+
+    print(f"[warn] Missing optional raw news file: {path}. Continuing with empty news inputs.")
+    return pd.DataFrame(columns=RAW_NEWS_COLUMNS)
+
 
 def load_prices(path: Path) -> pd.DataFrame:
     prices = pd.read_csv(path, parse_dates=["date"]).sort_values(["date", "symbol"])
@@ -241,54 +276,77 @@ def make_weekly_targets(prices: pd.DataFrame) -> pd.DataFrame:
     return targets
 
 
+def get_series_prefix(series_id: str) -> str:
+    return SERIES_PREFIX_ALIASES.get(series_id, series_id.lower())
+
+
+def parse_suggested_transforms(frame: pd.DataFrame) -> list[str]:
+    if "suggested_transform" not in frame.columns:
+        return ["level"]
+
+    non_null = frame["suggested_transform"].dropna()
+    if non_null.empty:
+        return ["level"]
+
+    return [part.strip().lower() for part in non_null.iloc[0].split(",") if part.strip()]
+
+
+def infer_release_lag(frame: pd.DataFrame) -> pd.DateOffset | pd.Timedelta:
+    frequency = frame["frequency"].dropna().iloc[0].strip().lower()
+    if frequency not in FREQUENCY_RELEASE_LAGS:
+        raise ValueError(f"Unsupported FRED frequency: {frequency}")
+    return FREQUENCY_RELEASE_LAGS[frequency]
+
+
+def add_transformed_series(
+    features: pd.DataFrame,
+    prefix: str,
+    series: pd.Series,
+    transform: str,
+) -> None:
+    if transform == "level":
+        features[f"{prefix}_level"] = series
+        return
+    if transform == "log level":
+        features[f"{prefix}_log_level"] = safe_log(series)
+        return
+    if transform == "sign":
+        features[f"{prefix}_sign"] = np.sign(series)
+        return
+    if transform == "5d change":
+        features[f"{prefix}_chg_5d"] = series.diff(5)
+        return
+    if transform == "4w change":
+        features[f"{prefix}_chg_4w"] = series.diff(4)
+        return
+    if transform == "3m change":
+        features[f"{prefix}_chg_3m"] = series.diff(3)
+        return
+    if transform == "5d pct change":
+        features[f"{prefix}_pct_chg_5d"] = series.pct_change(5, fill_method=None)
+        return
+    if transform == "4w pct change":
+        features[f"{prefix}_pct_chg_4w"] = series.pct_change(4, fill_method=None)
+        return
+    if transform == "12m pct change":
+        features[f"{prefix}_yoy"] = series.pct_change(12, fill_method=None)
+        return
+    if transform == "3m average":
+        features[f"{prefix}_mean_3m"] = series.rolling(3).mean()
+        return
+
+    raise ValueError(f"Unsupported transform '{transform}' for series prefix '{prefix}'")
+
+
 def make_macro_feature_frame(series_id: str, frame: pd.DataFrame) -> pd.DataFrame:
     series = frame.sort_values("date").set_index("date")["value"]
-    prefix = series_id.lower()
+    prefix = get_series_prefix(series_id)
     features = pd.DataFrame(index=series.index)
-
-    if series_id == "DFF":
-        features[f"{prefix}_level"] = series
-        features[f"{prefix}_chg_5d"] = series.diff(5)
-        lag = pd.Timedelta(days=0)
-    elif series_id == "DGS10":
-        features[f"{prefix}_level"] = series
-        features[f"{prefix}_chg_5d"] = series.diff(5)
-        lag = pd.Timedelta(days=0)
-    elif series_id == "T10Y2Y":
-        features[f"{prefix}_level"] = series
-        features[f"{prefix}_sign"] = np.sign(series)
-        features[f"{prefix}_chg_5d"] = series.diff(5)
-        lag = pd.Timedelta(days=0)
-    elif series_id == "T10YIE":
-        features[f"{prefix}_level"] = series
-        features[f"{prefix}_chg_5d"] = series.diff(5)
-        lag = pd.Timedelta(days=0)
-    elif series_id == "NFCI":
-        features[f"{prefix}_level"] = series
-        features[f"{prefix}_chg_4w"] = series.diff(4)
-        lag = pd.Timedelta(days=7)
-    elif series_id == "ICSA":
-        features[f"{prefix}_log_level"] = np.log(series)
-        features[f"{prefix}_chg_4w"] = series.diff(4)
-        lag = pd.Timedelta(days=7)
-    elif series_id == "CPIAUCSL":
-        features["cpi_yoy"] = series.pct_change(12, fill_method=None)
-        lag = pd.DateOffset(months=1)
-    elif series_id == "UNRATE":
-        features["unrate_level"] = series
-        features["unrate_chg_3m"] = series.diff(3)
-        lag = pd.DateOffset(months=1)
-    elif series_id == "INDPRO":
-        features["indpro_yoy"] = series.pct_change(12, fill_method=None)
-        lag = pd.DateOffset(months=1)
-    elif series_id == "UMCSENT":
-        features["umcsent_level"] = series
-        features["umcsent_chg_3m"] = series.diff(3)
-        lag = pd.DateOffset(months=1)
-    else:
-        raise ValueError(f"Unsupported series_id: {series_id}")
+    for transform in parse_suggested_transforms(frame):
+        add_transformed_series(features, prefix, series, transform)
 
     features = features.reset_index()
+    lag = infer_release_lag(frame)
     features["effective_date"] = features["date"] + lag
     return features.drop(columns=["date"]).sort_values("effective_date")
 
@@ -519,7 +577,7 @@ def main() -> None:
 
     prices = load_prices(raw_dir / "yahoo_prices_daily.csv")
     macro_panel = pd.read_csv(raw_dir / "fred_macro_panel.csv", parse_dates=["date"])
-    news = pd.read_csv(raw_dir / "yahoo_news_latest.csv")
+    news = load_news_or_empty(raw_dir / "yahoo_news_latest.csv")
 
     market_features_daily = make_market_features_daily(prices)
     market_features_weekly = make_market_features_weekly(market_features_daily, prices)

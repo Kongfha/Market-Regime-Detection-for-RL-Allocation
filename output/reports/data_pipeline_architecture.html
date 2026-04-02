@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Pipeline Architecture - Market Regime Detection for RL Allocation</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0a0e1a;
+    color: #e0e4ef;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .header {
+    text-align: center;
+    padding: 32px 20px 16px;
+    background: linear-gradient(135deg, #0f1629 0%, #1a1f3a 100%);
+    border-bottom: 1px solid #2a3055;
+  }
+  .header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+  .header p { font-size: 0.9rem; color: #8892b0; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px 16px; }
+
+  /* Legend */
+  .legend {
+    display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 28px; padding: 12px 20px;
+    background: #111628; border-radius: 10px; border: 1px solid #1e2545;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #8892b0; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+  /* Pipeline Section */
+  .pipeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+  .pipeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #2a3055 0%, #3b4575 50%, #2a3055 100%);
+    z-index: 0;
+  }
+
+  /* Phase Labels */
+  .phase-label {
+    text-align: center;
+    padding: 10px 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .phase-label span {
+    display: inline-block;
+    background: #1a1f3a;
+    border: 1px solid #3b4575;
+    border-radius: 20px;
+    padding: 6px 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #60a5fa;
+  }
+
+  /* Flow Row */
+  .flow-row {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    align-items: stretch;
+    gap: 0;
+    margin: 8px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .flow-left { display: flex; justify-content: flex-end; }
+  .flow-right { display: flex; justify-content: flex-start; }
+  .flow-center {
+    display: flex; align-items: center; justify-content: center;
+    color: #3b4575; font-size: 1.4rem;
+  }
+
+  /* Cards */
+  .card {
+    border-radius: 12px;
+    padding: 16px 20px;
+    max-width: 520px;
+    width: 100%;
+    position: relative;
+    border: 1px solid;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+  .card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon { font-size: 1.1rem; }
+  .card-body { font-size: 0.8rem; line-height: 1.6; color: #a0aac0; }
+  .card-body code {
+    background: rgba(255,255,255,0.06);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    color: #c4b5fd;
+  }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  /* Source cards - Blue */
+  .card-source {
+    background: linear-gradient(135deg, #0c1a3a 0%, #111f45 100%);
+    border-color: #1e3a6e;
+  }
+  .card-source .card-title { color: #60a5fa; }
+  .card-source .tag { background: #1e3a6e33; color: #60a5fa; border: 1px solid #1e3a6e; }
+
+  /* Raw cards - Amber */
+  .card-raw {
+    background: linear-gradient(135deg, #1a1508 0%, #251e0d 100%);
+    border-color: #5c4a1e;
+  }
+  .card-raw .card-title { color: #fbbf24; }
+  .card-raw .tag { background: #5c4a1e33; color: #fbbf24; border: 1px solid #5c4a1e; }
+
+  /* Feature cards - Green */
+  .card-feature {
+    background: linear-gradient(135deg, #081a12 0%, #0d2518 100%);
+    border-color: #1e6e3a;
+  }
+  .card-feature .card-title { color: #34d399; }
+  .card-feature .tag { background: #1e6e3a33; color: #34d399; border: 1px solid #1e6e3a; }
+
+  /* State cards - Purple */
+  .card-state {
+    background: linear-gradient(135deg, #1a0f2e 0%, #231545 100%);
+    border-color: #4c3580;
+  }
+  .card-state .card-title { color: #a78bfa; }
+  .card-state .tag { background: #4c358033; color: #a78bfa; border: 1px solid #4c3580; }
+
+  /* Model cards - Pink/Red */
+  .card-model {
+    background: linear-gradient(135deg, #2a0f1a 0%, #351525 100%);
+    border-color: #803555;
+  }
+  .card-model .card-title { color: #f472b6; }
+  .card-model .tag { background: #80355533; color: #f472b6; border: 1px solid #803555; }
+
+  /* Benchmark cards - Teal */
+  .card-bench {
+    background: linear-gradient(135deg, #081a1a 0%, #0d2525 100%);
+    border-color: #1e6e6e;
+  }
+  .card-bench .card-title { color: #2dd4bf; }
+  .card-bench .tag { background: #1e6e6e33; color: #2dd4bf; border: 1px solid #1e6e6e; }
+
+  /* Arrow connectors */
+  .arrow-down {
+    text-align: center;
+    padding: 4px 0;
+    color: #3b4575;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Full-width cards */
+  .full-row {
+    display: flex;
+    justify-content: center;
+    margin: 8px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .full-row .card { max-width: 900px; }
+
+  /* Section: Detailed Feature Mapping */
+  .detail-section {
+    margin-top: 40px;
+    padding: 24px;
+    background: #111628;
+    border-radius: 14px;
+    border: 1px solid #1e2545;
+  }
+  .detail-section h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #a78bfa;
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .detail-card {
+    background: #0d1220;
+    border: 1px solid #1e2545;
+    border-radius: 10px;
+    padding: 14px 18px;
+  }
+  .detail-card h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .detail-card ul {
+    list-style: none;
+    font-size: 0.78rem;
+    color: #8892b0;
+    line-height: 1.8;
+  }
+  .detail-card ul li::before {
+    content: '\2192';
+    margin-right: 6px;
+    color: #4c5882;
+  }
+
+  /* FRED Series Table */
+  .fred-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 0.78rem;
+  }
+  .fred-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #151a30;
+    color: #60a5fa;
+    font-weight: 600;
+    border-bottom: 1px solid #2a3055;
+  }
+  .fred-table td {
+    padding: 6px 12px;
+    border-bottom: 1px solid #1a1f3a;
+    color: #a0aac0;
+  }
+  .fred-table tr:hover td { background: #151a3044; }
+  .fred-table .series-id { color: #c4b5fd; font-family: monospace; font-weight: 600; }
+  .freq-badge {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 8px;
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+  .freq-d { background: #1e3a6e33; color: #60a5fa; }
+  .freq-w { background: #1e6e3a33; color: #34d399; }
+  .freq-m { background: #5c4a1e33; color: #fbbf24; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .flow-row { grid-template-columns: 1fr; gap: 8px; }
+    .flow-left, .flow-right { justify-content: center; }
+    .flow-center { display: none; }
+    .detail-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Data Pipeline Architecture</h1>
+  <p>Market Regime Detection for RL Allocation &mdash; Source-to-Module Dataflow</p>
+</div>
+
+<div class="container">
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div>Data Source / API</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div>Raw Storage</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>Feature Engineering</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div>Weekly State Assembly</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f472b6"></div>Model Modules</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2dd4bf"></div>Benchmark / Validation</div>
+</div>
+
+<!-- ═══════════════════ PHASE 1: DATA SOURCES ═══════════════════ -->
+<div class="pipeline">
+
+<div class="phase-label"><span>Phase 1 &mdash; Data Sources &amp; Extraction</span></div>
+
+<!-- Yahoo Price -->
+<div class="flow-row">
+  <div class="flow-left">
+    <div class="card card-source">
+      <div class="card-title"><span class="icon">&#x1F4C8;</span> Yahoo Finance &mdash; Price Data</div>
+      <div class="card-body">
+        API: <code>yfinance.Ticker.history()</code><br>
+        <strong>Tradable:</strong> <code>SPY</code> <code>TLT</code> <code>GLD</code><br>
+        <strong>Context:</strong> <code>QQQ</code> <code>^VIX</code> <code>^TNX</code><br>
+        Fields: date, symbol, OHLCV, adj_close
+      </div>
+      <div class="card-tags">
+        <span class="tag">Daily</span>
+        <span class="tag">12+ years</span>
+        <span class="tag">6 tickers</span>
+      </div>
+    </div>
+  </div>
+  <div class="flow-center">&rarr;</div>
+  <div class="flow-right">
+    <div class="card card-raw">
+      <div class="card-title"><span class="icon">&#x1F4BE;</span> yahoo_prices_daily.csv</div>
+      <div class="card-body">
+        ~18K rows &bull; Raw daily OHLCV for all tickers<br>
+        Script: <code>fetch_yahoo_seed_data.py</code>
+      </div>
+      <div class="card-tags">
+        <span class="tag">data/raw/</span>
+        <span class="tag">~2.2 MB</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FRED Macro -->
+<div class="flow-row">
+  <div class="flow-left">
+    <div class="card card-source">
+      <div class="card-title"><span class="icon">&#x1F3DB;</span> FRED &mdash; Macro Data</div>
+      <div class="card-body">
+        API: <code>fredgraph.csv?id=SERIES_ID</code><br>
+        <strong>Core panel:</strong> 16 series across 4 themes<br>
+        Policy &amp; Curve &bull; Inflation &amp; Risk<br>
+        Liquidity &amp; Labor &bull; Activity &amp; Demand
+      </div>
+      <div class="card-tags">
+        <span class="tag">Daily / Weekly / Monthly</span>
+        <span class="tag">16 series</span>
+      </div>
+    </div>
+  </div>
+  <div class="flow-center">&rarr;</div>
+  <div class="flow-right">
+    <div class="card card-raw">
+      <div class="card-title"><span class="icon">&#x1F4BE;</span> fred_macro_panel.csv</div>
+      <div class="card-body">
+        ~72K rows &bull; Long-format panel with metadata<br>
+        Script: <code>fetch_fred_macro_panel.py --preset core</code>
+      </div>
+      <div class="card-tags">
+        <span class="tag">data/raw/</span>
+        <span class="tag">~7.8 MB</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Yahoo News -->
+<div class="flow-row">
+  <div class="flow-left">
+    <div class="card card-source">
+      <div class="card-title"><span class="icon">&#x1F4F0;</span> Yahoo Finance &mdash; News</div>
+      <div class="card-body">
+        API: <code>yfinance.Ticker.get_news()</code><br>
+        Query tickers: <code>SPY</code> <code>QQQ</code> <code>TLT</code> <code>GLD</code><br>
+        Fields: title, summary, published_at, publisher
+      </div>
+      <div class="card-tags">
+        <span class="tag">Recent only</span>
+        <span class="tag">No archive</span>
+      </div>
+    </div>
+  </div>
+  <div class="flow-center">&rarr;</div>
+  <div class="flow-right">
+    <div class="card card-raw">
+      <div class="card-title"><span class="icon">&#x1F4BE;</span> yahoo_news_latest.csv</div>
+      <div class="card-body">
+        Latest headlines per ticker<br>
+        Script: <code>fetch_yahoo_seed_data.py --news-count 20</code>
+      </div>
+      <div class="card-tags">
+        <span class="tag">data/raw/</span>
+        <span class="tag">~52 KB</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PhraseBank -->
+<div class="flow-row">
+  <div class="flow-left">
+    <div class="card card-bench">
+      <div class="card-title"><span class="icon">&#x1F4DA;</span> Financial PhraseBank</div>
+      <div class="card-body">
+        Source: Hugging Face<br>
+        Fields: sentence, label (pos/neg/neutral)<br>
+        4 agreement levels (50% to 100%)
+      </div>
+      <div class="card-tags">
+        <span class="tag">Benchmark only</span>
+        <span class="tag">Not for training</span>
+      </div>
+    </div>
+  </div>
+  <div class="flow-center">&rarr;</div>
+  <div class="flow-right">
+    <div class="card card-raw">
+      <div class="card-title"><span class="icon">&#x1F4BE;</span> financial_phrasebank_*.csv</div>
+      <div class="card-body">
+        Sentiment pipeline validation data<br>
+        Script: <code>fetch_financial_phrasebank.py</code>
+      </div>
+      <div class="card-tags">
+        <span class="tag">data/raw/</span>
+        <span class="tag">Validation</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PHASE 2: FEATURE ENGINEERING ═══════════════════ -->
+<div class="arrow-down">&#x25BC; &#x25BC; &#x25BC;</div>
+<div class="phase-label"><span>Phase 2 &mdash; Feature Engineering</span></div>
+
+<!-- Market Features -->
+<div class="flow-row">
+  <div class="flow-left">
+    <div class="card card-feature">
+      <div class="card-title"><span class="icon">&#x2699;</span> Market Features (Daily)</div>
+      <div class="card-body">
+        <strong>28 features</strong> from price data:<br>
+        Returns (1d/5d/20d) &bull; Volatility (5d/20d)<br>
+        Drawdown (60d) &bull; MA Gap (5/20)<br>
+        Volume Z-score &bull; Intraday Range<br>
+        Cross-asset: QQQ/SPY ratio, correlations<br>
+        Context: VIX level/chg, TNX level/chg
+      </div>
+      <div class="card-tags">
+        <span class="tag">market_features_daily.csv</span>
+        <span class="tag">~2.3 MB</span>
+      </div>
+    </div>
+  </div>
+  <div class="flow-center">&rarr;</div>
+  <div class="flow-right">
+    <div class="card card-feature">
+      <div class="card-title"><span class="icon">&#x1F4C5;</span> Market Features (Weekly)</div>
+      <div class="card-body">
+        Resampled to <code>W-FRI</code> calendar<br>
+        ~30 features aligned to decision dates<br>
+        Includes <code>week_end</code> and <code>week_last_trade_date</code>
+      </div>
+      <div class="card-tags">
+        <span class="tag">market_features_weekly.csv</span>
+        <span class="tag">~484 KB</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Macro Features -->
+<div class="full-row">
+  <div class="card card-feature">
+    <div class="card-title"><span class="icon">&#x2699;</span> Macro Features (Weekly) &mdash; Lag-Aware Causal Alignment</div>
+    <div class="card-body">
+      <strong>~50 features</strong> from FRED panel with frequency-aware lags:<br>
+      <strong>Daily series</strong> (DFF, DGS10, etc.) &rarr; use last value in week, no lag<br>
+      <strong>Weekly series</strong> (NFCI, ICSA, etc.) &rarr; lag by 1 week before joining<br>
+      <strong>Monthly series</strong> (CPI, UNRATE, etc.) &rarr; lag by 1 month before joining<br>
+      Each series applies its <code>suggested_transform</code>: level, change, pct_change, log, etc.
+    </div>
+    <div class="card-tags">
+      <span class="tag">macro_features_weekly.csv</span>
+      <span class="tag">~181 KB</span>
+      <span class="tag">Causal</span>
+    </div>
+  </div>
+</div>
+
+<!-- News Features -->
+<div class="flow-row">
+  <div class="flow-left">
+    <div class="card card-feature">
+      <div class="card-title"><span class="icon">&#x2699;</span> News Events Enriched</div>
+      <div class="card-body">
+        Event-level enrichment:<br>
+        Sentiment (pos/neg/neutral) &bull; Topic classification<br>
+        Impact score (1-3) &bull; Relevance score (0-4)
+      </div>
+      <div class="card-tags">
+        <span class="tag">news_events_enriched.csv</span>
+        <span class="tag">Keyword-based</span>
+      </div>
+    </div>
+  </div>
+  <div class="flow-center">&rarr;</div>
+  <div class="flow-right">
+    <div class="card card-feature">
+      <div class="card-title"><span class="icon">&#x1F4C5;</span> News Features (Weekly)</div>
+      <div class="card-body">
+        <strong>16 features</strong> aggregated per week:<br>
+        headline_count, sentiment ratios,<br>
+        impact stats, topic distribution ratios
+      </div>
+      <div class="card-tags">
+        <span class="tag">news_features_weekly.csv</span>
+        <span class="tag">~1.2 KB</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Targets -->
+<div class="full-row">
+  <div class="card card-feature" style="border-color: #6e5a1e;">
+    <div class="card-title" style="color: #fbbf24;"><span class="icon">&#x1F3AF;</span> Weekly Asset Targets (RL Reward Signal)</div>
+    <div class="card-body">
+      Next-period returns for <code>SPY</code>, <code>TLT</code>, <code>GLD</code> shifted forward by 1 week<br>
+      <strong>No look-ahead bias</strong>: each row shows <em>next</em> week's return as the RL reward target
+    </div>
+    <div class="card-tags">
+      <span class="tag" style="background:#5c4a1e33;color:#fbbf24;border:1px solid #5c4a1e;">weekly_asset_targets.csv</span>
+      <span class="tag" style="background:#5c4a1e33;color:#fbbf24;border:1px solid #5c4a1e;">~109 KB</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PHASE 3: STATE ASSEMBLY ═══════════════════ -->
+<div class="arrow-down">&#x25BC; &#x25BC; &#x25BC;</div>
+<div class="phase-label"><span>Phase 3 &mdash; Weekly State Assembly</span></div>
+
+<div class="full-row">
+  <div class="card card-state">
+    <div class="card-title"><span class="icon">&#x1F9E9;</span> Model State Assembly &mdash; <code>make_model_states()</code></div>
+    <div class="card-body" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+      <div style="padding: 10px; background: #1a0f2e; border-radius: 8px; border: 1px solid #3a2a60;">
+        <strong style="color:#a78bfa;">model_state_weekly_price_macro.csv</strong><br>
+        <span style="color:#8892b0;font-size:0.75rem;">
+          579 weeks &bull; 63 columns<br>
+          INNER JOIN: market + macro + targets<br>
+          Main training table for HMM / RL<br>
+          Longest clean history
+        </span>
+      </div>
+      <div style="padding: 10px; background: #1a0f2e; border-radius: 8px; border: 1px solid #3a2a60;">
+        <strong style="color:#a78bfa;">model_state_weekly_full.csv</strong><br>
+        <span style="color:#8892b0;font-size:0.75rem;">
+          579 weeks &bull; 78 columns<br>
+          LEFT JOIN: + nullable news columns<br>
+          Integration table for full pipeline<br>
+          Future-proofs historical text extension
+        </span>
+      </div>
+      <div style="padding: 10px; background: #1a0f2e; border-radius: 8px; border: 1px solid #3a2a60;">
+        <strong style="color:#a78bfa;">model_state_weekly_recent_full.csv</strong><br>
+        <span style="color:#8892b0;font-size:0.75rem;">
+          ~4 weeks &bull; 78 columns<br>
+          FILTER: where all modalities exist<br>
+          Multimodal demos &amp; explanation<br>
+          Recent-window case studies
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PHASE 4: MODEL MODULES ═══════════════════ -->
+<div class="arrow-down">&#x25BC; &#x25BC; &#x25BC;</div>
+<div class="phase-label"><span>Phase 4 &mdash; Model Modules (Downstream)</span></div>
+
+<div class="full-row">
+  <div class="card card-model" style="max-width: 1100px;">
+    <div class="card-body" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+      <div style="padding: 12px; background: #1f0d1a; border-radius: 8px; border: 1px solid #5a2a45;">
+        <strong style="color:#f472b6;">Pattern Recognition</strong><br>
+        <span style="color:#8892b0;font-size:0.75rem;">
+          Input: market + macro features<br>
+          Optional: news features<br>
+          Output: regime labels,<br>
+          posteriors, transition matrix
+        </span>
+      </div>
+      <div style="padding: 12px; background: #1f0d1a; border-radius: 8px; border: 1px solid #5a2a45;">
+        <strong style="color:#f472b6;">RL Allocation</strong><br>
+        <span style="color:#8892b0;font-size:0.75rem;">
+          Input: weekly state + regime output<br>
+          Reward: next_return_{spy,tlt,gld}<br>
+          Action: allocation weights for<br>
+          SPY / TLT / GLD / CASH
+        </span>
+      </div>
+      <div style="padding: 12px; background: #1f0d1a; border-radius: 8px; border: 1px solid #5a2a45;">
+        <strong style="color:#f472b6;">Explanation Module</strong><br>
+        <span style="color:#8892b0;font-size:0.75rem;">
+          Input: recent state + enriched news<br>
+          Output: narrative interpretation<br>
+          (risk-on, risk-off, panic, recovery)
+        </span>
+      </div>
+      <div style="padding: 12px; background: #0d1a1a; border-radius: 8px; border: 1px solid #1e5e5e;">
+        <strong style="color:#2dd4bf;">Sentiment Benchmark</strong><br>
+        <span style="color:#8892b0;font-size:0.75rem;">
+          Input: Financial PhraseBank<br>
+          Purpose: validate sentiment<br>
+          pipeline before using news aggs
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end pipeline -->
+
+<!-- ═══════════════════ DETAILED FEATURE MAPPING ═══════════════════ -->
+<div class="detail-section">
+  <h2>Detailed Feature Mapping: Source &rarr; Feature &rarr; Module</h2>
+  <div class="detail-grid">
+
+    <div class="detail-card">
+      <h3 style="color:#60a5fa;">&#x1F4C8; Price &rarr; Market Features</h3>
+      <ul>
+        <li><strong>Returns block</strong> (9 features): {spy,tlt,gld}_ret_{1d,5d,20d}</li>
+        <li><strong>Volatility block</strong> (6): {spy,tlt,gld}_vol_{5d,20d}</li>
+        <li><strong>Drawdown</strong> (3): {spy,tlt,gld}_drawdown_60d</li>
+        <li><strong>MA Gap</strong> (3): {spy,tlt,gld}_ma_gap_5_20</li>
+        <li><strong>Volume</strong> (3): {spy,tlt,gld}_volume_z_20</li>
+        <li><strong>Intraday Range</strong> (3): {spy,tlt,gld}_intraday_range</li>
+        <li><strong>Cross-asset</strong> (4): qqq_spy ratios, correlations</li>
+        <li><strong>Context</strong> (4): vix_level/chg, tnx_level/chg</li>
+      </ul>
+    </div>
+
+    <div class="detail-card">
+      <h3 style="color:#fbbf24;">&#x1F3DB; FRED &rarr; Macro Features</h3>
+      <ul>
+        <li><strong>Policy &amp; Curve</strong>: DFF, DGS3MO, DGS10, T10Y3M</li>
+        <li><strong>Inflation &amp; Risk</strong>: T10YIE, BAMLH0A0HYM2, VIXCLS, DTWEXBGS</li>
+        <li><strong>Liquidity &amp; Labor</strong>: WRESBAL, ICSA, UNRATE</li>
+        <li><strong>Activity &amp; Demand</strong>: CPIAUCSL, CFNAI, UMCSENT, PERMIT</li>
+        <li><strong>Optional</strong>: DGS30 (via core_plus_duration preset)</li>
+        <li>Each series &rarr; level + transform (change/pct/log)</li>
+      </ul>
+    </div>
+
+    <div class="detail-card">
+      <h3 style="color:#34d399;">&#x1F4F0; News &rarr; News Features</h3>
+      <ul>
+        <li><strong>Sentiment</strong>: mean_sentiment_score, neg/pos ratio</li>
+        <li><strong>Volume</strong>: headline_count, relevant_headline_count</li>
+        <li><strong>Impact</strong>: mean_impact_score, max_impact_score</li>
+        <li><strong>Topics</strong> (5 ratios): growth_earnings, inflation_rates, recession_slowdown, geopolitics_policy, market_technical_flow</li>
+        <li><strong>Relevance</strong>: relevance_ratio</li>
+      </ul>
+    </div>
+
+    <div class="detail-card">
+      <h3 style="color:#f472b6;">&#x1F3AF; Targets &rarr; RL Reward</h3>
+      <ul>
+        <li><strong>next_return_spy</strong>: next week SPY return</li>
+        <li><strong>next_return_tlt</strong>: next week TLT return</li>
+        <li><strong>next_return_gld</strong>: next week GLD return</li>
+        <li>Shifted forward 1 week (no look-ahead)</li>
+        <li>Used as reward signal for RL agent</li>
+        <li>Also used for regime quality evaluation</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════ FRED SERIES TABLE ═══════════════════ -->
+<div class="detail-section" style="margin-top: 24px;">
+  <h2>FRED Core Panel &mdash; 16 Series Detail</h2>
+  <table class="fred-table">
+    <thead>
+      <tr>
+        <th>Theme</th>
+        <th>Series ID</th>
+        <th>Description</th>
+        <th>Freq</th>
+        <th>Transform</th>
+        <th>Lag</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td rowspan="4">Policy &amp; Curve</td>
+        <td class="series-id">DFF</td><td>Effective Fed Funds Rate</td><td><span class="freq-badge freq-d">D</span></td><td>level, 5d change</td><td>0</td></tr>
+      <tr><td class="series-id">DGS3MO</td><td>3-Month Treasury Yield</td><td><span class="freq-badge freq-d">D</span></td><td>level, 5d change</td><td>0</td></tr>
+      <tr><td class="series-id">DGS10</td><td>10-Year Treasury Yield</td><td><span class="freq-badge freq-d">D</span></td><td>level, 5d change</td><td>0</td></tr>
+      <tr><td class="series-id">T10Y3M</td><td>10Y-3M Spread (Yield Curve)</td><td><span class="freq-badge freq-d">D</span></td><td>level, sign, 5d change</td><td>0</td></tr>
+
+      <tr><td rowspan="4">Inflation &amp; Risk</td>
+        <td class="series-id">T10YIE</td><td>10Y Breakeven Inflation</td><td><span class="freq-badge freq-d">D</span></td><td>level, 5d change</td><td>0</td></tr>
+      <tr><td class="series-id">BAMLH0A0HYM2</td><td>HY Credit Spread</td><td><span class="freq-badge freq-d">D</span></td><td>level, 5d change</td><td>0</td></tr>
+      <tr><td class="series-id">VIXCLS</td><td>VIX (CBOE)</td><td><span class="freq-badge freq-d">D</span></td><td>level, 5d change</td><td>0</td></tr>
+      <tr><td class="series-id">DTWEXBGS</td><td>USD Index (Broad)</td><td><span class="freq-badge freq-d">D</span></td><td>level, 5d pct change</td><td>0</td></tr>
+
+      <tr><td rowspan="3">Liquidity &amp; Labor</td>
+        <td class="series-id">WRESBAL</td><td>Fed Reserve Balances</td><td><span class="freq-badge freq-w">W</span></td><td>log level, 4w pct change</td><td>1 week</td></tr>
+      <tr><td class="series-id">ICSA</td><td>Initial Jobless Claims</td><td><span class="freq-badge freq-w">W</span></td><td>log level, 4w change</td><td>1 week</td></tr>
+      <tr><td class="series-id">UNRATE</td><td>Unemployment Rate</td><td><span class="freq-badge freq-m">M</span></td><td>level, 3m change</td><td>1 month</td></tr>
+
+      <tr><td rowspan="4">Activity &amp; Demand</td>
+        <td class="series-id">CPIAUCSL</td><td>CPI (All Items)</td><td><span class="freq-badge freq-m">M</span></td><td>12m pct change</td><td>1 month</td></tr>
+      <tr><td class="series-id">CFNAI</td><td>Chicago Fed Activity Index</td><td><span class="freq-badge freq-m">M</span></td><td>level, 3m average</td><td>1 month</td></tr>
+      <tr><td class="series-id">UMCSENT</td><td>Consumer Sentiment</td><td><span class="freq-badge freq-m">M</span></td><td>level, 3m change</td><td>1 month</td></tr>
+      <tr><td class="series-id">PERMIT</td><td>Building Permits</td><td><span class="freq-badge freq-m">M</span></td><td>12m pct change</td><td>1 month</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top: 12px; font-size: 0.75rem; color: #5c6488;">
+    <strong>Optional extension:</strong> <code>DGS30</code> (30-Year Treasury Yield) via <code>--preset core_plus_duration</code> &mdash; adds long-duration signal for TLT sensitivity
+  </p>
+</div>
+
+<!-- ═══════════════════ CAUSAL ALIGNMENT ═══════════════════ -->
+<div class="detail-section" style="margin-top: 24px;">
+  <h2>Causal Alignment Rules</h2>
+  <div class="detail-grid">
+    <div class="detail-card">
+      <h3 style="color:#a78bfa;">&#x23F0; Decision Calendar</h3>
+      <ul>
+        <li>Weekly frequency: <code>W-FRI</code></li>
+        <li>Each row = one decision week</li>
+        <li>Features use only past data available at decision time</li>
+        <li>Targets are next-week returns (shifted forward)</li>
+      </ul>
+    </div>
+    <div class="detail-card">
+      <h3 style="color:#a78bfa;">&#x1F512; Release Lag Rules</h3>
+      <ul>
+        <li><strong>Daily FRED:</strong> 0 lag (same-week value)</li>
+        <li><strong>Weekly FRED:</strong> 1-week lag (prior week release)</li>
+        <li><strong>Monthly FRED:</strong> 1-month lag (prior month release)</li>
+        <li><strong>News:</strong> published_at &rarr; assign to week_end period</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center; padding: 32px 0 16px; color: #3b4575; font-size: 0.75rem;">
+  Market Regime Detection for RL Allocation &mdash; Data Pipeline Architecture v2.0
+</div>
+
+</div><!-- end container -->
+</body>
+</html>

@@ -20,7 +20,7 @@ def run_step(*args: str) -> None:
 
 def main() -> None:
     run_step("scripts/fetch_yahoo_seed_data.py", "--news-count", "20")
-    run_step("scripts/fetch_fred_macro_panel.py")
+    run_step("scripts/fetch_fred_macro_panel.py", "--preset", "core")
     run_step("scripts/fetch_financial_phrasebank.py")
     run_step("scripts/build_project_datasets.py")
 
