@@ -371,7 +371,7 @@ This is the fastest collection path that is still academically defendable.
 
 ## Temporal Coverage and Alignment
 
-As of **March 23, 2026**, the currently collected data has the following time coverage.
+The currently collected data has the following time coverage.
 
 ### Price Data Coverage
 
@@ -1124,12 +1124,14 @@ Do not use hidden chain-of-thought as a formal metric in the paper.
 
 ## Recommended Experimental Splits
 
-As of **March 23, 2026**, the recommended split is:
+Use a strict chronological split with a non-scored warm-up period:
 
-- **Warm-up only:** January 2, 2014 to June 30, 2014
-- **Train:** July 1, 2014 to December 31, 2020
-- **Validation:** January 1, 2021 to December 30, 2022
-- **Locked Test:** January 3, 2023 to March 20, 2026
+| Stage | Date range | Purpose |
+|---|---|---|
+| Warm-up only | January 2, 2014 to June 30, 2014 | Initialize rolling features and technical windows; not scored |
+| Train | July 1, 2014 to December 31, 2020 | Fit preprocessing, regime model, and initial RL policy |
+| Validation | January 1, 2021 to December 30, 2022 | Tune reward weights, action design, and hyperparameters |
+| Locked test | January 3, 2023 to March 20, 2026 | Final out-of-sample evaluation only |
 
 Why this split is better:
 
@@ -1151,6 +1153,7 @@ Yes, we can make the backtest reasonably leak-safe if we enforce a strict causal
 ### Anti-Leak Rules
 
 - every rolling feature at time `t` must use data available up to time `t` only
+- warm-up rows may seed rolling indicators, but they are excluded from scoring and model fitting
 - weekly actions are decided after the weekly state is formed, then executed at the **next** tradable step
 - weekly macro series are lagged by 1 week
 - monthly macro series are lagged by 1 month
