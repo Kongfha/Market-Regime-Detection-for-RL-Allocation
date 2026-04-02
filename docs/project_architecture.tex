@@ -1,0 +1,288 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    urlcolor=blue!60!black,
+    citecolor=blue!60!black
+}
+
+\title{Market Regime Detection for RL-Based Portfolio Allocation\\[0.5em]
+\large Project Architecture \& Data Documentation}
+\author{Pattern Recognition Module}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Research Objective}
+
+\textbf{Research question:} Can latent market regimes discovered from weekly price,
+volatility, cross-asset, and macroeconomic features improve ETF allocation performance
+compared with price-only decision-making?
+
+The project proceeds in two phases: (1)~pattern recognition to discover market regimes
+from historical features, then (2)~reinforcement learning to map regime context into
+portfolio weights across three tradable ETFs (SPY, TLT, GLD) plus cash.
+
+\subsection{Current Focus}
+
+The current phase focuses exclusively on \textbf{pattern recognition} using three core
+weekly feature tables: market features, macroeconomic features, and forward asset
+targets. The news sentiment module has been archived (see Section~\ref{sec:legacy}).
+
+% ============================================================
+\section{Tradable Assets and Context Indicators}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Symbol} & \textbf{Type} & \textbf{Role} \\
+\midrule
+SPY   & Tradable & US equities (S\&P 500 ETF) \\
+TLT   & Tradable & Long-duration Treasury bonds \\
+GLD   & Tradable & Gold \\
+CASH  & Tradable & Risk-free (implicit) \\
+QQQ   & Context  & Growth/tech proxy (Nasdaq 100) \\
+\^{}VIX  & Context  & Implied volatility index \\
+\^{}TNX  & Context  & 10-year Treasury yield \\
+\bottomrule
+\end{tabular}
+\caption{Universe of instruments}
+\end{table}
+
+% ============================================================
+\section{Core Data Tables}
+\label{sec:core-data}
+
+All three primary tables are aligned on a \textbf{W-FRI} (week ending Friday)
+calendar and share \texttt{week\_end} as the join key.
+
+\subsection{Market Features Weekly}
+
+\texttt{data/processed/market\_features\_weekly.csv} --- 638 rows, 38 columns.
+
+Weekly aggregates of daily price-derived features, computed per tradable asset
+(SPY, TLT, GLD):
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Feature Group} & \textbf{Columns (per asset)} \\
+\midrule
+Returns         & \texttt{\{asset\}\_ret\_1d}, \texttt{\_ret\_5d}, \texttt{\_ret\_20d} \\
+Volatility      & \texttt{\{asset\}\_vol\_5d}, \texttt{\_vol\_20d} \\
+Drawdown        & \texttt{\{asset\}\_drawdown\_60d} \\
+Trend           & \texttt{\{asset\}\_ma\_gap\_5\_20} \\
+Intraday range  & \texttt{\{asset\}\_intraday\_range} \\
+Volume          & \texttt{\{asset\}\_volume\_z\_20} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Cross-asset features: \texttt{qqq\_spy\_log\_ratio}, \texttt{qqq\_spy\_ratio\_chg\_5d},
+\texttt{spy\_tlt\_corr\_20d}, \texttt{spy\_gld\_corr\_20d}.
+
+Context features: \texttt{vix\_level}, \texttt{vix\_change\_5d},
+\texttt{tnx\_level}, \texttt{tnx\_change\_5d}.
+
+\subsection{Macro Features Weekly}
+
+\texttt{data/processed/macro\_features\_weekly.csv} --- 638 rows, 34 columns.
+
+FRED economic indicators with causal lag alignment to prevent look-ahead bias.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{llll}
+\toprule
+\textbf{FRED Series} & \textbf{Category} & \textbf{Features} & \textbf{Lag} \\
+\midrule
+BAMLH0A0HYM2 & Credit risk        & \texttt{bamlh0a0hym2\_level}, \texttt{bamlh0a0hym2\_chg\_5d} & 0 \\
+CFNAI        & Economic activity  & \texttt{cfnai\_level}, \texttt{cfnai\_mean\_3m} & 1 month \\
+CPIAUCSL     & Inflation          & \texttt{cpi\_yoy} & 1 month \\
+DFF          & Monetary policy    & \texttt{dff\_level}, \texttt{dff\_chg\_5d} & 0 \\
+DGS10        & Interest rates     & \texttt{dgs10\_level}, \texttt{dgs10\_chg\_5d} & 0 \\
+DGS3MO       & Interest rates     & \texttt{dgs3mo\_level}, \texttt{dgs3mo\_chg\_5d} & 0 \\
+DTWEXBGS     & Dollar / liquidity & \texttt{dtwexbgs\_level}, \texttt{dtwexbgs\_pct\_chg\_5d} & 0 \\
+ICSA         & Labor market       & \texttt{icsa\_log\_level}, \texttt{icsa\_chg\_4w} & 1 week \\
+NFCI         & Financial conditions & \texttt{nfci\_level}, \texttt{nfci\_chg\_4w} & 1 week \\
+PERMIT       & Housing            & \texttt{permit\_yoy} & 1 month \\
+T10Y3M       & Yield curve        & \texttt{t10y3m\_level}, \texttt{t10y3m\_sign}, \texttt{t10y3m\_chg\_5d} & 0 \\
+T10YIE       & Inflation expectations & \texttt{t10yie\_level}, \texttt{t10yie\_chg\_5d} & 0 \\
+UMCSENT      & Consumer sentiment & \texttt{umcsent\_level}, \texttt{umcsent\_chg\_3m} & 1 month \\
+UNRATE       & Unemployment       & \texttt{unrate\_level}, \texttt{unrate\_chg\_3m} & 1 month \\
+VIXCLS       & Market risk        & \texttt{vixcls\_level}, \texttt{vixcls\_chg\_5d} & 0 \\
+WRESBAL      & Dollar / liquidity & \texttt{wresbal\_log\_level}, \texttt{wresbal\_pct\_chg\_4w} & 1 week \\
+\bottomrule
+\end{tabular}
+\caption{Macro features with causal lag rules}
+\end{table}
+
+\textbf{Causal lag rules:}
+\begin{itemize}[nosep]
+    \item Daily FRED series (DFF, DGS3MO, DGS10, T10Y3M, T10YIE, BAMLH0A0HYM2, VIXCLS, DTWEXBGS): 0 lag --- use last value in the decision week
+    \item Weekly FRED series (ICSA, NFCI, WRESBAL): 1-week lag before joining
+    \item Monthly FRED series (CPIAUCSL, UNRATE, CFNAI, UMCSENT, PERMIT): 1-month lag before joining
+\end{itemize}
+
+\subsection{Weekly Asset Targets}
+
+\texttt{data/processed/weekly\_asset\_targets.csv} --- 638 rows, 9 columns.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Column} & \textbf{Description} \\
+\midrule
+\texttt{week\_end}          & Decision week (W-FRI) \\
+\texttt{spy\_weekly\_close}  & Friday close price for SPY \\
+\texttt{tlt\_weekly\_close}  & Friday close price for TLT \\
+\texttt{gld\_weekly\_close}  & Friday close price for GLD \\
+\texttt{next\_return\_spy}   & Forward 1-week return (shifted target) \\
+\texttt{next\_return\_tlt}   & Forward 1-week return (shifted target) \\
+\texttt{next\_return\_gld}   & Forward 1-week return (shifted target) \\
+\bottomrule
+\end{tabular}
+\caption{RL reward signals}
+\end{table}
+
+\textbf{Note:} \texttt{next\_return\_*} columns are forward-shifted by one week.
+At decision time $t$, these represent the return from $t$ to $t+1$.
+
+\subsection{Model State Table (Joined)}
+
+\texttt{data/processed/model\_state\_weekly\_price\_macro.csv} --- 579 rows, 63
+columns. Inner join of market features + macro features + targets on
+\texttt{week\_end}. This is the \textbf{primary training table} for regime detection.
+
+% ============================================================
+\section{Data Pipeline Architecture}
+
+\subsection{Pipeline Flow}
+
+\begin{enumerate}[nosep]
+    \item \textbf{Fetch raw data:} Yahoo Finance daily OHLCV $\rightarrow$ \texttt{data/raw/yahoo\_prices\_daily.csv}
+    \item \textbf{Fetch macro data:} FRED API (core 16 series) $\rightarrow$ \texttt{data/raw/fred\_macro\_panel.csv}
+    \item \textbf{Build daily features:} 28 technical features from OHLCV $\rightarrow$ \texttt{data/processed/market\_features\_daily.csv}
+    \item \textbf{Aggregate to weekly:} W-FRI calendar $\rightarrow$ \texttt{data/processed/market\_features\_weekly.csv}
+    \item \textbf{Process macro:} Pivot, transform, lag-align $\rightarrow$ \texttt{data/processed/macro\_features\_weekly.csv}
+    \item \textbf{Compute targets:} Forward returns $\rightarrow$ \texttt{data/processed/weekly\_asset\_targets.csv}
+    \item \textbf{Join:} Inner join on \texttt{week\_end} $\rightarrow$ \texttt{data/processed/model\_state\_weekly\_price\_macro.csv}
+\end{enumerate}
+
+\subsection{Scripts}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Script} & \textbf{Purpose} \\
+\midrule
+\texttt{fetch\_yahoo\_seed\_data.py}     & Extract daily OHLCV from Yahoo Finance \\
+\texttt{fetch\_fred\_macro\_panel.py}     & Download FRED economic indicators \\
+\texttt{build\_project\_datasets.py}      & Feature engineering orchestrator \\
+\texttt{refresh\_project\_data.py}        & End-to-end pipeline runner \\
+\texttt{generate\_model\_dataflow\_docs.py} & Auto-generate documentation \\
+\texttt{generate\_proposal\_figures.py}   & Publication-quality figures \\
+\bottomrule
+\end{tabular}
+\caption{Pipeline scripts}
+\end{table}
+
+\subsection{Commands}
+
+Full pipeline refresh:
+\begin{verbatim}
+python3 scripts/refresh_project_data.py
+\end{verbatim}
+
+Individual steps:
+\begin{verbatim}
+python3 scripts/fetch_yahoo_seed_data.py
+python3 scripts/fetch_fred_macro_panel.py --preset core
+python3 scripts/build_project_datasets.py
+\end{verbatim}
+
+% ============================================================
+\section{FRED Macro Panel Configuration}
+
+The default pipeline uses the \textbf{core} preset (16 series) covering the main
+macro and market-risk themes.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Theme} & \textbf{Series} \\
+\midrule
+Monetary policy      & DFF \\
+Interest rates       & DGS3MO, DGS10 \\
+Yield curve          & T10Y3M \\
+Inflation            & T10YIE, CPIAUCSL \\
+Financial conditions & NFCI \\
+Credit risk          & BAMLH0A0HYM2 \\
+Market risk          & VIXCLS \\
+Dollar / liquidity   & DTWEXBGS, WRESBAL \\
+Labor market         & ICSA, UNRATE \\
+Economic activity    & CFNAI \\
+Consumer / housing   & UMCSENT, PERMIT \\
+\bottomrule
+\end{tabular}
+\caption{Core macro panel (16 series)}
+\end{table}
+
+Alternative presets: \texttt{compact} (10), \texttt{core\_plus\_duration} (17, adds DGS30),
+\texttt{extended} (24).
+
+% ============================================================
+\section{Downstream Modules (Planned)}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Module} & \textbf{Input} & \textbf{Output} \\
+\midrule
+Pattern Recognition & \texttt{model\_state\_weekly\_price\_macro} & Regime labels / embeddings \\
+RL Allocation       & Regime context + asset targets & Weekly portfolio weights \\
+Explanation         & Regime transitions + features  & Interpretable narratives \\
+\bottomrule
+\end{tabular}
+\caption{Planned downstream modules}
+\end{table}
+
+% ============================================================
+\section{Legacy: News Module}
+\label{sec:legacy}
+
+The news sentiment module has been archived in \texttt{legacy/} because Yahoo
+Finance's news API only returns recent headlines (last few weeks), making it
+unsuitable for building historical sentiment features covering the full 2014--present
+training window. An alternative news data source is being evaluated.
+
+See \texttt{legacy/README.md} for the archived data inventory and instructions
+for reviving the module when a replacement source is identified.
+
+\end{document}

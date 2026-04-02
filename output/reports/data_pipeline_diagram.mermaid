@@ -1,0 +1,108 @@
+%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1e3a6e', 'primaryTextColor': '#e0e4ef', 'primaryBorderColor': '#3b4575', 'lineColor': '#4c5882', 'secondaryColor': '#1a1f3a', 'tertiaryColor': '#111628', 'fontSize': '14px'}}}%%
+
+graph TD
+    %% ============ DATA SOURCES ============
+    subgraph SOURCES["Phase 1: Data Sources"]
+        direction TB
+        YF_PRICE["Yahoo Finance<br/><b>Price Data</b><br/>yfinance.Ticker.history()<br/>SPY, TLT, GLD, QQQ, ^VIX, ^TNX"]
+        FRED_API["FRED<br/><b>Macro Data</b><br/>fredgraph.csv endpoint<br/>16 series (core preset)"]
+        YF_NEWS["Yahoo Finance<br/><b>News Headlines</b><br/>yfinance.Ticker.get_news()<br/>SPY, QQQ, TLT, GLD"]
+        FPB["Hugging Face<br/><b>Financial PhraseBank</b><br/>Sentiment benchmark<br/>4 agreement levels"]
+    end
+
+    %% ============ RAW STORAGE ============
+    subgraph RAW["Phase 1b: Raw Storage (data/raw/)"]
+        direction TB
+        RAW_PRICE["yahoo_prices_daily.csv<br/>~18K rows | 6 tickers | 12+ years"]
+        RAW_FRED["fred_macro_panel.csv<br/>~72K rows | 16 series<br/>fred_macro_series_meta.csv"]
+        RAW_NEWS["yahoo_news_latest.csv<br/>Recent headlines only<br/>yahoo_news_latest.json"]
+        RAW_FPB["financial_phrasebank_*.csv<br/>4 agreement-level files"]
+    end
+
+    %% ============ FEATURE ENGINEERING ============
+    subgraph FEATURES["Phase 2: Feature Engineering (build_project_datasets.py)"]
+        direction TB
+
+        subgraph MARKET_FEAT["Market Features"]
+            MF_DAILY["market_features_daily.csv<br/><b>28 features</b><br/>returns | volatility | drawdown<br/>MA gap | volume | cross-asset | context"]
+            MF_WEEKLY["market_features_weekly.csv<br/>Resampled to W-FRI<br/>~30 features per week"]
+        end
+
+        subgraph MACRO_FEAT["Macro Features"]
+            MACRO_W["macro_features_weekly.csv<br/><b>~50 features</b><br/>Lag-aware causal alignment<br/>Daily: 0 lag | Weekly: 1w | Monthly: 1m"]
+        end
+
+        subgraph NEWS_FEAT["News Features"]
+            NEWS_ENR["news_events_enriched.csv<br/>sentiment | topic | impact<br/>relevance scoring"]
+            NEWS_W["news_features_weekly.csv<br/><b>16 features</b><br/>weekly aggregation"]
+        end
+
+        TARGETS["weekly_asset_targets.csv<br/><b>RL Reward Signal</b><br/>next_return_spy/tlt/gld<br/>shifted forward 1 week"]
+    end
+
+    %% ============ STATE ASSEMBLY ============
+    subgraph STATE["Phase 3: Weekly State Assembly"]
+        direction TB
+        STATE_PM["model_state_weekly_price_macro.csv<br/><b>579 weeks | 63 cols</b><br/>INNER JOIN: market + macro + targets<br/>Main training table"]
+        STATE_FULL["model_state_weekly_full.csv<br/><b>579 weeks | 78 cols</b><br/>LEFT JOIN: + nullable news cols<br/>Integration table"]
+        STATE_RECENT["model_state_weekly_recent_full.csv<br/><b>~4 weeks | 78 cols</b><br/>FILTER: all modalities present<br/>Multimodal demos"]
+    end
+
+    %% ============ MODEL MODULES ============
+    subgraph MODELS["Phase 4: Model Modules"]
+        direction TB
+        REGIME["Pattern Recognition<br/><b>Regime Detector</b><br/>HMM / Clustering<br/>Output: regime labels,<br/>posteriors, transitions"]
+        RL["RL Allocation<br/><b>Portfolio Optimizer</b><br/>Input: state + regime<br/>Action: SPY/TLT/GLD/CASH<br/>Reward: next-period returns"]
+        EXPLAIN["Explanation Module<br/><b>Narrative Generation</b><br/>Input: recent state + news<br/>Output: risk-on/off/panic/recovery"]
+        BENCH["Sentiment Benchmark<br/><b>Pipeline Validation</b><br/>Input: PhraseBank<br/>Verify sentiment accuracy"]
+    end
+
+    %% ============ CONNECTIONS ============
+    YF_PRICE --> RAW_PRICE
+    FRED_API --> RAW_FRED
+    YF_NEWS --> RAW_NEWS
+    FPB --> RAW_FPB
+
+    RAW_PRICE --> MF_DAILY
+    RAW_PRICE --> TARGETS
+    MF_DAILY --> MF_WEEKLY
+
+    RAW_FRED --> MACRO_W
+
+    RAW_NEWS --> NEWS_ENR
+    NEWS_ENR --> NEWS_W
+
+    MF_WEEKLY --> STATE_PM
+    MACRO_W --> STATE_PM
+    TARGETS --> STATE_PM
+
+    STATE_PM --> STATE_FULL
+    NEWS_W --> STATE_FULL
+
+    STATE_FULL --> STATE_RECENT
+
+    STATE_PM --> REGIME
+    STATE_PM --> RL
+    TARGETS --> RL
+    STATE_RECENT --> EXPLAIN
+    NEWS_ENR --> EXPLAIN
+    REGIME --> RL
+    RAW_FPB --> BENCH
+
+    %% ============ STYLES ============
+    classDef source fill:#0c1a3a,stroke:#1e3a6e,color:#60a5fa,stroke-width:2px
+    classDef raw fill:#1a1508,stroke:#5c4a1e,color:#fbbf24,stroke-width:1px
+    classDef feature fill:#081a12,stroke:#1e6e3a,color:#34d399,stroke-width:2px
+    classDef state fill:#1a0f2e,stroke:#4c3580,color:#a78bfa,stroke-width:2px
+    classDef model fill:#2a0f1a,stroke:#803555,color:#f472b6,stroke-width:2px
+    classDef bench fill:#081a1a,stroke:#1e6e6e,color:#2dd4bf,stroke-width:2px
+    classDef target fill:#1a1508,stroke:#6e5a1e,color:#fbbf24,stroke-width:2px
+
+    class YF_PRICE,FRED_API,YF_NEWS source
+    class FPB bench
+    class RAW_PRICE,RAW_FRED,RAW_NEWS,RAW_FPB raw
+    class MF_DAILY,MF_WEEKLY,MACRO_W,NEWS_ENR,NEWS_W feature
+    class TARGETS target
+    class STATE_PM,STATE_FULL,STATE_RECENT state
+    class REGIME,RL,EXPLAIN model
+    class BENCH bench
