@@ -203,7 +203,7 @@
 
             \subsection{FRED Macro Data}
             \begin{itemize}[leftmargin=1.4em]
-              \item Extraction: official \texttt{fredgraph.csv} endpoint with repo default preset \texttt{core}.
+              \item Extraction: repo macro fetch pipeline with default preset \texttt{core}, using FRED-format identifiers plus series-specific fallbacks where needed.
               \item Core series: DFF, DGS3MO, DGS10, T10Y3M, T10YIE, NFCI, BAMLH0A0HYM2, VIXCLS, DTWEXBGS, WRESBAL, ICSA, UNRATE, CPIAUCSL, CFNAI, UMCSENT, PERMIT
               \item Optional duration extension: \texttt{core\_plus\_duration} adds \texttt{DGS30}.
               \item Processed output: \texttt{macro\_features\_weekly.csv} with transforms driven by \texttt{frequency} and \texttt{suggested\_transform}.
@@ -214,15 +214,15 @@
             \begin{itemize}[leftmargin=1.4em]
               \item Extraction: \texttt{yfinance.Ticker.get\_news()} on SPY, QQQ, TLT, GLD
               \item Raw schema: title, summary, published\_at, publisher, canonical\_url, related\_tickers
-              \item Processed outputs: \texttt{news\_events\_enriched.csv} and \texttt{news\_features\_weekly.csv}
+              \item Processed outputs: \texttt{news\_events\_enriched.csv} and \texttt{news\_features\_weekly.csv}; current build leaves both empty because the raw Yahoo news snapshot is absent.
               \item Model use: recent-window multimodal regime experiments, event overlays, and explanation support.
             \end{itemize}
 
             \subsection{Financial PhraseBank}
             \begin{itemize}[leftmargin=1.4em]
-              \item Extraction: Hugging Face archive download.
+              \item Extraction: Hugging Face archive download when the optional benchmark dataset is refreshed.
               \item Raw schema: sentence, label
-              \item Model use: benchmark only for sanity-checking the sentiment pipeline.
+              \item Model use: benchmark only for sanity-checking the sentiment pipeline; not present in the current working tree.
             \end{itemize}
 
             \section{Weekly State Outputs}
@@ -231,9 +231,9 @@
             \toprule
             \textbf{Output file} & \textbf{Contents} & \textbf{Main downstream use} \\
             \midrule
-            \texttt{model\_state\_weekly\_price\_macro.csv} & Price features + macro features + weekly asset targets & Main historical regime training table and first RL table \\
-            \texttt{model\_state\_weekly\_full.csv} & Price + macro + targets + nullable news features & Unified schema for integration code \\
-            \texttt{model\_state\_weekly\_recent\_full.csv} & Recent rows where price, macro, and news all exist & Multimodal demos, case studies, and explanation outputs \\
+            \texttt{model\_state\_weekly\_price\_macro.csv} & Price features + macro features + weekly asset targets (625 rows, 75 columns) & Main historical regime training table and first RL table \\
+            \texttt{model\_state\_weekly\_full.csv} & Price + macro + targets + nullable news features (625 rows, 90 columns) & Unified schema for integration code \\
+            \texttt{model\_state\_weekly\_recent\_full.csv} & Recent rows where price, macro, and news all exist (currently 0 rows, 90 columns) & Multimodal demos, case studies, and explanation outputs once the raw news snapshot is refreshed \\
             \bottomrule
             \end{tabularx}
 

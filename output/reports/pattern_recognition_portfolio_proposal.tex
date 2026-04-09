@@ -281,16 +281,16 @@ H4 & Manual alignment review of explanation outputs on sampled weeks using the m
 \textbf{Block} & \textbf{Source} & \textbf{Current Coverage} & \textbf{Raw Frequency} & \textbf{Role in the Project} \\
 \midrule
 Price data & Yahoo Finance via \texttt{yfinance} & 2014-01-02 to 2026-03-20 & Daily trading days & Core market features, returns, volatility, and tradable asset history \\
-Macro panel & FRED official CSV downloads & Multi-decade history, latest values mostly through March 2026 & Daily, weekly, monthly mixed & Regime context, macro stress, rates, inflation expectations, and slow macro confirmation \\
-News metadata & Yahoo Finance via \texttt{get\_news()} & 2026-03-04 to 2026-03-23 & Event-driven & Recent sentiment, topic, relevance, and live-market context \\
-Text sanity set & Financial PhraseBank & Static corpus & Sentence-level labeled text & Sentiment pipeline validation only; not the main trading dataset \\
+Macro panel & Repo macro fetch pipeline & Multi-decade history, latest values mostly through March 2026 & Daily, weekly, monthly mixed & Regime context, macro stress, rates, inflation expectations, and slow macro confirmation \\
+News metadata & Yahoo Finance via \texttt{get\_news()} & Not present in the current working snapshot & Event-driven & Optional recent sentiment, topic, relevance, and live-market context after refresh \\
+Text sanity set & Financial PhraseBank & Not present in the current working snapshot & Sentence-level labeled text & Optional sentiment pipeline validation only; not the main trading dataset \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-Historical market data are collected through the \texttt{yfinance} interface\fncite{Ran Aroussi, \emph{yfinance} documentation}{https://ranaroussi.github.io/yfinance/index.html} and the macro panel is pulled from official FRED endpoints published by the Federal Reserve Bank of St.~Louis\fncite{Federal Reserve Bank of St.~Louis, FRED API overview}{https://fred.stlouisfed.org/docs/api/fred/overview.html}. The optional text sanity set is based on Financial PhraseBank and related financial sentiment literature\fncite{Pekka Malo et al., \emph{Good Debt or Bad Debt: Detecting Semantic Orientations in Economic Texts}, 2013}{https://arxiv.org/abs/1307.5336}.
+Historical market data are collected through the \texttt{yfinance} interface\fncite{Ran Aroussi, \emph{yfinance} documentation}{https://ranaroussi.github.io/yfinance/index.html}. The macro panel is assembled by the repository fetch pipeline around FRED-format series identifiers and metadata\fncite{Federal Reserve Bank of St.~Louis, FRED API overview}{https://fred.stlouisfed.org/docs/api/fred/overview.html}. The optional text sanity set is based on Financial PhraseBank and related financial sentiment literature\fncite{Pekka Malo et al., \emph{Good Debt or Bad Debt: Detecting Semantic Orientations in Economic Texts}, 2013}{https://arxiv.org/abs/1307.5336}.
 
-In this proposal, \emph{tradable assets} are the instruments that receive portfolio weights directly, namely SPY, TLT, and GLD. By contrast, QQQ, \^VIX, and \^TNX are treated as \emph{context indicators}: they enter the state representation but are not direct allocation targets. On the macro side, the current frozen working snapshot is a compact 10-series panel, while the collection script also supports a broader 16-series \emph{core} preset for the next expansion round.
+In this proposal, \emph{tradable assets} are the instruments that receive portfolio weights directly, namely SPY, TLT, and GLD. By contrast, QQQ, \^VIX, and \^TNX are treated as \emph{context indicators}: they enter the state representation but are not direct allocation targets. On the macro side, the current working snapshot already uses the 16-series \emph{core} preset. The optional Yahoo news and Financial PhraseBank inputs are not present in the current working tree, so news-derived processed tables are empty until those raw inputs are refreshed.
 
 \subsection{Exact Data Fields to Keep}
 
@@ -314,7 +314,7 @@ The field \texttt{query\_relevance\_heuristic} is a transparent rule-based pre-f
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{assets/data_coverage_timeline.png}
+\includegraphics[width=\textwidth]{../figures/data_coverage_timeline.png}
 \caption{Observed coverage by source as of March 23, 2026. The long historical window is already available for price plus macro modeling. News currently supports recent-window and live-overlay experiments.}
 \end{figure}
 
@@ -556,7 +556,7 @@ If the HMM collapses to one dominant state, produces unstable fits, or yields ec
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{assets/normalized_assets.png}
+\includegraphics[width=\textwidth]{../figures/normalized_assets.png}
 \caption{Normalized performance of the core tradable assets used in the action space. These assets provide a compact and interpretable ETF universe for allocation experiments.}
 \end{figure}
 
