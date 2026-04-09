@@ -14,7 +14,7 @@ class WeeklyPortfolioEnv(gym.Env):
     """
     Weekly rebalancing environment for portfolio allocation with market regimes.
     
-    State: [market_features, macro_features, regime_posteriors, prev_allocation]
+    State: [continuous_features, regime_posteriors, prev_allocation]
     Actions: 7 discrete portfolio templates
         0: 100% Cash
         1: 100% SPY
@@ -22,7 +22,7 @@ class WeeklyPortfolioEnv(gym.Env):
         3: 100% GLD
         4: 80% SPY / 20% TLT
         5: 60% SPY / 30% TLT / 10% GLD
-        6: 20% AUM alternative (cash)
+        6: 20% SPY / 60% TLT / 20% GLD
     
     Reward: Return - cost*Turnover + incentive*Turnover - vol_penalty*RollingVol
     """
@@ -35,17 +35,17 @@ class WeeklyPortfolioEnv(gym.Env):
         3: (0.0, 0.0, 1.0, 0.0),    # 100% GLD
         4: (0.8, 0.2, 0.0, 0.0),    # 80 SPY / 20 TLT
         5: (0.6, 0.3, 0.1, 0.0),    # 60 SPY / 30 TLT / 10 GLD
-        6: (0.0, 0.5, 0.5, 0.0),    # 50% TLT / 50% GLD
+        6: (0.2, 0.6, 0.2, 0.0),    # 20% SPY / 60% TLT / 20% GLD
     }
     
     ACTION_NAMES = [
-        "100% Cash",
-        "100% SPY",
-        "100% TLT",
-        "100% GLD",
-        "80% SPY / 20% TLT",
-        "60% SPY / 30% TLT / 10% GLD",
-        "50% TLT / 50% GLD"
+        "cash_only",
+        "spy_only",
+        "tlt_only",
+        "gld_only",
+        "spy_80_tlt_20",
+        "balanced_60_30_10",
+        "defensive_20_60_20",
     ]
     
     def __init__(self,
@@ -56,7 +56,10 @@ class WeeklyPortfolioEnv(gym.Env):
                  turnover_incentive: float = 0.002,
                  volatility_penalty: float = 0.05,
                  lookback_vol: int = 4,
-                 seq_len: int = 4):
+                 seq_len: int = 4,
+                 start_step: Optional[int] = None,
+                 end_step: Optional[int] = None,
+                 initial_allocation: Optional[np.ndarray] = None):
         """
         Initialize portfolio environment.
         
@@ -69,6 +72,9 @@ class WeeklyPortfolioEnv(gym.Env):
             volatility_penalty: Penalty for portfolio volatility
             lookback_vol: Lookback window for rolling volatility (weeks)
             seq_len: Sequence length for temporal attention
+            start_step: First internal environment step. Reward is realized on row `start_step - 1`
+            end_step: Exclusive environment end step. Reward is realized through row `end_step - 1`
+            initial_allocation: Starting portfolio weights in SPY/TLT/GLD/CASH order
         """
         super().__init__()
         
@@ -81,6 +87,10 @@ class WeeklyPortfolioEnv(gym.Env):
         self.volatility_penalty = volatility_penalty
         self.lookback_vol = lookback_vol
         self.seq_len = seq_len
+        self.initial_allocation = np.array(
+            initial_allocation if initial_allocation is not None else [0.0, 0.0, 0.0, 1.0],
+            dtype=float,
+        )
         
         # Dimensions
         self.n_features = features.shape[1]
@@ -96,10 +106,21 @@ class WeeklyPortfolioEnv(gym.Env):
             dtype=np.float32
         )
         
-        # Environment state
-        self.current_step = lookback_vol + seq_len  # Start after warmup period
-        self.max_step = len(features)
-        self.prev_allocation = np.array([0.0, 1.0, 0.0, 0.0])  # Start 100% SPY
+        # Environment state. `current_step` points one past the most recent
+        # observable row, so reward is realized on `current_step - 1`.
+        default_start = max(1, lookback_vol + seq_len) if start_step is None else int(start_step)
+        default_end = len(features) + 1 if end_step is None else int(end_step)
+        if default_start < 1:
+            raise ValueError("start_step must be >= 1 so the first reward maps to a valid row.")
+        if default_end > len(features) + 1:
+            raise ValueError("end_step cannot exceed one step past the number of feature rows.")
+        if default_start > default_end:
+            raise ValueError("start_step must be <= end_step.")
+
+        self.default_start_step = default_start
+        self.current_step = self.default_start_step
+        self.max_step = default_end
+        self.prev_allocation = self.initial_allocation.copy()
         self.portfolio_returns = []
         self.actions_taken = []
         
@@ -119,8 +140,8 @@ class WeeklyPortfolioEnv(gym.Env):
         if seed is not None:
             np.random.seed(seed)
             
-        self.current_step = self.lookback_vol + self.seq_len
-        self.prev_allocation = np.array([0.0, 1.0, 0.0, 0.0])
+        self.current_step = self.default_start_step
+        self.prev_allocation = self.initial_allocation.copy()
         self.portfolio_returns = []
         self.actions_taken = []
         
@@ -146,12 +167,14 @@ class WeeklyPortfolioEnv(gym.Env):
         else:
             action = int(action)
         
+        decision_step = self.current_step
+
         # Get new allocation from action
         new_allocation = np.array(self.PORTFOLIO_TEMPLATES[action])
         
         # Compute reward components
         # 1. Portfolio return this week (credit current action directly)
-        portfolio_return = np.dot(new_allocation, self.asset_returns[self.current_step - 1])
+        portfolio_return = np.dot(new_allocation, self.asset_returns[decision_step - 1])
         
         # 2. Turnover terms
         turnover = np.sum(np.abs(new_allocation - self.prev_allocation)) / 2
@@ -160,8 +183,8 @@ class WeeklyPortfolioEnv(gym.Env):
         
         # 3. Volatility penalty (rolling volatility)
         vol_lookback = self.lookback_vol
-        if self.current_step - vol_lookback >= 0:
-            recent_returns = self.asset_returns[self.current_step - vol_lookback:self.current_step]
+        if decision_step - vol_lookback >= 0:
+            recent_returns = self.asset_returns[decision_step - vol_lookback:decision_step]
             portfolio_vols = np.std(recent_returns, axis=0)
             portfolio_vol = np.dot(new_allocation ** 2, portfolio_vols ** 2) ** 0.5
         else:
@@ -195,7 +218,7 @@ class WeeklyPortfolioEnv(gym.Env):
             "volatility": portfolio_vol,
             "allocation": new_allocation,
             "action_name": self.ACTION_NAMES[action],
-            "week": self.current_step - 1,
+            "week": decision_step - 1,
         }
         
         return observation, reward, terminated, truncated, info
@@ -209,7 +232,7 @@ class WeeklyPortfolioEnv(gym.Env):
         """
         obs_list = []
         
-        start_idx = max(self.lookback_vol, self.current_step - self.seq_len)
+        start_idx = max(0, self.current_step - self.seq_len)
         end_idx = self.current_step
         
         for t in range(start_idx, end_idx):

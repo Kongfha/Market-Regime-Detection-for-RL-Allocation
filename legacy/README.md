@@ -1,8 +1,15 @@
-# Legacy: News Sentiment Module
+# Legacy: Yahoo-Era News Sentiment Module
 
-**Status:** Archived. Yahoo Finance's news API only returns recent headlines (last
-few weeks), making it unsuitable for building a historical sentiment feature covering
-the full 2014-present training window. We are evaluating alternative news data sources.
+**Status:** Archived Yahoo-based path.
+
+The current active news workflow is now:
+
+1. `scripts/fetch_asset_news.py` for weekly GNews article collection
+2. `scripts/news_sentiment.py` for FinBERT scoring
+3. `data/raw/news_sentiment/all_assets_news_weekly_finbert.csv` as the canonical
+   news input used by `full_pipeline/`
+
+This `legacy/` folder only covers the older Yahoo Finance + PhraseBank era.
 
 ## What Is Here
 

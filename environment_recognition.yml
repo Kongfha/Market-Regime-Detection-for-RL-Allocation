@@ -6,6 +6,7 @@ dependencies:
   - python=3.10
   - numpy
   - pandas
+  - scipy
   - scikit-learn
   - matplotlib
   - seaborn
@@ -13,8 +14,17 @@ dependencies:
   - jupyterlab
   - ipykernel
   - statsmodels
+  - requests
   - pip
   - pip:
       - hmmlearn
       - yfinance
       - fredapi
+      - nbconvert
+      - gymnasium
+      - stable-baselines3
+      - torch
+      - transformers
+      - gnews
+      - newspaper3k
+      - beautifulsoup4

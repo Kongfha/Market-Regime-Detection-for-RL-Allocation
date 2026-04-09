@@ -59,6 +59,20 @@ Search space
     cov_type     ∈ {diag, full}
     random_seed  ∈ {7, 21, 42, 84, 168}  (best seed kept per candidate)
 
+Feature presets
+---------------
+  full        : all numeric price + macro features except excluded columns
+  regime_core : a curated subset of stress-sensitive return / volatility /
+                macro features for downstream regime inference
+
+Selection modes
+---------------
+  strict   : keep the original research behavior; only hard-filter survivors
+             are saved as best_statistical / best_project / best_k3
+  pipeline : prefer the recommended project model, otherwise the best
+             statistical survivor, and if no survivor exists fall back to a
+             committed config already stored in output/hmm/
+
 Outputs (output/hmm/)
 ---------------------
   grid_search_objective_results.csv   — every candidate + hard filter flags + subscores
@@ -82,6 +96,7 @@ Outputs (output/hmm/)
 Usage
 -----
   python scripts/train_hmm_regimes.py
+  python scripts/train_hmm_regimes.py --feature-preset regime_core --selection-mode pipeline
   python scripts/train_hmm_regimes.py --n-states 3 --n-pca 10 --cov-type diag
 """
 
@@ -157,6 +172,32 @@ INTERP_COLS = [
     "unrate_level",
 ]
 
+FEATURE_PRESET_FULL = "full"
+FEATURE_PRESET_REGIME_CORE = "regime_core"
+DEFAULT_FEATURE_PRESET = FEATURE_PRESET_FULL
+DEFAULT_SELECTION_MODE = "strict"
+
+FEATURE_PRESETS: dict[str, list[str] | None] = {
+    FEATURE_PRESET_FULL: None,
+    FEATURE_PRESET_REGIME_CORE: [
+        "spy_ret_5d",
+        "spy_ret_20d",
+        "spy_vol_20d",
+        "spy_drawdown_60d",
+        "tlt_ret_20d",
+        "gld_ret_20d",
+        "vix_level",
+        "vix_change_5d",
+        "tnx_level",
+        "tnx_change_5d",
+        "nfci_level",
+        "dff_level",
+        "t10y3m_level",
+        "cpi_yoy",
+        "unrate_level",
+    ],
+}
+
 # ---------------------------------------------------------------------------
 # Development window and internal split boundaries
 # ---------------------------------------------------------------------------
@@ -207,18 +248,43 @@ INTERP_KEY_RETURN_COLS = ["next_return_spy", "next_return_tlt", "next_return_gld
 # Data loading and splits
 # ===========================================================================
 
-def load_data() -> tuple[pd.DataFrame, list[str]]:
+def select_feature_columns(
+    df: pd.DataFrame,
+    feature_preset: str = DEFAULT_FEATURE_PRESET,
+) -> list[str]:
+    if feature_preset not in FEATURE_PRESETS:
+        raise ValueError(
+            f"Unknown feature preset '{feature_preset}'. "
+            f"Expected one of: {sorted(FEATURE_PRESETS)}"
+        )
+
+    numeric_cols = [
+        c for c in df.columns
+        if c not in EXCLUDE_COLS and pd.api.types.is_numeric_dtype(df[c])
+    ]
+
+    allowlist = FEATURE_PRESETS[feature_preset]
+    if allowlist is None:
+        return numeric_cols
+
+    missing = [column for column in allowlist if column not in numeric_cols]
+    if missing:
+        raise ValueError(
+            f"Feature preset '{feature_preset}' references missing numeric columns: {missing}"
+        )
+    return list(allowlist)
+
+
+def load_data(
+    feature_preset: str = DEFAULT_FEATURE_PRESET,
+) -> tuple[pd.DataFrame, list[str]]:
     df = pd.read_csv(
         MAIN_TABLE,
         parse_dates=["week_end", "week_last_trade_date"],
         low_memory=False,
     )
     df = df.sort_values("week_end").reset_index(drop=True)
-
-    feat_cols = [
-        c for c in df.columns
-        if c not in EXCLUDE_COLS and pd.api.types.is_numeric_dtype(df[c])
-    ]
+    feat_cols = select_feature_columns(df, feature_preset=feature_preset)
 
     df[feat_cols] = df[feat_cols].ffill()
     n_before = len(df)
@@ -228,6 +294,28 @@ def load_data() -> tuple[pd.DataFrame, list[str]]:
         print(f"  Dropped {n_dropped} rows with remaining NaNs after forward-fill.")
 
     return df, feat_cols
+
+
+def load_committed_fallback_config(
+    output_dir: Path = OUTPUT_DIR,
+) -> tuple[str, dict] | tuple[None, None]:
+    candidates = [
+        ("project", output_dir / "best_project_model_config.csv"),
+        ("statistical", output_dir / "best_statistical_config.csv"),
+    ]
+    for role, path in candidates:
+        if not path.exists():
+            continue
+        row = pd.read_csv(path).iloc[0].to_dict()
+        cfg = {
+            "K": int(row.get("n_states", row.get("K"))),
+            "n_pca": int(row["n_pca"]),
+            "cov_type": str(row.get("covariance_type", row.get("cov_type", "diag"))),
+            "selected_seed": int(row.get("selected_seed", row.get("random_seed", RANDOM_SEED))),
+            "source_path": path,
+        }
+        return role, cfg
+    return None, None
 
 
 def make_internal_split_masks(df: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
@@ -899,6 +987,9 @@ def save_model_bundle(
             "score_B_naming": interp_info.get("score_B_naming"),
             "score_C_temporal": interp_info.get("score_C_temporal"),
             "score_D_downstream": interp_info.get("score_D_downstream"),
+            "feature_preset": interp_info.get("feature_preset"),
+            "selection_role": interp_info.get("selection_role"),
+            "selection_reason": interp_info.get("selection_reason"),
         })
     pd.DataFrame([cfg_row]).to_csv(
         OUTPUT_DIR / _BUNDLE_CONFIG_NAMES[bundle], index=False
@@ -1245,6 +1336,75 @@ def determine_recommended_project_model(
     return best_interpretable, reason
 
 
+def choose_pipeline_candidate(
+    results: list[dict],
+    X_itrain: np.ndarray,
+    X_ival: np.ndarray,
+    df_dev: pd.DataFrame,
+    feat_cols: list[str],
+    internal_val_mask: pd.Series,
+    output_dir: Path = OUTPUT_DIR,
+    best_statistical: dict | None = None,
+    best_interpretable: dict | None = None,
+    best_k3: dict | None = None,
+    recommended: dict | None = None,
+    recommendation_reason: str | None = None,
+) -> tuple[dict, str, str]:
+    if best_statistical is None:
+        best_statistical = select_best_statistical(results)
+    if best_interpretable is None:
+        best_interpretable = select_best_interpretable(results)
+    if best_k3 is None:
+        best_k3 = select_best_k3(results)
+    if recommendation_reason is None or recommended is None:
+        recommended, recommendation_reason = determine_recommended_project_model(
+            best_statistical,
+            best_interpretable,
+            best_k3,
+        )
+
+    if recommended is not None:
+        return recommended, "project", recommendation_reason
+
+    if best_statistical is not None:
+        return (
+            best_statistical,
+            "statistical",
+            "No recommended project model was produced, so the best statistical survivor was used.",
+        )
+
+    fallback_role, fallback_cfg = load_committed_fallback_config(output_dir=output_dir)
+    if fallback_cfg is None:
+        raise RuntimeError(
+            "No hard-filter survivor exists and no committed fallback config "
+            "was found in output/hmm/."
+        )
+
+    fallback_candidate = evaluate_candidate(
+        fallback_cfg["K"],
+        fallback_cfg["n_pca"],
+        fallback_cfg["cov_type"],
+        X_itrain,
+        X_ival,
+        df_dev,
+        feat_cols,
+        internal_val_mask,
+    )
+    if fallback_candidate["failed"]:
+        raise RuntimeError(
+            "Committed fallback config failed numerically during reevaluation: "
+            f"{fallback_candidate['error']}"
+        )
+
+    reason = (
+        "No current grid-search candidate passed the hard filters. "
+        f"Falling back to committed {fallback_role} config "
+        f"K={fallback_cfg['K']}, n_pca={fallback_cfg['n_pca']}, "
+        f"cov={fallback_cfg['cov_type']} from {fallback_cfg['source_path'].relative_to(ROOT)}."
+    )
+    return fallback_candidate, f"fallback_{fallback_role}", reason
+
+
 # ===========================================================================
 # Printing helpers
 # ===========================================================================
@@ -1362,8 +1522,11 @@ def main(args: argparse.Namespace) -> None:
 
     # --- Load and restrict to development window ----------------------------
     print("Loading data...")
-    df_all, feat_cols = load_data()
-    print(f"  Full dataset: {len(df_all)} weeks  |  {len(feat_cols)} features")
+    df_all, feat_cols = load_data(feature_preset=args.feature_preset)
+    print(
+        f"  Full dataset: {len(df_all)} weeks  |  {len(feat_cols)} features "
+        f"(preset={args.feature_preset})"
+    )
 
     df = df_all[
         (df_all["week_end"] >= DEV_START) & (df_all["week_end"] <= DEV_END)
@@ -1403,13 +1566,23 @@ def main(args: argparse.Namespace) -> None:
         )
 
         dev_art = r["_dev_artifacts"]
-        save_model_bundle(dev_art, "project", interp_info=r)
+        manual_info = {
+            **r,
+            "feature_preset": args.feature_preset,
+            "selection_role": "manual_override",
+            "selection_reason": (
+                f"Manual override via CLI for K={K}, n_pca={n_pca}, cov={cov_type}."
+            ),
+        }
+        save_model_bundle(dev_art, "project", interp_info=manual_info)
 
         # Also save the grid results for this one candidate
         pd.DataFrame([_strip_private(r)]).to_csv(
             OUTPUT_DIR / "grid_search_objective_results.csv", index=False
         )
-        pd.DataFrame({"feature": feat_cols}).to_csv(
+        pd.DataFrame(
+            {"feature_preset": args.feature_preset, "feature": feat_cols}
+        ).to_csv(
             OUTPUT_DIR / "features_used.csv", index=False
         )
 
@@ -1423,7 +1596,9 @@ def main(args: argparse.Namespace) -> None:
     # --- Save full objective results CSV ------------------------------------
     grid_df = pd.DataFrame([_strip_private(r) for r in results])
     grid_df.to_csv(OUTPUT_DIR / "grid_search_objective_results.csv", index=False)
-    pd.DataFrame({"feature": feat_cols}).to_csv(
+    pd.DataFrame(
+        {"feature_preset": args.feature_preset, "feature": feat_cols}
+    ).to_csv(
         OUTPUT_DIR / "features_used.csv", index=False
     )
 
@@ -1434,6 +1609,24 @@ def main(args: argparse.Namespace) -> None:
     recommended, reason = determine_recommended_project_model(
         best_statistical, best_interpretable, best_k3
     )
+    pipeline_choice = None
+    pipeline_role = None
+    pipeline_reason = None
+    if args.selection_mode == "pipeline":
+        pipeline_choice, pipeline_role, pipeline_reason = choose_pipeline_candidate(
+            results,
+            X_itrain,
+            X_ival,
+            df,
+            feat_cols,
+            internal_val_mask,
+            output_dir=OUTPUT_DIR,
+            best_statistical=best_statistical,
+            best_interpretable=best_interpretable,
+            best_k3=best_k3,
+            recommended=recommended,
+            recommendation_reason=reason,
+        )
 
     # --- Save model bundles (avoid duplicate work when the same model
     #     is selected for multiple roles) ------------------------------------
@@ -1445,27 +1638,60 @@ def main(args: argparse.Namespace) -> None:
     saved_keys: set[tuple] = set()
 
     if best_statistical is not None:
+        statistical_info = {
+            **best_statistical,
+            "feature_preset": args.feature_preset,
+            "selection_role": "statistical",
+            "selection_reason": "Best validation log-likelihood among hard-filter survivors.",
+        }
         save_model_bundle(
             best_statistical["_dev_artifacts"], "statistical",
-            interp_info=best_statistical,
+            interp_info=statistical_info,
         )
         saved_keys.add(_key(best_statistical))
 
-    if recommended is not None:
+    if recommended is not None and args.selection_mode != "pipeline":
+        project_info = {
+            **recommended,
+            "feature_preset": args.feature_preset,
+            "selection_role": "project",
+            "selection_reason": reason,
+        }
         save_model_bundle(
             recommended["_dev_artifacts"], "project",
-            interp_info=recommended,
+            interp_info=project_info,
         )
         saved_keys.add(_key(recommended))
 
+    if pipeline_choice is not None and args.selection_mode == "pipeline":
+        pipeline_info = {
+            **pipeline_choice,
+            "feature_preset": args.feature_preset,
+            "selection_role": pipeline_role,
+            "selection_reason": pipeline_reason,
+        }
+        save_model_bundle(
+            pipeline_choice["_dev_artifacts"], "project",
+            interp_info=pipeline_info,
+        )
+        saved_keys.add(_key(pipeline_choice))
+
     k3_same_as_project = (
-        best_k3 is not None and recommended is not None
-        and _key(best_k3) == _key(recommended)
+        best_k3 is not None and (
+            (recommended is not None and _key(best_k3) == _key(recommended))
+            or (pipeline_choice is not None and _key(best_k3) == _key(pipeline_choice))
+        )
     )
     if best_k3 is not None and not k3_same_as_project:
+        k3_info = {
+            **best_k3,
+            "feature_preset": args.feature_preset,
+            "selection_role": "k3",
+            "selection_reason": "Best valid K=3 survivor under the interpretability-first rule.",
+        }
         save_model_bundle(
             best_k3["_dev_artifacts"], "k3",
-            interp_info=best_k3,
+            interp_info=k3_info,
         )
 
     # --- Console summary ----------------------------------------------------
@@ -1479,6 +1705,15 @@ def main(args: argparse.Namespace) -> None:
     print_selection_summary(
         results, best_statistical, best_interpretable, best_k3, recommended, reason
     )
+    if pipeline_choice is not None:
+        print(f"\n{'═'*72}")
+        print("Pipeline selection")
+        print(f"{'═'*72}")
+        print(f"  Feature preset          : {args.feature_preset}")
+        print(f"  Selection mode          : {args.selection_mode}")
+        print(f"  Selected pipeline model : {_describe(pipeline_choice)}")
+        print(f"  Selection role          : {pipeline_role}")
+        print(f"  Reason:\n    {pipeline_reason}")
 
     # Detailed regime blocks
     if best_statistical is not None:
@@ -1541,6 +1776,24 @@ if __name__ == "__main__":
         choices=["diag", "full"],
         default="diag",
         help="Covariance type for manual override (default: diag).",
+    )
+    parser.add_argument(
+        "--feature-preset",
+        choices=sorted(FEATURE_PRESETS),
+        default=DEFAULT_FEATURE_PRESET,
+        help=(
+            "Feature subset used for HMM fitting. "
+            f"Defaults to '{DEFAULT_FEATURE_PRESET}'."
+        ),
+    )
+    parser.add_argument(
+        "--selection-mode",
+        choices=["strict", "pipeline"],
+        default=DEFAULT_SELECTION_MODE,
+        help=(
+            "Model selection behavior after grid search. "
+            f"Defaults to '{DEFAULT_SELECTION_MODE}'."
+        ),
     )
     args = parser.parse_args()
 

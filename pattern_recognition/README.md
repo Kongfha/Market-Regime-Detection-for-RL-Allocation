@@ -1,5 +1,11 @@
 # Advanced Market Regime Detection: A Gaussian HMM & XAI Framework
 
+> Status: historical / experimental pipeline.
+>
+> This folder is **not** the current source of truth for regime detection.
+> The active baseline is `scripts/train_hmm_regimes.py`, and the canonical
+> merged notebook workflow lives in `full_pipeline/`.
+
 This repository implements a high-dimension, automated pipeline for detecting latent market regimes using **Gaussian Hidden Markov Models (HMM)**. Optimized via **Bayesian Information Criterion (BIC)** and interpreted through **Explainable AI (XAI)** heatmaps, this framework provides a robust state-space for Reinforcement Learning (RL) agents in multi-asset allocation.
 
 ---
@@ -85,7 +91,7 @@ The output features provide a high-fidelity **State Space ($S$)** for an RL Agen
 ## 🚀 Execution & Requirements
 
 ```bash
-# Execute the full end-to-end research pipeline
+# Execute the historical alternate pipeline
 python run_pattern_recognition.py
 ```
 
