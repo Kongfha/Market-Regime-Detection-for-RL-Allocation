@@ -1,0 +1,2 @@
+bundle,n_states,n_pca,covariance_type,dev_start,dev_end,internal_train_end,pca_explained_variance,random_seed,val_ll_per_step,interpretability_score,interpretability_tier,score_A_profile_separation,score_B_naming,score_C_temporal,score_D_downstream
+statistical,2,14,full,2014-07-01,2020-12-31,2018-12-31,0.798,42,-72.40617706112704,8,High,2,2,2,2
