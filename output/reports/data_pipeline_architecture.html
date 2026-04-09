@@ -347,8 +347,8 @@
     <div class="card card-source">
       <div class="card-title"><span class="icon">&#x1F3DB;</span> FRED &mdash; Macro Data</div>
       <div class="card-body">
-        API: <code>fredgraph.csv?id=SERIES_ID</code><br>
-        <strong>Core panel:</strong> 16 series across 4 themes<br>
+        Fetch path: <code>fetch_fred_macro_panel.py --preset core</code><br>
+        <strong>Core panel:</strong> 16 series across 4 grouped blocks<br>
         Policy &amp; Curve &bull; Inflation &amp; Risk<br>
         Liquidity &amp; Labor &bull; Activity &amp; Demand
       </div>
@@ -363,7 +363,7 @@
     <div class="card card-raw">
       <div class="card-title"><span class="icon">&#x1F4BE;</span> fred_macro_panel.csv</div>
       <div class="card-body">
-        ~72K rows &bull; Long-format panel with metadata<br>
+        110,238 rows &bull; Long-format panel with metadata<br>
         Script: <code>fetch_fred_macro_panel.py --preset core</code>
       </div>
       <div class="card-tags">
@@ -395,12 +395,13 @@
     <div class="card card-raw">
       <div class="card-title"><span class="icon">&#x1F4BE;</span> yahoo_news_latest.csv</div>
       <div class="card-body">
-        Latest headlines per ticker<br>
+        Optional recent-headline snapshot<br>
+        Current working tree: missing<br>
         Script: <code>fetch_yahoo_seed_data.py --news-count 20</code>
       </div>
       <div class="card-tags">
         <span class="tag">data/raw/</span>
-        <span class="tag">~52 KB</span>
+        <span class="tag">optional input</span>
       </div>
     </div>
   </div>
@@ -427,12 +428,12 @@
     <div class="card card-raw">
       <div class="card-title"><span class="icon">&#x1F4BE;</span> financial_phrasebank_*.csv</div>
       <div class="card-body">
-        Sentiment pipeline validation data<br>
-        Script: <code>fetch_financial_phrasebank.py</code>
+        Optional sentiment benchmark data<br>
+        Current working tree: missing
       </div>
       <div class="card-tags">
         <span class="tag">data/raw/</span>
-        <span class="tag">Validation</span>
+        <span class="tag">optional input</span>
       </div>
     </div>
   </div>
@@ -483,7 +484,7 @@
   <div class="card card-feature">
     <div class="card-title"><span class="icon">&#x2699;</span> Macro Features (Weekly) &mdash; Lag-Aware Causal Alignment</div>
     <div class="card-body">
-      <strong>~50 features</strong> from FRED panel with frequency-aware lags:<br>
+      <strong>34 columns total</strong> (31 engineered macro features) from the FRED panel with frequency-aware lags:<br>
       <strong>Daily series</strong> (DFF, DGS10, etc.) &rarr; use last value in week, no lag<br>
       <strong>Weekly series</strong> (NFCI, ICSA, etc.) &rarr; lag by 1 week before joining<br>
       <strong>Monthly series</strong> (CPI, UNRATE, etc.) &rarr; lag by 1 month before joining<br>
@@ -503,9 +504,10 @@
     <div class="card card-feature">
       <div class="card-title"><span class="icon">&#x2699;</span> News Events Enriched</div>
       <div class="card-body">
-        Event-level enrichment:<br>
+        Event-level enrichment schema for the Yahoo news feed<br>
         Sentiment (pos/neg/neutral) &bull; Topic classification<br>
-        Impact score (1-3) &bull; Relevance score (0-4)
+        Impact score (1-3) &bull; Relevance score (0-4)<br>
+        <strong>Current build:</strong> 0 rows because raw news input is absent
       </div>
       <div class="card-tags">
         <span class="tag">news_events_enriched.csv</span>
@@ -518,13 +520,14 @@
     <div class="card card-feature">
       <div class="card-title"><span class="icon">&#x1F4C5;</span> News Features (Weekly)</div>
       <div class="card-body">
-        <strong>16 features</strong> aggregated per week:<br>
+        <strong>16 columns</strong> aggregated per week when news exists:<br>
         headline_count, sentiment ratios,<br>
-        impact stats, topic distribution ratios
+        impact stats, topic distribution ratios<br>
+        <strong>Current build:</strong> 0 rows because raw news input is absent
       </div>
       <div class="card-tags">
         <span class="tag">news_features_weekly.csv</span>
-        <span class="tag">~1.2 KB</span>
+        <span class="tag">0 current rows</span>
       </div>
     </div>
   </div>
@@ -556,7 +559,7 @@
       <div style="padding: 10px; background: #1a0f2e; border-radius: 8px; border: 1px solid #3a2a60;">
         <strong style="color:#a78bfa;">model_state_weekly_price_macro.csv</strong><br>
         <span style="color:#8892b0;font-size:0.75rem;">
-          579 weeks &bull; 63 columns<br>
+          625 weeks &bull; 75 columns<br>
           INNER JOIN: market + macro + targets<br>
           Main training table for HMM / RL<br>
           Longest clean history
@@ -565,19 +568,19 @@
       <div style="padding: 10px; background: #1a0f2e; border-radius: 8px; border: 1px solid #3a2a60;">
         <strong style="color:#a78bfa;">model_state_weekly_full.csv</strong><br>
         <span style="color:#8892b0;font-size:0.75rem;">
-          579 weeks &bull; 78 columns<br>
+          625 weeks &bull; 90 columns<br>
           LEFT JOIN: + nullable news columns<br>
           Integration table for full pipeline<br>
-          Future-proofs historical text extension
+          News columns currently remain empty
         </span>
       </div>
       <div style="padding: 10px; background: #1a0f2e; border-radius: 8px; border: 1px solid #3a2a60;">
         <strong style="color:#a78bfa;">model_state_weekly_recent_full.csv</strong><br>
         <span style="color:#8892b0;font-size:0.75rem;">
-          ~4 weeks &bull; 78 columns<br>
+          0 rows &bull; 90 columns<br>
           FILTER: where all modalities exist<br>
           Multimodal demos &amp; explanation<br>
-          Recent-window case studies
+          Empty until the raw news snapshot is refreshed
         </span>
       </div>
     </div>
