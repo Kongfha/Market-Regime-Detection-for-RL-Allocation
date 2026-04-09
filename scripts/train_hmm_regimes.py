@@ -120,7 +120,7 @@ except ImportError as exc:
 # ---------------------------------------------------------------------------
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data" / "processed"
-OUTPUT_DIR = ROOT / "output" / "hmm"
+OUTPUT_BASE_DIR = ROOT / "output"
 MAIN_TABLE = DATA_DIR / "model_state_weekly_price_macro.csv"
 
 # ---------------------------------------------------------------------------
@@ -163,6 +163,18 @@ INTERP_COLS = [
 DEV_START = "2014-07-01"
 DEV_END = "2020-12-31"
 INTERNAL_TRAIN_END = "2018-12-31"
+
+# ---------------------------------------------------------------------------
+# Proposal split boundaries
+# ---------------------------------------------------------------------------
+WARMUP_START = "2014-01-02"
+WARMUP_END = "2014-06-30"
+TRAIN_START = "2014-07-01"
+TRAIN_END = "2020-12-31"
+VALIDATION_START = "2021-01-01"
+VALIDATION_END = "2022-12-30"
+LOCKED_TEST_START = "2023-01-03"
+LOCKED_TEST_END = "2026-03-20"
 
 # ---------------------------------------------------------------------------
 # Search grid
@@ -237,6 +249,90 @@ def make_internal_split_masks(df: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
     return internal_train, internal_val
 
 
+def build_experiment_splits(
+        df_all: pd.DataFrame,
+        split_mode: str,
+) -> tuple[pd.DataFrame, pd.Series, pd.Series, pd.DataFrame, pd.Series, dict[str, object]]:
+        """Build train/validation/test masks according to the selected protocol.
+
+        Returns
+        -------
+        df_tuning:
+            Dataframe used to construct X_itrain / X_ival for hyperparameter search.
+        tuning_train_mask:
+            Boolean mask over df_tuning for fitting candidate models.
+        tuning_val_mask:
+            Boolean mask over df_tuning for validation scoring.
+        df_scoring:
+            Dataframe used to produce final outputs (labels/posteriors/summary).
+        scoring_split_labels:
+            Stage labels aligned to df_scoring index.
+        meta:
+            Summary metadata used for console reporting and config output.
+        """
+        if split_mode == "dev-internal":
+                df_scoring = df_all[
+                        (df_all["week_end"] >= DEV_START) & (df_all["week_end"] <= DEV_END)
+                ].reset_index(drop=True)
+
+                tuning_train_mask, tuning_val_mask = make_internal_split_masks(df_scoring)
+                scoring_split_labels = pd.Series("internal_train", index=df_scoring.index, dtype="object")
+                scoring_split_labels.loc[tuning_val_mask.values] = "internal_val"
+
+                meta = {
+                        "split_mode": split_mode,
+                        "scoring_start": DEV_START,
+                        "scoring_end": DEV_END,
+                        "fit_window": "full_scoring_window",
+                        "tuning_train_label": "internal_train",
+                        "tuning_val_label": "internal_val",
+                        "counts": {
+                                "internal_train": int(tuning_train_mask.sum()),
+                                "internal_val": int(tuning_val_mask.sum()),
+                        },
+                }
+                return df_scoring, tuning_train_mask, tuning_val_mask, df_scoring, scoring_split_labels, meta
+
+        if split_mode == "proposal":
+                train_mask_all = (df_all["week_end"] >= TRAIN_START) & (df_all["week_end"] <= TRAIN_END)
+                val_mask_all = (df_all["week_end"] >= VALIDATION_START) & (df_all["week_end"] <= VALIDATION_END)
+                test_mask_all = (df_all["week_end"] >= LOCKED_TEST_START) & (df_all["week_end"] <= LOCKED_TEST_END)
+
+                scoring_mask_all = train_mask_all | val_mask_all | test_mask_all
+                df_scoring = df_all.loc[scoring_mask_all].reset_index(drop=True)
+
+                scoring_split_labels = pd.Series("train", index=df_scoring.index, dtype="object")
+                scoring_split_labels.loc[
+                        (df_scoring["week_end"] >= VALIDATION_START) & (df_scoring["week_end"] <= VALIDATION_END)
+                ] = "validation"
+                scoring_split_labels.loc[
+                        (df_scoring["week_end"] >= LOCKED_TEST_START) & (df_scoring["week_end"] <= LOCKED_TEST_END)
+                ] = "locked_test"
+
+                df_tuning = df_scoring.copy()
+                tuning_train_mask = scoring_split_labels.eq("train")
+                tuning_val_mask = scoring_split_labels.eq("validation")
+
+                meta = {
+                        "split_mode": split_mode,
+                        "warmup_start": WARMUP_START,
+                        "warmup_end": WARMUP_END,
+                        "scoring_start": TRAIN_START,
+                        "scoring_end": LOCKED_TEST_END,
+                        "fit_window": "train_only",
+                        "tuning_train_label": "train",
+                        "tuning_val_label": "validation",
+                        "counts": {
+                                "train": int(tuning_train_mask.sum()),
+                                "validation": int(tuning_val_mask.sum()),
+                                "locked_test": int(scoring_split_labels.eq("locked_test").sum()),
+                        },
+                }
+                return df_tuning, tuning_train_mask, tuning_val_mask, df_scoring, scoring_split_labels, meta
+
+        raise ValueError(f"Unsupported split mode: {split_mode}")
+
+
 # ===========================================================================
 # Preprocessing helpers
 # ===========================================================================
@@ -262,16 +358,24 @@ def fit_gaussian_hmm(
     K: int,
     cov_type: str,
     random_seed: int,
+    sticky_transition_weight: float = 0.0,
 ) -> GaussianHMM:
-    model = GaussianHMM(
-        n_components=K,
-        covariance_type=cov_type,
-        n_iter=N_ITER,
-        tol=TOL,
-        min_covar=MIN_COVAR,
-        random_state=random_seed,
-        verbose=False,
-    )
+    model_kwargs = {
+        "n_components": K,
+        "covariance_type": cov_type,
+        "n_iter": N_ITER,
+        "tol": TOL,
+        "min_covar": MIN_COVAR,
+        "random_state": random_seed,
+        "verbose": False,
+    }
+    if sticky_transition_weight > 0:
+        prior = np.full((K, K), 1.0)
+        np.fill_diagonal(prior, sticky_transition_weight)
+        model_kwargs["transmat_prior"] = prior
+        model_kwargs["startprob_prior"] = np.ones(K)
+
+    model = GaussianHMM(**model_kwargs)
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         model.fit(X)
@@ -719,13 +823,12 @@ def build_labels_df(
     df: pd.DataFrame,
     filtered_labels: np.ndarray,
     viterbi_labels: np.ndarray,
-    internal_val_mask: pd.Series,
+    split_labels: pd.Series,
 ) -> pd.DataFrame:
     out = df[["week_end", "week_last_trade_date"]].copy()
     out["regime_filtered"] = filtered_labels
     out["regime_viterbi"] = viterbi_labels
-    out["split"] = "internal_train"
-    out.loc[internal_val_mask.values, "split"] = "internal_val"
+    out["split"] = split_labels.values
     return out
 
 
@@ -775,45 +878,77 @@ def avg_duration_by_state(labels: np.ndarray, K: int) -> dict[int, float]:
     return {k: float(np.mean(v)) if v else 0.0 for k, v in runs.items()}
 
 
+def parse_csv_ints(text: str | None) -> list[int] | None:
+    if text is None:
+        return None
+    values = [part.strip() for part in text.split(",") if part.strip()]
+    return [int(value) for value in values]
+
+
+def parse_csv_strings(text: str | None) -> list[str] | None:
+    if text is None:
+        return None
+    return [part.strip() for part in text.split(",") if part.strip()]
+
+
+def resolve_search_space(args: argparse.Namespace) -> dict[str, list[int] | list[str]]:
+    return {
+        "K": parse_csv_ints(args.search_n_states) or GRID_N_STATES,
+        "n_pca": parse_csv_ints(args.search_n_pca) or GRID_N_PCA,
+        "cov_type": parse_csv_strings(args.search_cov_types) or GRID_COV_TYPES,
+    }
+
+
 # ===========================================================================
 # Refit on full dev window (no saving)
 # ===========================================================================
 
-def refit_model_on_dev(
-    df: pd.DataFrame,
+def refit_model_on_window(
+    df_fit: pd.DataFrame,
+    df_score: pd.DataFrame,
     feat_cols: list[str],
     K: int,
     n_pca: int,
     cov_type: str,
     random_seed: int,
-    internal_val_mask: pd.Series,
+    split_labels: pd.Series,
+    sticky_transition_weight: float,
 ) -> dict:
     """
     Fit scaler + PCA + HMM on the full development window and compute all
     dev-window artifacts (labels, posteriors, summary, transition matrix).
     Does NOT save to disk — that is handled by `save_model_bundle`.
     """
-    X_dev = df[feat_cols].values
-    # Standardization on the development fit path mirrors tuning preprocessing.
+    X_fit = df_fit[feat_cols].values
+    X_score = df_score[feat_cols].values
+    # Standardization on the final fit path mirrors tuning preprocessing.
     scaler = StandardScaler()
-    X_dev_sc = np.clip(scaler.fit_transform(X_dev), -CLIP_SIGMA, CLIP_SIGMA)
+    X_fit_sc = np.clip(scaler.fit_transform(X_fit), -CLIP_SIGMA, CLIP_SIGMA)
+    X_score_sc = np.clip(scaler.transform(X_score), -CLIP_SIGMA, CLIP_SIGMA)
 
     pca = PCA(n_components=n_pca, random_state=RANDOM_SEED)
-    X_dev_pca = pca.fit_transform(X_dev_sc)
+    X_fit_pca = pca.fit_transform(X_fit_sc)
+    X_score_pca = pca.transform(X_score_sc)
 
-    model = fit_gaussian_hmm(X_dev_pca, K, cov_type, random_seed=random_seed)
-
-    viterbi_labels = model.predict(X_dev_pca)
-    smoothed_probs = model.predict_proba(X_dev_pca)
-    filtered_probs = forward_filtered(model, X_dev_pca)
-    filtered_labels = filtered_probs.argmax(axis=1)
-
-    labels_df = build_labels_df(df, filtered_labels, viterbi_labels, internal_val_mask)
-    posteriors_df = build_posteriors_df(
-        df, filtered_probs, smoothed_probs, labels_df["split"], K
+    model = fit_gaussian_hmm(
+        X_fit_pca,
+        K,
+        cov_type,
+        random_seed=random_seed,
+        sticky_transition_weight=sticky_transition_weight,
     )
 
-    df_labeled = df.copy()
+    viterbi_labels = model.predict(X_score_pca)
+    smoothed_probs = model.predict_proba(X_score_pca)
+    filtered_probs = forward_filtered(model, X_score_pca)
+    filtered_labels = filtered_probs.argmax(axis=1)
+
+    labels_df = build_labels_df(df_score, filtered_labels, viterbi_labels, split_labels)
+    posteriors_df = build_posteriors_df(
+        df_score, filtered_probs, smoothed_probs, labels_df["split"], K
+    )
+
+    df_labeled = df_score.copy()
     df_labeled["regime_filtered"] = filtered_labels
     avg_dur = avg_duration_by_state(filtered_labels, K)
     summary_df = build_regime_summary(df_labeled, avg_dur)
@@ -851,8 +986,10 @@ _BUNDLE_CONFIG_NAMES = {
 
 def save_model_bundle(
     artifacts: dict,
+    output_dir: Path,
     bundle: str,
     interp_info: dict | None = None,
+    split_meta: dict[str, object] | None = None,
 ) -> None:
     """
     Save labels, posteriors, summary, transition matrix, and config CSVs
@@ -866,16 +1003,16 @@ def save_model_bundle(
     cov_type = artifacts["cov_type"]
 
     artifacts["labels_df"].to_csv(
-        OUTPUT_DIR / f"regime_labels_dev_{bundle}.csv", index=False
+        output_dir / f"regime_labels_dev_{bundle}.csv", index=False
     )
     artifacts["posteriors_df"].to_csv(
-        OUTPUT_DIR / f"regime_posteriors_dev_{bundle}.csv", index=False
+        output_dir / f"regime_posteriors_dev_{bundle}.csv", index=False
     )
     artifacts["summary_df"].to_csv(
-        OUTPUT_DIR / f"regime_summary_dev_{bundle}.csv"
+        output_dir / f"regime_summary_dev_{bundle}.csv"
     )
     artifacts["emp_trans_df"].to_csv(
-        OUTPUT_DIR / f"transition_matrix_dev_{bundle}.csv"
+        output_dir / f"transition_matrix_dev_{bundle}.csv"
     )
 
     cfg_row = {
@@ -900,8 +1037,15 @@ def save_model_bundle(
             "score_C_temporal": interp_info.get("score_C_temporal"),
             "score_D_downstream": interp_info.get("score_D_downstream"),
         })
+    if split_meta is not None:
+        cfg_row.update({
+            "split_mode": split_meta.get("split_mode"),
+            "fit_window": split_meta.get("fit_window"),
+            "tuning_train_label": split_meta.get("tuning_train_label"),
+            "tuning_val_label": split_meta.get("tuning_val_label"),
+        })
     pd.DataFrame([cfg_row]).to_csv(
-        OUTPUT_DIR / _BUNDLE_CONFIG_NAMES[bundle], index=False
+        output_dir / _BUNDLE_CONFIG_NAMES[bundle], index=False
     )
 
 
@@ -957,9 +1101,11 @@ def evaluate_candidate(
     cov_type: str,
     X_itrain: np.ndarray,
     X_ival: np.ndarray,
-    df_dev: pd.DataFrame,
+    df_fit: pd.DataFrame,
+    df_scoring: pd.DataFrame,
     feat_cols: list[str],
-    internal_val_mask: pd.Series,
+    scoring_split_labels: pd.Series,
+    sticky_transition_weight: float,
 ) -> dict:
     """
     Full per-candidate pipeline:
@@ -1022,14 +1168,16 @@ def evaluate_candidate(
 
     # -- Step 2: refit on full dev window (needed for filters + interp) --
     try:
-        dev_art = refit_model_on_dev(
-            df_dev,
+        dev_art = refit_model_on_window(
+            df_fit,
+            df_scoring,
             feat_cols,
             K,
             n_pca,
             cov_type,
             random_seed=best_seed,
-            internal_val_mask=internal_val_mask,
+            split_labels=scoring_split_labels,
+            sticky_transition_weight=sticky_transition_weight,
         )
     except Exception as exc:
         return {
@@ -1080,14 +1228,21 @@ def evaluate_candidate(
 def run_grid_search(
     X_itrain: np.ndarray,
     X_ival: np.ndarray,
-    df_dev: pd.DataFrame,
+    df_fit: pd.DataFrame,
+    df_scoring: pd.DataFrame,
     feat_cols: list[str],
-    internal_val_mask: pd.Series,
+    scoring_split_labels: pd.Series,
+    search_space: dict[str, list[int] | list[str]],
+    sticky_transition_weight: float,
 ) -> list[dict]:
-    n_total = len(GRID_N_STATES) * len(GRID_N_PCA) * len(GRID_COV_TYPES)
+    grid_n_states = list(search_space["K"])
+    grid_n_pca = list(search_space["n_pca"])
+    grid_cov_types = list(search_space["cov_type"])
+
+    n_total = len(grid_n_states) * len(grid_n_pca) * len(grid_cov_types)
     print(
-        f"\nGrid search  K ∈ {GRID_N_STATES}  "
-        f"n_pca ∈ {GRID_N_PCA}  cov ∈ {{{','.join(GRID_COV_TYPES)}}}  "
+        f"\nGrid search  K ∈ {grid_n_states}  "
+        f"n_pca ∈ {grid_n_pca}  cov ∈ {{{','.join(grid_cov_types)}}}  "
         f"seeds ∈ {GRID_RANDOM_SEEDS} (best kept)  "
         f"({n_total} candidates)"
     )
@@ -1102,14 +1257,15 @@ def run_grid_search(
 
     results: list[dict] = []
     idx = 0
-    for K in GRID_N_STATES:
-        for n_pca in GRID_N_PCA:
-            for cov_type in GRID_COV_TYPES:
+    for K in grid_n_states:
+        for n_pca in grid_n_pca:
+            for cov_type in grid_cov_types:
                 idx += 1
                 r = evaluate_candidate(
                     K, n_pca, cov_type,
                     X_itrain, X_ival,
-                    df_dev, feat_cols, internal_val_mask,
+                    df_fit, df_scoring, feat_cols, scoring_split_labels,
+                    sticky_transition_weight,
                 )
 
                 if r["failed"]:
@@ -1358,28 +1514,47 @@ def _strip_private(r: dict) -> dict:
 
 
 def main(args: argparse.Namespace) -> None:
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    output_dir = OUTPUT_BASE_DIR / args.output_subdir
+    output_dir.mkdir(parents=True, exist_ok=True)
+    search_space = resolve_search_space(args)
 
-    # --- Load and restrict to development window ----------------------------
+    # --- Load and split according to selected protocol ----------------------
     print("Loading data...")
     df_all, feat_cols = load_data()
     print(f"  Full dataset: {len(df_all)} weeks  |  {len(feat_cols)} features")
 
-    df = df_all[
-        (df_all["week_end"] >= DEV_START) & (df_all["week_end"] <= DEV_END)
-    ].reset_index(drop=True)
+    df_tuning, tuning_train_mask, tuning_val_mask, df_scoring, scoring_split_labels, split_meta = build_experiment_splits(
+        df_all, args.split_mode
+    )
 
-    internal_train_mask, internal_val_mask = make_internal_split_masks(df)
-    n_dev = len(df)
-    n_itrain = int(internal_train_mask.sum())
-    n_ival = int(internal_val_mask.sum())
+    n_scoring = len(df_scoring)
+    n_itrain = int(tuning_train_mask.sum())
+    n_ival = int(tuning_val_mask.sum())
 
-    print(f"  Dev window ({DEV_START} → {DEV_END}):  {n_dev} weeks")
-    print(f"  Internal train (≤{INTERNAL_TRAIN_END}):  {n_itrain} weeks")
-    print(f"  Internal val   (>{INTERNAL_TRAIN_END}):  {n_ival} weeks")
+    print(f"  Split mode: {args.split_mode}")
+    if args.split_mode == "dev-internal":
+        print(f"  Scoring window ({split_meta['scoring_start']} → {split_meta['scoring_end']}):  {n_scoring} weeks")
+        print(f"  Internal train ({split_meta['tuning_train_label']}): {n_itrain} weeks")
+        print(f"  Internal val   ({split_meta['tuning_val_label']}): {n_ival} weeks")
+    else:
+        print(f"  Warm-up ({split_meta['warmup_start']} → {split_meta['warmup_end']}): not scored")
+        print(f"  Scoring window ({split_meta['scoring_start']} → {split_meta['scoring_end']}):  {n_scoring} weeks")
+        print(f"  Train: {split_meta['counts']['train']} weeks")
+        print(f"  Validation: {split_meta['counts']['validation']} weeks")
+        print(f"  Locked test: {split_meta['counts']['locked_test']} weeks")
+    print(
+        f"  Search space: K ∈ {search_space['K']}, n_pca ∈ {search_space['n_pca']}, "
+        f"cov ∈ {{{','.join(search_space['cov_type'])}}}"
+    )
+    if args.sticky_transition_weight > 0:
+        print(f"  Sticky transition prior weight: {args.sticky_transition_weight}")
 
-    X_itrain = df.loc[internal_train_mask, feat_cols].values
-    X_ival = df.loc[internal_val_mask, feat_cols].values
+    if n_itrain == 0 or n_ival == 0:
+        raise RuntimeError("Training or validation split is empty. Check date boundaries.")
+
+    X_itrain = df_tuning.loc[tuning_train_mask, feat_cols].values
+    X_ival = df_tuning.loc[tuning_val_mask, feat_cols].values
+    df_fit = df_scoring.loc[scoring_split_labels.eq("train")].reset_index(drop=True) if args.split_mode == "proposal" else df_scoring
 
     # --- Manual override path (single candidate) ----------------------------
     if args.n_states and args.n_pca:
@@ -1390,7 +1565,7 @@ def main(args: argparse.Namespace) -> None:
         r = evaluate_candidate(
             K, n_pca, cov_type,
             X_itrain, X_ival,
-            df, feat_cols, internal_val_mask,
+            df_fit, df_scoring, feat_cols, scoring_split_labels,
         )
         if r["failed"]:
             raise RuntimeError(f"Candidate failed numerically: {r['error']}")
@@ -1403,28 +1578,37 @@ def main(args: argparse.Namespace) -> None:
         )
 
         dev_art = r["_dev_artifacts"]
-        save_model_bundle(dev_art, "project", interp_info=r)
+        save_model_bundle(dev_art, output_dir, "project", interp_info=r, split_meta=split_meta)
 
         # Also save the grid results for this one candidate
         pd.DataFrame([_strip_private(r)]).to_csv(
-            OUTPUT_DIR / "grid_search_objective_results.csv", index=False
+            output_dir / "grid_search_objective_results.csv", index=False
         )
         pd.DataFrame({"feature": feat_cols}).to_csv(
-            OUTPUT_DIR / "features_used.csv", index=False
+            output_dir / "features_used.csv", index=False
         )
 
         print_regime_block("PROJECT MODEL (manual override)", dev_art, r)
-        print(f"\nOutputs written to: {OUTPUT_DIR}/")
+        print(f"\nOutputs written to: {output_dir}/")
         return
 
     # --- Grid search ---------------------------------------------------------
-    results = run_grid_search(X_itrain, X_ival, df, feat_cols, internal_val_mask)
+    results = run_grid_search(
+        X_itrain,
+        X_ival,
+        df_fit,
+        df_scoring,
+        feat_cols,
+        scoring_split_labels,
+        search_space,
+        args.sticky_transition_weight,
+    )
 
     # --- Save full objective results CSV ------------------------------------
     grid_df = pd.DataFrame([_strip_private(r) for r in results])
-    grid_df.to_csv(OUTPUT_DIR / "grid_search_objective_results.csv", index=False)
+    grid_df.to_csv(output_dir / "grid_search_objective_results.csv", index=False)
     pd.DataFrame({"feature": feat_cols}).to_csv(
-        OUTPUT_DIR / "features_used.csv", index=False
+        output_dir / "features_used.csv", index=False
     )
 
     # --- Model selection ----------------------------------------------------
@@ -1446,15 +1630,17 @@ def main(args: argparse.Namespace) -> None:
 
     if best_statistical is not None:
         save_model_bundle(
-            best_statistical["_dev_artifacts"], "statistical",
+            best_statistical["_dev_artifacts"], output_dir, "statistical",
             interp_info=best_statistical,
+            split_meta=split_meta,
         )
         saved_keys.add(_key(best_statistical))
 
     if recommended is not None:
         save_model_bundle(
-            recommended["_dev_artifacts"], "project",
+            recommended["_dev_artifacts"], output_dir, "project",
             interp_info=recommended,
+            split_meta=split_meta,
         )
         saved_keys.add(_key(recommended))
 
@@ -1464,17 +1650,18 @@ def main(args: argparse.Namespace) -> None:
     )
     if best_k3 is not None and not k3_same_as_project:
         save_model_bundle(
-            best_k3["_dev_artifacts"], "k3",
+            best_k3["_dev_artifacts"], output_dir, "k3",
             interp_info=best_k3,
+            split_meta=split_meta,
         )
 
     # --- Console summary ----------------------------------------------------
     print(f"\n{'═'*72}")
     print("Row counts")
     print(f"{'═'*72}")
-    print(f"  Full development window ({DEV_START} → {DEV_END}): {n_dev}")
-    print(f"  Internal train          (≤{INTERNAL_TRAIN_END}):         {n_itrain}")
-    print(f"  Internal validation     (>{INTERNAL_TRAIN_END}):         {n_ival}")
+    print(f"  Scoring rows: {n_scoring}")
+    print(f"  Tuning train rows ({split_meta['tuning_train_label']}): {n_itrain}")
+    print(f"  Tuning validation rows ({split_meta['tuning_val_label']}): {n_ival}")
 
     print_selection_summary(
         results, best_statistical, best_interpretable, best_k3, recommended, reason
@@ -1507,8 +1694,8 @@ def main(args: argparse.Namespace) -> None:
             best_k3,
         )
 
-    print(f"\nOutputs written to: {OUTPUT_DIR}/")
-    for f in sorted(OUTPUT_DIR.glob("*.csv")):
+    print(f"\nOutputs written to: {output_dir}/")
+    for f in sorted(output_dir.glob("*.csv")):
         print(f"  {f.name}")
 
 
@@ -1541,6 +1728,38 @@ if __name__ == "__main__":
         choices=["diag", "full"],
         default="diag",
         help="Covariance type for manual override (default: diag).",
+    )
+    parser.add_argument(
+        "--split-mode",
+        choices=["dev-internal", "proposal"],
+        default="dev-internal",
+        help="Split protocol: legacy dev-internal or proposal train/validation/locked-test.",
+    )
+    parser.add_argument(
+        "--output-subdir",
+        default="hmm",
+        help="Output subdirectory under ./output (default: hmm).",
+    )
+    parser.add_argument(
+        "--search-n-states",
+        default=None,
+        help="Comma-separated K values to search, e.g. 2,3,4.",
+    )
+    parser.add_argument(
+        "--search-n-pca",
+        default=None,
+        help="Comma-separated PCA component counts to search, e.g. 8,10,12,14.",
+    )
+    parser.add_argument(
+        "--search-cov-types",
+        default=None,
+        help="Comma-separated covariance types to search, e.g. diag or diag,full.",
+    )
+    parser.add_argument(
+        "--sticky-transition-weight",
+        type=float,
+        default=0.0,
+        help="Optional sticky transition prior weight. Default 0 keeps the original non-sticky behavior.",
     )
     args = parser.parse_args()
 
