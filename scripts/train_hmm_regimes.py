@@ -17,7 +17,9 @@ criterion (inside interpretability tiers, as a tie-breaker).
 Workflow
 --------
 For each candidate (K, n_pca, cov_type):
-  1. Fit scaler + PCA + HMM on internal train → val log-likelihood.
+    1. Fit scaler + PCA + HMM on internal train → val log-likelihood.
+         For robustness, the script evaluates multiple random seeds and keeps
+         the best seed per (K, n_pca, cov_type).
   2. Refit on full development window → dev-window regime labels and
      per-regime summary.
   3. Apply 5 HARD FILTERS (any → candidate rejected):
@@ -52,9 +54,10 @@ No post-2020 data is used anywhere in this script.
 
 Search space
 ------------
-  K            ∈ {2, 3, 4}
-  n_pca        ∈ {8, 10, 12, 14}
-  cov_type     ∈ {diag, full}
+    K            ∈ {2, 3, 4}
+    n_pca        ∈ {8, 10, 12, 14}
+    cov_type     ∈ {diag, full}
+    random_seed  ∈ {7, 21, 42, 84, 168}  (best seed kept per candidate)
 
 Outputs (output/hmm/)
 ---------------------
@@ -167,6 +170,7 @@ INTERNAL_TRAIN_END = "2018-12-31"
 GRID_N_STATES: list[int] = [2, 3, 4]
 GRID_N_PCA: list[int] = [8, 10, 12, 14]
 GRID_COV_TYPES: list[str] = ["diag", "full"]
+GRID_RANDOM_SEEDS: list[int] = [7, 21, 42, 84, 168]
 
 # ---------------------------------------------------------------------------
 # HMM settings
@@ -242,6 +246,8 @@ def scale_and_project(
     X_other: np.ndarray,
     n_pca: int,
 ) -> tuple[np.ndarray, np.ndarray, StandardScaler, PCA]:
+    # Standardization is mandatory before PCA/HMM so mixed-scale features
+    # (returns, rates, levels) contribute comparably.
     scaler = StandardScaler()
     X_train_sc = np.clip(scaler.fit_transform(X_train), -CLIP_SIGMA, CLIP_SIGMA)
     X_other_sc = np.clip(scaler.transform(X_other), -CLIP_SIGMA, CLIP_SIGMA)
@@ -251,14 +257,19 @@ def scale_and_project(
     return X_train_pca, X_other_pca, scaler, pca
 
 
-def fit_gaussian_hmm(X: np.ndarray, K: int, cov_type: str) -> GaussianHMM:
+def fit_gaussian_hmm(
+    X: np.ndarray,
+    K: int,
+    cov_type: str,
+    random_seed: int,
+) -> GaussianHMM:
     model = GaussianHMM(
         n_components=K,
         covariance_type=cov_type,
         n_iter=N_ITER,
         tol=TOL,
         min_covar=MIN_COVAR,
-        random_state=RANDOM_SEED,
+        random_state=random_seed,
         verbose=False,
     )
     with warnings.catch_warnings():
@@ -774,6 +785,7 @@ def refit_model_on_dev(
     K: int,
     n_pca: int,
     cov_type: str,
+    random_seed: int,
     internal_val_mask: pd.Series,
 ) -> dict:
     """
@@ -782,13 +794,14 @@ def refit_model_on_dev(
     Does NOT save to disk — that is handled by `save_model_bundle`.
     """
     X_dev = df[feat_cols].values
+    # Standardization on the development fit path mirrors tuning preprocessing.
     scaler = StandardScaler()
     X_dev_sc = np.clip(scaler.fit_transform(X_dev), -CLIP_SIGMA, CLIP_SIGMA)
 
     pca = PCA(n_components=n_pca, random_state=RANDOM_SEED)
     X_dev_pca = pca.fit_transform(X_dev_sc)
 
-    model = fit_gaussian_hmm(X_dev_pca, K, cov_type)
+    model = fit_gaussian_hmm(X_dev_pca, K, cov_type, random_seed=random_seed)
 
     viterbi_labels = model.predict(X_dev_pca)
     smoothed_probs = model.predict_proba(X_dev_pca)
@@ -810,6 +823,7 @@ def refit_model_on_dev(
         "K": K,
         "n_pca": n_pca,
         "cov_type": cov_type,
+        "random_seed": random_seed,
         "model": model,
         "pca": pca,
         "scaler": scaler,
@@ -869,6 +883,7 @@ def save_model_bundle(
         "n_states": K,
         "n_pca": n_pca,
         "covariance_type": cov_type,
+        "selected_seed": artifacts["random_seed"],
         "dev_start": DEV_START,
         "dev_end": DEV_END,
         "internal_train_end": INTERNAL_TRAIN_END,
@@ -962,23 +977,39 @@ def evaluate_candidate(
         "K": K,
         "n_pca": n_pca,
         "cov_type": cov_type,
+        "selected_seed": np.nan,
     }
 
     # -- Step 1: fit on internal train, score on internal val --
-    try:
-        X_tr_pca, X_va_pca, _, _ = scale_and_project(X_itrain, X_ival, n_pca)
-        val_model = fit_gaussian_hmm(X_tr_pca, K, cov_type)
-        val_ll_per_step = float(val_model.score(X_va_pca) / len(X_va_pca))
-        val_labels = val_model.predict(X_va_pca)
-        val_diag = compute_label_diagnostics(
-            val_labels, K, transmat=val_model.transmat_, prefix="val_"
-        )
-    except Exception as exc:
+    # Run a seed sweep per hyper-parameter candidate and keep the best seed.
+    best_seed = None
+    best_val_ll = float("-inf")
+    best_val_diag = None
+    last_error = None
+    X_tr_pca, X_va_pca, _, _ = scale_and_project(X_itrain, X_ival, n_pca)
+
+    for seed in GRID_RANDOM_SEEDS:
+        try:
+            val_model = fit_gaussian_hmm(X_tr_pca, K, cov_type, random_seed=seed)
+            val_ll = float(val_model.score(X_va_pca) / len(X_va_pca))
+            val_labels = val_model.predict(X_va_pca)
+            val_diag = compute_label_diagnostics(
+                val_labels, K, transmat=val_model.transmat_, prefix="val_"
+            )
+            if val_ll > best_val_ll:
+                best_val_ll = val_ll
+                best_seed = seed
+                best_val_diag = val_diag
+        except Exception as exc:
+            last_error = exc
+            continue
+
+    if best_seed is None or best_val_diag is None:
         return {
             **base,
             "val_ll_per_step": float("-inf"),
             "failed": True,
-            "error": f"val-fit: {exc}",
+            "error": f"val-fit: {last_error}",
             **_FAIL_VAL_DIAG,
             **_FAIL_DEV_DIAG,
             **_FAIL_PER_STATE,
@@ -986,14 +1017,24 @@ def evaluate_candidate(
             **_FAIL_INTERP,
         }
 
+    val_ll_per_step = best_val_ll
+    val_diag = best_val_diag
+
     # -- Step 2: refit on full dev window (needed for filters + interp) --
     try:
         dev_art = refit_model_on_dev(
-            df_dev, feat_cols, K, n_pca, cov_type, internal_val_mask
+            df_dev,
+            feat_cols,
+            K,
+            n_pca,
+            cov_type,
+            random_seed=best_seed,
+            internal_val_mask=internal_val_mask,
         )
     except Exception as exc:
         return {
             **base,
+            "selected_seed": best_seed,
             "val_ll_per_step": val_ll_per_step,
             "failed": True,
             "error": f"dev-fit: {exc}",
@@ -1019,6 +1060,7 @@ def evaluate_candidate(
 
     return {
         **base,
+        "selected_seed": best_seed,
         "val_ll_per_step": val_ll_per_step,
         "failed": False,
         "error": "",
@@ -1046,11 +1088,12 @@ def run_grid_search(
     print(
         f"\nGrid search  K ∈ {GRID_N_STATES}  "
         f"n_pca ∈ {GRID_N_PCA}  cov ∈ {{{','.join(GRID_COV_TYPES)}}}  "
+        f"seeds ∈ {GRID_RANDOM_SEEDS} (best kept)  "
         f"({n_total} candidates)"
     )
 
     header = (
-        f"{'K':>3}  {'n_pca':>5}  {'cov':>6}  "
+        f"{'K':>3}  {'n_pca':>5}  {'cov':>6}  {'seed':>5}  "
         f"{'val_ll/step':>11}  {'val_min_pct':>11}  {'val_min_dur':>11}  "
         f"{'hard':>5}  {'interp':>6}  {'tier':>6}  {'status':>10}"
     )
@@ -1089,7 +1132,7 @@ def run_grid_search(
                         status = "rejected"
 
                 print(
-                    f"{r['K']:>3}  {r['n_pca']:>5}  {r['cov_type']:>6}  "
+                    f"{r['K']:>3}  {r['n_pca']:>5}  {r['cov_type']:>6}  {int(r.get('selected_seed', -1)):>5}  "
                     f"{r['val_ll_per_step']:>11.4f}  "
                     f"{r.get('val_min_state_pct', 0):>11.1%}  "
                     f"{r.get('val_min_avg_dur_wks', 0):>11.1f}  "
@@ -1211,6 +1254,7 @@ def _describe(r: dict | None) -> str:
         return "—"
     return (
         f"K={r['K']}  n_pca={r['n_pca']}  cov={r['cov_type']}  "
+        f"seed={int(r.get('selected_seed', -1))}  "
         f"val_ll={r['val_ll_per_step']:.4f}  "
         f"interp={r['interpretability_score']}/{INTERP_MAX_SCORE} "
         f"({r['interpretability_tier']})"
@@ -1396,7 +1440,7 @@ def main(args: argparse.Namespace) -> None:
     def _key(r: dict | None) -> tuple | None:
         if r is None:
             return None
-        return (r["K"], r["n_pca"], r["cov_type"])
+        return (r["K"], r["n_pca"], r["cov_type"], r.get("selected_seed"))
 
     saved_keys: set[tuple] = set()
 
