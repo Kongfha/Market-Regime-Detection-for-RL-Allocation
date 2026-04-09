@@ -55,47 +55,40 @@ steps in order:
 
 1. **Load weekly data** from `model_state_weekly_price_macro.csv`.
    Forward-fill sparse macro series; drop any remaining NaN rows.
-2. **Build splits** according to `--split-mode`:
-   - `dev-internal` (default): score on 2014-07-01 to 2020-12-31 with an
-     internal train/validation cut at 2018-12-31.
-   - `proposal`: warm-up/train/validation/locked-test chronology as described
-     in the project proposal.
-3. **StandardScaler** fit on tuning train; applied to tuning validation.
-   Scaled values are clipped to ±10σ before PCA.
-4. **PCA** fit on tuning train; number of components is a hyperparameter.
-5. **GaussianHMM** fit on tuning train PCA-projected data.
-6. **Validation scoring**: compute val log-likelihood, occupancy per state,
+2. **Restrict to development window** (2014-07-01 to 2020-12-31).
+   No post-2020 data is used for fitting, scaling, PCA, or model selection.
+3. **Internal chronological split** for hyperparameter tuning:
+   - Internal train: 2014-07-01 to 2018-12-31 (scaler + PCA + HMM fit)
+   - Internal validation: 2019-01-01 to 2020-12-31 (scoring only)
+4. **StandardScaler** fit on internal train; applied to both splits.
+   Scaled values clipped to ±10σ before PCA to prevent BLAS overflow
+   on extreme COVID-era observations.
+5. **PCA** fit on internal train; number of components is a hyperparameter.
+6. **GaussianHMM** fit on internal train PCA-projected data.
+7. **Validation scoring**: compute val log-likelihood, occupancy per state,
    average duration per state, run counts, self-transition probabilities.
-7. **Final fit/score pass** for each candidate:
-   - `dev-internal`: fit on full scoring window and score on that window.
-   - `proposal`: fit on train window only, then score on
-     train+validation+locked-test rows.
-8. **Apply hard filters** (see Model Selection Logic below).
-9. **Compute interpretability score** (A + B + C + D, max 8) for
-   candidates that survive all hard filters.
-10. **Select final model** using objective-aware ranking.
-11. **Export** labels, posteriors, regime summary, and transition matrix.
+8. **Refit on full development window** for each candidate: re-run steps
+   4–6 on all development-window weeks to get the regime summary used
+   for interpretability scoring and final outputs.
+9. **Apply hard filters** (see Model Selection Logic below).
+10. **Compute interpretability score** (A + B + C + D, max 8) for
+    candidates that survive all hard filters.
+11. **Select final model** using the objective-aware ranking (see below).
+12. **Export** regime labels, filtered posteriors, smoothed posteriors,
+    regime summary, and transition matrix for the selected model.
 
 ---
 
-## Split Protocols
-
-### Default (`--split-mode dev-internal`)
+## Development Window
 
 | Period | Dates | Weeks |
 |---|---|---|
-| Scoring window | 2014-07-01 to 2020-12-31 | 339 |
+| Full development window | 2014-07-01 to 2020-12-31 | 339 |
 | Internal train | 2014-07-01 to 2018-12-31 | 235 |
 | Internal validation | 2019-01-01 to 2020-12-31 | 104 |
 
-### Proposal mode (`--split-mode proposal`)
-
-| Period | Dates | Weeks |
-|---|---|---|
-| Warm-up (not scored) | 2014-01-02 to 2014-06-30 | 14 |
-| Train | 2014-07-01 to 2020-12-31 | 339 |
-| Validation | 2021-01-01 to 2022-12-30 | 105 |
-| Locked test | 2023-01-03 to 2026-03-20 | 167 |
+No data after 2020-12-31 is used for fitting, scaling, PCA, or
+hyperparameter selection anywhere in the pipeline.
 
 ---
 
@@ -105,7 +98,7 @@ Model selection is **objective-aware**, not likelihood-only.
 Validation log-likelihood is treated as a secondary criterion after
 hard quality filters and interpretability scoring.
 
-### Search Grid (Default)
+### Search Grid
 
 | Hyperparameter | Values |
 |---|---|
@@ -113,9 +106,9 @@ hard quality filters and interpretability scoring.
 | `n_pca` (PCA components) | 8, 10, 12, 14 |
 | `covariance_type` | diag, full |
 
-By default, each of the 24 candidates is evaluated with a multi-seed sweep
-(`selected_seed` is saved per candidate). Search ranges can be overridden via
-CLI flags (`--search-n-states`, `--search-n-pca`, `--search-cov-types`).
+Each of the 24 candidates is evaluated twice: once fit on internal train
+(for validation log-likelihood) and once refit on the full development
+window (for regime summary and interpretability scoring).
 
 ### Hard Filters
 
@@ -167,55 +160,55 @@ Three model roles are tracked:
 
 ---
 
-## Current Results Snapshot
+## Current Baseline Result
 
-### A) Default baseline run (`output/hmm/`)
+Only **1 of 24 candidates** in the search grid passed all five hard filters.
 
-- Grid size: 24 candidates
-- Survivors after hard filters: **0**
-- Best validation LL candidate (pre-filter): `K=2, n_pca=8, cov=diag, seed=42`
+**Recommended baseline model**:
 
-Because no candidate survives hard filters, only grid-level outputs are
-guaranteed for this run.
+| Setting | Value |
+|---|---|
+| K (number of regimes) | 2 |
+| n_pca | 14 |
+| covariance_type | full |
+| PCA explained variance | ~79.8% |
+| Interpretability score | **8 / 8 (High)** |
+| val_ll / step | −72.41 |
 
-### B) Proposal experiment with custom CLI search (`output/hmm_proposal_split_v2/`)
+**Learned regimes** (filtered labels on full development window):
 
-Command used (example):
-```bash
-python scripts/train_hmm_regimes.py \
-   --split-mode proposal \
-   --search-n-states 3,4 \
-   --search-n-pca 8,10,12 \
-   --search-cov-types diag \
-   --sticky-transition-weight 35 \
-   --output-subdir hmm_proposal_split_v2
-```
+| Regime | Label | Weeks | VIX | vol_20d | Drawdown 60d | n_runs |
+|---|---|---|---|---|---|---|
+| 0 | Calm / Risk-On | 318 | 15.8 | 0.79% | −2.2% | 3 |
+| 1 | Stress / High-Vol | 21 | 35.4 | 2.42% | −10.0% | 2 |
 
-Observed result:
+Regime 1 appears in **2 separate episodes** (averaging ~10.5 weeks each)
+rather than as a single COVID-only block. This is why it passes the
+one-shot filter and earns a full temporal reasonableness score.
 
-- Grid size: 6 candidates
-- Survivors after hard filters: **1**
-- Recommended model: `K=3, n_pca=8, cov=diag, selected_seed=168`
-- Interpretability: **8/8 (High)**
-- Validation LL / step: `-19.5760`
+The regime 1 profile is consistent with risk-off episodes: elevated VIX,
+deep drawdowns, and a moderate forward return boost (mean next_return_spy
++0.88% vs +0.21% in regime 0) as markets begin to recover.
 
-This run is an experiment configuration, not the default baseline behavior.
+This is the current **baseline** regime representation. It is not the
+final full multimodal system; a K=3 or K=4 model remains possible with
+alternative parameterisation or a longer post-2020 development window.
 
 ---
 
 ## Output Files
 
-The following files are produced under `output/<subdir>/` (default `output/hmm/`):
+The following files under `output/hmm/` are part of this baseline deliverable:
 
 | File | Description |
 |---|---|
 | `grid_search_objective_results.csv` | All 24 candidates with hard filter flags, interpretability subscores, val/dev diagnostics |
-| `best_statistical_config.csv` | Hyperparameters of selected statistical model (only if at least one candidate survives) |
+| `best_statistical_config.csv` | Hyperparameters of the recommended model |
 | `features_used.csv` | List of all 66 feature columns used as HMM input |
-| `regime_summary_dev_statistical.csv` | Mean regime profiles (VIX, vol, returns, macro) per state (if survivor exists) |
-| `transition_matrix_dev_statistical.csv` | Empirical row-stochastic transition matrix (if survivor exists) |
-| `regime_labels_dev_statistical.csv` | Weekly regime assignments (hard labels: filtered causal + Viterbi) (if survivor exists) |
-| `regime_posteriors_dev_statistical.csv` | Per-regime probabilities: filtered (causal) and smoothed (interpretation) (if survivor exists) |
+| `regime_summary_dev_statistical.csv` | Mean regime profiles (VIX, vol, returns, macro) per state |
+| `transition_matrix_dev_statistical.csv` | Empirical row-stochastic transition matrix |
+| `regime_labels_dev_statistical.csv` | Weekly regime assignments (hard labels: filtered causal + Viterbi) |
+| `regime_posteriors_dev_statistical.csv` | Per-regime probabilities: filtered (causal) and smoothed (interpretation) |
 
 The `filtered_prob_regime_k` columns in the posteriors file are computed
 via the forward algorithm and contain **no future leakage** — they are
@@ -230,24 +223,6 @@ and should be used for interpretation only.
 **Full grid search with objective-aware selection**:
 ```bash
 python scripts/train_hmm_regimes.py
-```
-
-**Proposal split protocol**:
-```bash
-python scripts/train_hmm_regimes.py --split-mode proposal
-```
-
-**Custom search ranges (optional)**:
-```bash
-python scripts/train_hmm_regimes.py \
-   --search-n-states 3,4 \
-   --search-n-pca 8,10,12 \
-   --search-cov-types diag
-```
-
-**Optional sticky transition prior (default off)**:
-```bash
-python scripts/train_hmm_regimes.py --sticky-transition-weight 35
 ```
 
 **Manual override (skip grid, evaluate a specific config)**:
@@ -268,14 +243,11 @@ pip install hmmlearn scikit-learn pandas numpy scipy
 
 ## Notes and Next Steps
 
-- **Default run remains strict**: With current hard filters and default
-   search space, the baseline run may produce zero survivors.
-
-- **Experiment knobs now explicit in CLI**: search ranges and sticky
-   transition prior can be changed without editing code.
-
-- **Reproducibility**: keep `--output-subdir` unique per experiment so
-   runs do not overwrite each other.
+- **K=3 model exploration**: All K=3 candidates in the current grid either
+  collapse (diag covariance) or flip-flop (full covariance). Relaxing the
+  flip-flop threshold (`HARD_MIN_AVG_DUR_WKS` from 2.0 to 1.5) or adding
+  a Dirichlet prior on self-transitions would likely surface a valid K=3
+  candidate (K=3/n_pca=10/full is the most promising starting point).
 
 - **RL integration**: The `filtered_prob_regime_k` columns are the intended
   state-augmentation signal for the downstream RL agent. No future leakage,
@@ -285,5 +257,6 @@ pip install hmmlearn scikit-learn pandas numpy scipy
   probabilities should be included as an ablation condition to quantify
   their contribution to portfolio performance relative to a price-only baseline.
 
-- **Protocol clarity**: use `dev-internal` for quick baseline comparability;
-   use `proposal` for train/validation/locked-test chronology.
+- **Extended development window**: Expanding `DEV_END` beyond 2020-12-31
+  would allow the model to observe full COVID-recovery cycles and may
+  produce more robust K=3 regime structures.
