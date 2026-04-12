@@ -123,14 +123,50 @@ def evaluate_episode(agent: Any,
     
     # Get environment stats if available
     env_stats = env.get_episode_stats() if hasattr(env, 'get_episode_stats') else {}
+
+    # Recompute key risk/return metrics in a numerically stable way from step returns.
+    # This keeps notebook outputs finite even when raw return scales are unexpectedly large.
+    raw_returns = np.array([a.get('return', np.nan) for a in actions_taken], dtype=float)
+    finite_returns = raw_returns[np.isfinite(raw_returns)]
+
+    if finite_returns.size > 0:
+        # Protect log1p domain for pathological values below -100%.
+        clipped_returns = np.maximum(finite_returns, -0.999999)
+        log_equity = np.cumsum(np.log1p(clipped_returns))
+
+        # Cumulative return = exp(sum(log(1+r))) - 1, clipped to avoid overflow.
+        total_log = float(log_equity[-1])
+        cumulative_return = float(np.expm1(np.clip(total_log, -700.0, 700.0)))
+
+        # Drawdown in log space, then map back to normal space.
+        running_max = np.maximum.accumulate(log_equity)
+        drawdowns = np.exp(log_equity - running_max) - 1.0
+        max_drawdown = float(np.min(drawdowns)) if drawdowns.size else np.nan
+
+        # Annualized Sharpe using finite returns only.
+        std_ret = float(np.std(clipped_returns))
+        if std_ret > 0.0:
+            sharpe_ratio = float(np.mean(clipped_returns) / std_ret * np.sqrt(52.0))
+        else:
+            sharpe_ratio = np.nan
+    else:
+        cumulative_return = np.nan
+        max_drawdown = np.nan
+        sharpe_ratio = np.nan
     
-    return {
+    result = {
         'reward': episode_reward,
         'length': episode_length,
         'avg_reward': episode_reward / episode_length if episode_length > 0 else 0,
         'actions': actions_taken,
-        **env_stats,
     }
+
+    # Preserve any additional environment stats, then overwrite key metrics with stable values.
+    result.update(env_stats)
+    result['cumulative_return'] = cumulative_return
+    result['max_drawdown'] = max_drawdown
+    result['sharpe_ratio'] = sharpe_ratio
+    return result
 
 
 def train_dqn_finrl(train_env: Any,
@@ -144,7 +180,9 @@ def train_dqn_finrl(train_env: Any,
                     target_update_interval: int = 1000,
                     buffer_size: int = 10000,
                     batch_size: int = 32,
-                    device: str = 'auto') -> Dict[str, Any]:
+                    device: str = 'auto',
+                    verbose: int = 1,
+                    callback_verbose: Optional[int] = None) -> Dict[str, Any]:
     """
     Train DQN agent using FinRL (stable-baselines3) with validation and early stopping.
     
@@ -161,6 +199,8 @@ def train_dqn_finrl(train_env: Any,
         buffer_size: Replay buffer capacity
         batch_size: Batch size for training
         device: Device for computation ('auto', 'cuda', 'cpu')
+        verbose: stable-baselines3 verbosity for training logs (0/1/2)
+        callback_verbose: Validation callback verbosity (None uses `verbose`)
         
     Returns:
         Training results dict with history and trained agent
@@ -182,21 +222,24 @@ def train_dqn_finrl(train_env: Any,
         exploration_initial_eps=1.0,
         exploration_final_eps=exploration_final_eps,
         device=device,
-        verbose=1
+        verbose=verbose
     )
-    
-    print("=== Training DQN Agent with FinRL ===")
-    print(f"Device: {agent.device}")
-    print(f"Total timesteps: {total_timesteps}")
-    print(f"Evaluation frequency: {eval_freq}")
-    print(f"Early stopping patience: {early_stopping_patience}\n")
+
+    if verbose > 0:
+        print("=== Training DQN Agent with FinRL ===", flush=True)
+        print(f"Device: {agent.device}", flush=True)
+        print(f"Total timesteps: {total_timesteps}", flush=True)
+        print(f"Evaluation frequency: {eval_freq}", flush=True)
+        print(f"Early stopping patience: {early_stopping_patience}\n", flush=True)
+
+    effective_callback_verbose = verbose if callback_verbose is None else callback_verbose
     
     # Setup validation callback
     val_callback = ValidationCallback(
         val_env=val_env,
         eval_freq=max(1, int(eval_freq)),
         patience=early_stopping_patience,
-        verbose=1
+        verbose=effective_callback_verbose
     )
     
     # Train the agent

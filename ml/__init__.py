@@ -4,6 +4,10 @@ __version__ = "0.1.0"
 
 __all__: list[str] = []
 
+from .hyperparameter_config import load_hyperparameter_config
+
+__all__.append("load_hyperparameter_config")
+
 try:
     from .explainability_plotly import (
         compute_feature_saliency_from_states,
