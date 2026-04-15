@@ -277,9 +277,22 @@ class AttentionDQNAgent:
         torch.save(checkpoint, filepath)
         print(f"Checkpoint saved to {filepath}")
     
-    def load_checkpoint(self, filepath: str):
-        """Load agent checkpoint."""
-        checkpoint = torch.load(filepath, map_location=self.device)
+    def load_checkpoint(self, filepath: str, trusted_source: bool = True):
+        """Load agent checkpoint.
+
+        Args:
+            filepath: Checkpoint path.
+            trusted_source: If True, allow full unpickling (required for some
+                legacy checkpoints under PyTorch 2.6+).
+        """
+        try:
+            checkpoint = torch.load(
+                filepath,
+                map_location=self.device,
+                weights_only=not trusted_source,
+            )
+        except TypeError:
+            checkpoint = torch.load(filepath, map_location=self.device)
         self.q_network.load_state_dict(checkpoint['q_network'])
         self.target_network.load_state_dict(checkpoint['target_network'])
         self.optimizer.load_state_dict(checkpoint['optimizer'])

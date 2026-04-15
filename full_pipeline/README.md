@@ -45,6 +45,24 @@ Runs:
 - backtests for the exported DQN actions
 - summary tables and equity-curve plots
 
+### 4. `04_finetune_dqn_with_hmm_news.ipynb`
+
+Runs:
+
+- loads merged RL state from `output/full_pipeline/model_state_weekly_hmm_news.csv`
+- loads prior policy checkpoints (or bootstraps if missing)
+- fine-tunes multiple policies on the train split and re-evaluates on validation and locked test
+- includes custom `AttentionDQNAgent` from `ml/agents/dqn_agent.py`
+- exports policy-specific action files and canonical best-policy aliases for downstream evaluation
+
+Primary outputs:
+
+- `output/full_pipeline/*_finetuned` checkpoints
+- `output/full_pipeline/*_validation_actions_finetuned.csv`
+- `output/full_pipeline/*_locked_test_actions_finetuned.csv`
+- `output/full_pipeline/rl_validation_actions_finetuned.csv`
+- `output/full_pipeline/rl_locked_test_actions_finetuned.csv`
+
 ## Helper Module
 
 `_pipeline_utils.py` is the notebook-local glue layer. It:
@@ -85,6 +103,7 @@ Execute the full notebook chain:
 jupyter nbconvert --to notebook --execute --inplace full_pipeline/01_hmm_regime_pipeline.ipynb
 jupyter nbconvert --to notebook --execute --inplace full_pipeline/02_rl_dqn_with_hmm_news.ipynb
 jupyter nbconvert --to notebook --execute --inplace full_pipeline/03_evaluation_backtest.ipynb
+jupyter nbconvert --to notebook --execute --inplace full_pipeline/04_finetune_dqn_with_hmm_news.ipynb
 ```
 
 ## Relationship To Older Work
