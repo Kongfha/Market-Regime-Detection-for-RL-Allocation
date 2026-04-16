@@ -3,7 +3,7 @@ import torch
 from transformers import pipeline
 
 input_csv = "../data/raw/news/all_assets_news_weekly.csv"
-output_csv = "../data/raw/news_sentiment/all_assets_news_weekly_finbert.csv"
+output_csv = "../data/raw/news_sentiment/all_assets_news_weekly_finbert_summary.csv"
 
 df = pd.read_csv(input_csv)
 
@@ -15,8 +15,6 @@ for col in ["title", "description", "summary"]:
 
 # Combine useful fields
 df["finbert_text"] = (
-    df["title"].str.strip() + ". " +
-    df["description"].str.strip() + ". " +
     df["summary"].str.strip()
 ).str.replace(r"\s+", " ", regex=True).str.strip()
 
