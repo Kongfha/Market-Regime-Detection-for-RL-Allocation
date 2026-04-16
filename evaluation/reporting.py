@@ -5,7 +5,7 @@ from typing import Sequence
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from .metrics import bootstrap_metric_ci, sharpe_from_returns
+from .metrics import bootstrap_metric_ci, excess_returns_from_history, sharpe_from_returns
 
 
 def summary_table(results: Sequence) -> pd.DataFrame:
@@ -26,6 +26,8 @@ def bootstrap_metric_table(
     n_boot: int = 500,
     seed: int = 7,
     alpha: float = 0.05,
+    block_size: int = 4,
+    periods_per_year: int = 52,
 ) -> pd.DataFrame:
     if metric != "sharpe_ratio":
         raise ValueError("Only sharpe_ratio bootstrap is implemented in this framework.")
@@ -33,11 +35,15 @@ def bootstrap_metric_table(
     rows = []
     for result in results:
         low, high = bootstrap_metric_ci(
-            result.history["net_return"].to_numpy(),
-            metric_fn=lambda values: sharpe_from_returns(values, periods_per_year=52),
+            excess_returns_from_history(result.history),
+            metric_fn=lambda values: sharpe_from_returns(
+                values,
+                periods_per_year=periods_per_year,
+            ),
             n_boot=n_boot,
             alpha=alpha,
             seed=seed,
+            block_size=block_size,
         )
         rows.append(
             {

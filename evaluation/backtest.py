@@ -135,6 +135,10 @@ class BacktestEngine:
                     "w_tlt": weights[1],
                     "w_gld": weights[2],
                     "w_cash": weights[3],
+                    "return_spy": asset_returns[0],
+                    "return_tlt": asset_returns[1],
+                    "return_gld": asset_returns[2],
+                    "cash_return": asset_returns[3],
                 }
             )
 
