@@ -29,8 +29,8 @@ dqn:
   exploration_initial_eps: 1.0
   exploration_final_eps: 0.05
   train_timesteps:
-    fast: 80000
-    full: 300000
+    fast: 1000000
+    full: 1000000
   eval_freq:
     fast: 2000
     full: 5000
@@ -50,8 +50,8 @@ a2c:
     fast: 128
     full: 256
   train_timesteps:
-    fast: 20000
-    full: 60000
+    fast: 1000000
+    full: 1000000
 
 ppo:
   learning_rate: 3.0e-4
@@ -68,8 +68,8 @@ ppo:
   ent_coef: 0.005
   vf_coef: 0.5
   train_timesteps:
-    fast: 20000
-    full: 120000
+    fast: 1000000
+    full: 1000000
   diagnostics_steps:
     fast: 120
     full: 300
@@ -93,16 +93,16 @@ ppo_native_attention:
   ent_coef: 0.005
   vf_coef: 0.5
   train_timesteps:
-    fast: 25000
-    full: 140000
+    fast: 1000000
+    full: 1000000
   diagnostics_steps:
     fast: 120
     full: 300
 
 hpo:
   train_timesteps:
-    fast: 10000
-    full: 30000
+    fast: 1000000
+    full: 1000000
   selected_trials:
     - learning_rate: 1.0e-4
       ent_coef: 0.005

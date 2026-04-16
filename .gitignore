@@ -40,4 +40,3 @@ environment.yml.bak
 data/raw/*.csv
 pattern_recognition_output/
 models/
-output/

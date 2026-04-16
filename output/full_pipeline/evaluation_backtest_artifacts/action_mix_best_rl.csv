@@ -1,0 +1,8 @@
+action_name,validation,locked_test
+balanced_60_30_10,1,0
+cash_only,20,10
+defensive_20_60_20,2,1
+gld_only,10,81
+spy_80_tlt_20,5,0
+spy_only,62,6
+tlt_only,5,69
