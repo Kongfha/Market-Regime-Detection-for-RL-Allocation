@@ -3,24 +3,20 @@ import torch
 from transformers import pipeline
 
 input_csv = "../data/raw/news/all_assets_news_weekly.csv"
-output_csv = "../data/raw/news_sentiment/all_assets_news_weekly_finbert_summary.csv"
+output_csv = "../data/raw/news_sentiment/all_assets_news_weekly_finbert.csv"
 
 df = pd.read_csv(input_csv)
 
-# Fill missing values first
+# Fill missing values
 for col in ["title", "description", "summary"]:
-    if col not in df.columns:
-        df[col] = ""
-    df[col] = df[col].fillna("").astype(str)
+    df[col] = df.get(col, "").fillna("").astype(str)
 
-# Combine useful fields
-df["finbert_text"] = (
-    df["summary"].str.strip()
-).str.replace(r"\s+", " ", regex=True).str.strip()
+df["summary"] = df["summary"].where(df["summary"].str.strip() != "", df["description"])
+df["summary"] = df["summary"].where(df["summary"].str.strip() != "", df["title"])
 
-# Fallback in case a row becomes empty
-df.loc[df["finbert_text"] == "", "finbert_text"] = df["title"]
+df["summary"] = df["summary"].str.replace(r"\s+", " ", regex=True).str.strip()
 
+# MODEL
 device = 0 if torch.cuda.is_available() else -1
 
 classifier = pipeline(
@@ -30,8 +26,9 @@ classifier = pipeline(
     device=device
 )
 
-texts = df["finbert_text"].tolist()
+texts = df["summary"].tolist()
 
+# Main prediction
 results = classifier(
     texts,
     batch_size=16,
@@ -42,6 +39,7 @@ results = classifier(
 df["finbert_label"] = [r["label"].lower() for r in results]
 df["finbert_score"] = [r["score"] for r in results]
 
+# Get all class scores
 all_scores = classifier(
     texts,
     batch_size=16,
@@ -56,6 +54,7 @@ for row in all_scores:
     score_map_list.append(row_map)
 
 score_df = pd.DataFrame(score_map_list)
+
 for col in ["positive", "neutral", "negative"]:
     if col not in score_df.columns:
         score_df[col] = 0.0
@@ -68,4 +67,4 @@ df.to_csv(output_csv, index=False)
 
 print("Done.")
 print("Saved to:", output_csv)
-print(df[["title", "finbert_label", "finbert_score"]].head(10))
+print(df[["title", "summary", "finbert_label", "finbert_score"]].head(10))
