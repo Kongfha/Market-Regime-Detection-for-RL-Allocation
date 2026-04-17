@@ -1,0 +1,17 @@
+policy,split,output
+dqn,train,output/full_pipeline/1000000/dqn_train_actions_finetuned.csv
+dqn,validation,output/full_pipeline/1000000/dqn_validation_actions_finetuned.csv
+dqn,locked_test,output/full_pipeline/1000000/dqn_locked_test_actions_finetuned.csv
+dqn,test_alias,output/full_pipeline/1000000/dqn_test_actions_finetuned.csv
+a2c,train,output/full_pipeline/1000000/a2c_train_actions_finetuned.csv
+a2c,validation,output/full_pipeline/1000000/a2c_validation_actions_finetuned.csv
+a2c,locked_test,output/full_pipeline/1000000/a2c_locked_test_actions_finetuned.csv
+a2c,test_alias,output/full_pipeline/1000000/a2c_test_actions_finetuned.csv
+ppo,train,output/full_pipeline/1000000/ppo_train_actions_finetuned.csv
+ppo,validation,output/full_pipeline/1000000/ppo_validation_actions_finetuned.csv
+ppo,locked_test,output/full_pipeline/1000000/ppo_locked_test_actions_finetuned.csv
+ppo,test_alias,output/full_pipeline/1000000/ppo_test_actions_finetuned.csv
+attention_dqn,train,output/full_pipeline/1000000/attention_dqn_train_actions_finetuned.csv
+attention_dqn,validation,output/full_pipeline/1000000/attention_dqn_validation_actions_finetuned.csv
+attention_dqn,locked_test,output/full_pipeline/1000000/attention_dqn_locked_test_actions_finetuned.csv
+attention_dqn,test_alias,output/full_pipeline/1000000/attention_dqn_test_actions_finetuned.csv

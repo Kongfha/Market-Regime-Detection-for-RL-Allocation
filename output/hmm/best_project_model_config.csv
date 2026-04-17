@@ -1,0 +1,2 @@
+bundle,n_states,n_pca,covariance_type,selected_seed,dev_start,dev_end,internal_train_end,pca_explained_variance,random_seed,val_ll_per_step,interpretability_score,interpretability_tier,score_A_profile_separation,score_B_naming,score_C_temporal,score_D_downstream,feature_preset,selection_role,selection_reason
+project,2,8,diag,7,2014-07-01,2020-12-31,2018-12-31,0.9196,42,-25.65623489566773,8,High,2,2,2,2,regime_core,project,Best interpretable candidate also has the best validation log-likelihood among survivors — no interpretability/likelihood trade-off to resolve.
