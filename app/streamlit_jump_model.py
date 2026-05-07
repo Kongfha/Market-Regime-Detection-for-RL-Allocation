@@ -27,6 +27,17 @@ from jump_model import (  # noqa: E402
     run_jump_analysis,
 )
 
+DEFAULT_PCA_COMPONENTS = 6
+DEFAULT_SCALER_MODE = "rolling_robust"
+DEFAULT_SCALER_WINDOW = 52
+DEFAULT_SCALER_MIN_PERIODS = 12
+DEFAULT_SCALER_CLIP = 6.0
+DEFAULT_JUMP_PENALTY = 6.0
+DEFAULT_MIN_REGIME_DURATION = 6
+DEFAULT_K_MIN = 2
+DEFAULT_K_MAX = 10
+DEFAULT_MANUAL_K = 4
+
 
 st.set_page_config(
     page_title="PCA Jump Model Market Regimes",
@@ -119,35 +130,71 @@ with st.sidebar:
     pca_components = None
     pca_variance = 0.90
     if pca_mode == "Fixed components":
-        pca_components = st.number_input("PCA components", min_value=2, max_value=32, value=6, step=1)
+        pca_components = st.number_input(
+            "PCA components",
+            min_value=2,
+            max_value=32,
+            value=DEFAULT_PCA_COMPONENTS,
+            step=1,
+        )
     else:
         pca_variance = st.slider("PCA variance", min_value=0.70, max_value=0.98, value=0.90, step=0.01)
     scaler_mode = st.selectbox(
         "Feature scaling",
         options=list(SCALER_MODES),
-        index=list(SCALER_MODES).index("rolling_robust"),
+        index=list(SCALER_MODES).index(DEFAULT_SCALER_MODE),
         format_func=lambda value: {
             "global": "Global standard",
             "rolling_z": "Rolling z-score",
             "rolling_robust": "Rolling robust z-score",
         }[value],
     )
-    scaler_window = 52
-    scaler_min_periods = 12
-    scaler_clip = 6.0
+    scaler_window = DEFAULT_SCALER_WINDOW
+    scaler_min_periods = DEFAULT_SCALER_MIN_PERIODS
+    scaler_clip = DEFAULT_SCALER_CLIP
     if scaler_mode != "global":
-        scaler_window = st.number_input("Scaler window weeks", min_value=13, max_value=156, value=52, step=13)
+        scaler_window = st.number_input(
+            "Scaler window weeks",
+            min_value=13,
+            max_value=156,
+            value=DEFAULT_SCALER_WINDOW,
+            step=13,
+        )
         scaler_min_periods = st.number_input(
             "Scaler min history weeks",
             min_value=4,
             max_value=int(scaler_window),
-            value=min(12, int(scaler_window)),
+            value=min(DEFAULT_SCALER_MIN_PERIODS, int(scaler_window)),
             step=1,
         )
-        scaler_clip = st.slider("Scaler clip", min_value=3.0, max_value=10.0, value=6.0, step=0.5)
-    jump_penalty = st.slider("Jump penalty", min_value=0.0, max_value=64.0, value=32.0, step=0.5)
-    smooth_min_duration = st.number_input("Min regime duration", min_value=1, max_value=12, value=3, step=1)
-    k_min, k_max = st.slider("K sweep", min_value=2, max_value=10, value=(2, 10), step=1)
+        scaler_clip = st.slider(
+            "Scaler clip",
+            min_value=3.0,
+            max_value=10.0,
+            value=DEFAULT_SCALER_CLIP,
+            step=0.5,
+        )
+    jump_penalty = st.slider(
+        "Jump penalty",
+        min_value=0.0,
+        max_value=64.0,
+        value=DEFAULT_JUMP_PENALTY,
+        step=0.5,
+    )
+    smooth_min_duration = st.number_input(
+        "Min regime duration",
+        min_value=1,
+        max_value=12,
+        value=DEFAULT_MIN_REGIME_DURATION,
+        step=1,
+    )
+    k_min, k_max = st.slider(
+        "K sweep",
+        min_value=2,
+        max_value=10,
+        value=(DEFAULT_K_MIN, DEFAULT_K_MAX),
+        step=1,
+    )
     selection_mode = st.segmented_control(
         "K selection",
         options=["Elbow", "Silhouette", "Manual"],
@@ -155,7 +202,13 @@ with st.sidebar:
     )
     manual_k = None
     if selection_mode == "Manual":
-        manual_k = st.number_input("Manual K", min_value=k_min, max_value=k_max, value=min(max(3, k_min), k_max), step=1)
+        manual_k = st.number_input(
+            "Manual K",
+            min_value=k_min,
+            max_value=k_max,
+            value=min(max(DEFAULT_MANUAL_K, k_min), k_max),
+            step=1,
+        )
 
     st.divider()
     st.header("Simulation")

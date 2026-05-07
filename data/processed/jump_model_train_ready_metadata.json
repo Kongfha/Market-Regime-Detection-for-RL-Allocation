@@ -19,15 +19,18 @@
     "x_jm_regime_distance_0",
     "x_jm_regime_distance_1",
     "x_jm_regime_distance_2",
+    "x_jm_regime_distance_3",
     "x_jm_regime_score_0",
     "x_jm_regime_score_1",
     "x_jm_regime_score_2",
+    "x_jm_regime_score_3",
     "x_jm_regime_duration_weeks",
     "x_jm_stress_score",
     "x_jm_regime_changed",
     "x_regime_0",
     "x_regime_1",
-    "x_regime_2"
+    "x_regime_2",
+    "x_regime_3"
   ],
   "continuous_source_columns": [
     "jm_pc1",
@@ -39,9 +42,11 @@
     "jm_regime_distance_0",
     "jm_regime_distance_1",
     "jm_regime_distance_2",
+    "jm_regime_distance_3",
     "jm_regime_score_0",
     "jm_regime_score_1",
     "jm_regime_score_2",
+    "jm_regime_score_3",
     "jm_regime_duration_weeks",
     "jm_stress_score"
   ],
@@ -51,7 +56,8 @@
   "regime_one_hot_source_columns": [
     "regime_0",
     "regime_1",
-    "regime_2"
+    "regime_2",
+    "regime_3"
   ],
   "target_columns": [
     "y_next_return_spy",
@@ -62,78 +68,106 @@
   ],
   "scaler_stats": {
     "jm_pc1": {
-      "mean": 0.14418174001866044,
-      "std": 5.018545373655637
+      "mean": 2.800168416788572e-16,
+      "std": 5.620231566865508
     },
     "jm_pc2": {
-      "mean": 0.0872778077398929,
-      "std": 4.064882794957237
+      "mean": -6.300378937774288e-16,
+      "std": 4.489041992573872
     },
     "jm_pc3": {
-      "mean": 0.21266951749726892,
-      "std": 3.323433290120447
+      "mean": -1.1200673667154289e-15,
+      "std": 3.6877534070990197
     },
     "jm_pc4": {
-      "mean": 0.006461125369863745,
-      "std": 2.885925345090571
+      "mean": -1.4875894714189289e-16,
+      "std": 3.2371369942549357
     },
     "jm_pc5": {
-      "mean": -0.3033164425266062,
-      "std": 2.486637428186202
+      "mean": -1.2250736823450003e-16,
+      "std": 2.9316080699922873
     },
     "jm_pc6": {
-      "mean": 0.185649606742913,
-      "std": 2.4455757684538377
+      "mean": 1.1200673667154289e-15,
+      "std": 2.695416020804593
     },
     "jm_regime_distance_0": {
-      "mean": 82.18590376012493,
-      "std": 109.12844420317587
+      "mean": 111.63707282874695,
+      "std": 117.00468159171997
     },
     "jm_regime_distance_1": {
-      "mean": 92.32808420617228,
-      "std": 82.86909357536076
+      "mean": 95.0759030432429,
+      "std": 131.9018700252498
     },
     "jm_regime_distance_2": {
-      "mean": 127.74940087902652,
-      "std": 77.27103738932918
+      "mean": 119.80503732268478,
+      "std": 130.6006151847924
+    },
+    "jm_regime_distance_3": {
+      "mean": 317.1299847803015,
+      "std": 122.54132405780472
     },
     "jm_regime_score_0": {
-      "mean": 0.46781236658982345,
-      "std": 0.30281083997087205
+      "mean": 0.290247249657994,
+      "std": 0.20669712780979765
     },
     "jm_regime_score_1": {
-      "mean": 0.3450303053397434,
-      "std": 0.2814339380799514
+      "mean": 0.39498580906040476,
+      "std": 0.18556645372426012
     },
     "jm_regime_score_2": {
-      "mean": 0.18715732807043303,
-      "std": 0.2868543377907804
+      "mean": 0.2621819055897615,
+      "std": 0.1848083967855909
+    },
+    "jm_regime_score_3": {
+      "mean": 0.0525850356918397,
+      "std": 0.20577167891717965
     },
     "jm_regime_duration_weeks": {
-      "mean": 23.632275132275133,
-      "std": 23.156123342712757
+      "mean": 29.588669950738915,
+      "std": 24.994201686299213
     },
     "jm_stress_score": {
-      "mean": 0.18715732807043303,
-      "std": 0.2868543377907804
+      "mean": 0.0525850356918397,
+      "std": 0.20577167891717965
     }
   },
-  "source": "data/processed/attention_jump_model_features.csv",
-  "weekly_rows": 579,
-  "sequence_rows": 568,
+  "source": "data/processed/model_state_weekly_price_macro.csv",
+  "leak_safe_attention_output": "data/processed/leak_safe_attention_jump_model_features.csv",
+  "leakage_controls": {
+    "source_rows": 625,
+    "feature_count": 66,
+    "pca_components": 6,
+    "pca_explained_variance_train": 0.5627549206385652,
+    "scaler_mode": "rolling_robust",
+    "raw_scaler_fit_scope": "causal_trailing_rolling_past_only",
+    "scaler_window": 52,
+    "scaler_min_periods": 12,
+    "scaler_clip": 6.0,
+    "n_clusters": 4,
+    "jump_penalty": 6.0,
+    "causal_min_duration": 6,
+    "temperature_fit_scope": "train_only_assigned_distances",
+    "regime_name_fit_scope": "train_only_vix_ordering_and_profiles",
+    "pca_fit_scope": "train_only",
+    "jump_centroid_fit_scope": "train_only",
+    "validation_test_assignment": "causal_online_current_and_past_only"
+  },
+  "weekly_rows": 625,
+  "sequence_rows": 614,
   "lookback_weeks": 12,
   "train_end": "2021-12-31",
   "validation_end": "2023-12-31",
   "x_shape": [
-    568,
+    614,
     12,
-    18
+    21
   ],
   "y_returns_shape": [
-    568,
+    614,
     3
   ],
   "y_class_shape": [
-    568
+    614
   ]
 }
