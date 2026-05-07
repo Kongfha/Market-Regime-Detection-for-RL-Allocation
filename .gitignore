@@ -23,6 +23,8 @@ wheels/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+.pytest_cache/
+pytest-cache-files-*/
 
 # Virtual Environments
 venv/
@@ -38,5 +40,9 @@ environment.yml.bak
 
 # Data and Models
 data/raw/*.csv
+data/processed/moderntcn_states/
+data/processed/moment_states/
+output/full_pipeline/model_state_weekly_hmm_news_modern_tcn.csv
+output/full_pipeline/model_state_weekly_hmm_news_moment.csv
 pattern_recognition_output/
-models/
+/models/

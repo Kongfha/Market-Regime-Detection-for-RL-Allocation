@@ -1,6 +1,15 @@
 """Models for regime detection and Q-learning."""
 
-from .regime_detector import GaussianHMMRegimeDetector
 from .attention_qnetwork import TemporalAttentionQNetwork
 
-__all__ = ["GaussianHMMRegimeDetector", "TemporalAttentionQNetwork"]
+try:
+    from .regime_detector import GaussianHMMRegimeDetector
+except ModuleNotFoundError as exc:
+    if exc.name != "hmmlearn":
+        raise
+    GaussianHMMRegimeDetector = None
+
+__all__ = [
+    "GaussianHMMRegimeDetector",
+    "TemporalAttentionQNetwork",
+]

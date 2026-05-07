@@ -323,9 +323,12 @@ def prepare_rl_inputs(
 
     scaler = StandardScaler()
     train_mask = frame["eval_split"] == "train"
+    if not train_mask.any():
+        train_mask = pd.Series(True, index=frame.index)
     scaled_features = frame.loc[:, feature_cols].copy()
     scaled_features.loc[train_mask, :] = scaler.fit_transform(scaled_features.loc[train_mask, :])
-    scaled_features.loc[~train_mask, :] = scaler.transform(scaled_features.loc[~train_mask, :])
+    if (~train_mask).any():
+        scaled_features.loc[~train_mask, :] = scaler.transform(scaled_features.loc[~train_mask, :])
 
     asset_returns = pd.DataFrame(
         {

@@ -20,7 +20,7 @@ TARGET_COLUMNS = {
     "cash_return",
 }
 METADATA_COLUMNS = {"week_end", "week_last_trade_date", "source", "eval_split"}
-PRICE_PREFIXES = ("spy_", "tlt_", "gld_", "qqq_", "vix_", "tnx_")
+PRICE_PREFIXES = ("spy_", "tlt_", "gld_", "qqq_", "vix_", "tnx_", "moment_")
 TEXT_TOKENS = ("headline", "sentiment", "impact", "relevance", "topic_", "news_")
 REGIME_TOKENS = ("regime", "posterior", "state_prob", "hmm")
 ENDOGENOUS_COLUMNS = (
