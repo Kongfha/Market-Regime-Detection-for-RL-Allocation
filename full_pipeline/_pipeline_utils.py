@@ -15,6 +15,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from evaluation import EvaluationConfig, SplitBoundaries, default_action_space, load_default_dataset
+from evaluation.data import TARGET_COLUMNS
 
 OUTPUT_DIR = REPO_ROOT / "output" / "full_pipeline"
 BASE_STATE_PATH = REPO_ROOT / "data" / "processed" / "model_state_weekly_price_macro.csv"
@@ -315,6 +316,9 @@ def prepare_rl_inputs(
         + dataset.feature_groups.macro
         + dataset.feature_groups.text
     )
+    leaked = [col for col in feature_cols if col in TARGET_COLUMNS]
+    assert not leaked, f"Target columns leaked into feature_cols: {leaked}"
+
     posterior_cols = sorted(
         column for column in frame.columns if column.startswith("filtered_prob_regime_")
     )
@@ -355,6 +359,9 @@ def make_rl_env(
     split: str,
     seq_len: int = 4,
     config: EvaluationConfig = EvaluationConfig(),
+    reward_mode: str = "net_return",
+    turnover_penalty: float = 0.0,
+    reward_clip: float = 0.10,
 ) -> Any:
     from ml.environments import WeeklyPortfolioEnv
 
@@ -371,6 +378,9 @@ def make_rl_env(
         volatility_penalty=config.risk_penalty,
         lookback_vol=config.risk_window,
         seq_len=seq_len,
+        reward_mode=reward_mode,
+        turnover_penalty=turnover_penalty,
+        reward_clip=reward_clip,
         start_step=start_idx + 1,
         end_step=end_idx + 2,
         initial_allocation=np.array([0.0, 0.0, 0.0, 1.0], dtype=float),

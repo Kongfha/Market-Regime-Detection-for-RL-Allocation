@@ -116,8 +116,7 @@ class BacktestEngine:
             peak_value = max(peak_value, portfolio_value)
             realized_drawdown = portfolio_value / peak_value - 1.0
 
-            history_rows.append(
-                {
+            history_row: dict = {
                     "week_end": row["week_end"],
                     "split": row[dataset.split_column],
                     "action_id": action_id,
@@ -139,8 +138,11 @@ class BacktestEngine:
                     "return_tlt": asset_returns[1],
                     "return_gld": asset_returns[2],
                     "cash_return": asset_returns[3],
-                }
-            )
+            }
+            # Attach HMM regime label when available for per-regime attribution
+            if "regime_filtered" in row.index:
+                history_row["regime_label"] = int(row["regime_filtered"]) if pd.notna(row["regime_filtered"]) else np.nan
+            history_rows.append(history_row)
 
             previous_weights = weights
 

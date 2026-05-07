@@ -127,14 +127,18 @@ class TemporalAttentionQNetwork(nn.Module):
         
         # Feature embedding (optional nonlinear projection)
         self.feature_embed = nn.Linear(state_dim, lstm_hidden)
-        
+
         # LSTM for temporal processing
         self.lstm = nn.LSTM(input_size=lstm_hidden,
                            hidden_size=lstm_hidden,
                            num_layers=1,
                            batch_first=True,
                            dropout=dropout if seq_len > 1 else 0.0)
-        
+
+        # Learned positional embedding lets attention distinguish "1 week ago"
+        # from "12 weeks ago" independently of LSTM state.
+        self.pos_embedding = nn.Embedding(seq_len, lstm_hidden)
+
         # Temporal attention
         self.attention = TemporalAttention(hidden_dim=lstm_hidden,
                                           num_heads=attention_heads,
@@ -173,7 +177,12 @@ class TemporalAttentionQNetwork(nn.Module):
         
         # LSTM processing
         lstm_out, (h_n, c_n) = self.lstm(x)  # (batch_size, seq_len, lstm_hidden)
-        
+
+        # Add positional embeddings so attention can directly weight by recency
+        actual_seq = lstm_out.shape[1]
+        positions = torch.arange(actual_seq, device=state.device)
+        lstm_out = lstm_out + self.pos_embedding(positions).unsqueeze(0)
+
         # Temporal attention (use LSTM output as Q, K, V)
         attended, attention_weights = self.attention(lstm_out, lstm_out, lstm_out)
         
@@ -227,6 +236,7 @@ class DuelingTemporalAttentionQNetwork(nn.Module):
                            num_layers=1,
                            batch_first=True,
                            dropout=dropout if seq_len > 1 else 0.0)
+        self.pos_embedding = nn.Embedding(seq_len, lstm_hidden)
         self.attention = TemporalAttention(hidden_dim=lstm_hidden,
                                           num_heads=attention_heads,
                                           dropout=dropout)
@@ -259,6 +269,9 @@ class DuelingTemporalAttentionQNetwork(nn.Module):
         x = self.feature_embed(state)
         x = self.relu(x)
         lstm_out, _ = self.lstm(x)
+        actual_seq = lstm_out.shape[1]
+        positions = torch.arange(actual_seq, device=state.device)
+        lstm_out = lstm_out + self.pos_embedding(positions).unsqueeze(0)
         attended, attention_weights = self.attention(lstm_out, lstm_out, lstm_out)
         final_attended = attended[:, -1, :]
         

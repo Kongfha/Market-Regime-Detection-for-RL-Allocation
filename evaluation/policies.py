@@ -73,6 +73,45 @@ class MomentumRotationPolicy(BasePolicy):
         return PolicyDecision(action_id=self.asset_to_action[best_asset])
 
 
+class SixtyFortyPolicy(FixedWeightPolicy):
+    """60% SPY / 40% TLT monthly-rebalanced industry benchmark."""
+
+    def __init__(self, name: str = "sixty_forty"):
+        super().__init__(weights=[0.6, 0.4, 0.0, 0.0], name=name)
+
+
+class HMMRegimeSwitchingPolicy(BasePolicy):
+    """
+    Direct regime-switching benchmark: translates the HMM regime label into a
+    pre-defined allocation rule without using the RL agent.
+
+    This isolates whether the RL agent adds value beyond applying a simple rule
+    to the HMM output.
+
+    Regime 0 (typically low-vol / bull): equity-tilted (80% SPY / 20% TLT)
+    Regime 1 (typically high-vol / stress): defensive (20% SPY / 60% TLT / 20% GLD)
+    Additional regimes fall back to equal weight.
+    """
+
+    REGIME_COLUMN = "regime_filtered"
+
+    _ALLOCATION_BY_REGIME: dict[int, list[float]] = {
+        0: [0.8, 0.2, 0.0, 0.0],
+        1: [0.2, 0.6, 0.2, 0.0],
+    }
+    _FALLBACK = [1 / 3, 1 / 3, 1 / 3, 0.0]
+
+    def __init__(self, name: str = "hmm_regime_switching"):
+        self.name = name
+
+    def decide(self, observation) -> PolicyDecision:
+        regime = observation.features.get(self.REGIME_COLUMN, np.nan)
+        if np.isnan(regime):
+            return PolicyDecision(weights=np.array(self._FALLBACK, dtype=float), action_name="equal_weight_fallback")
+        weights = self._ALLOCATION_BY_REGIME.get(int(regime), self._FALLBACK)
+        return PolicyDecision(weights=np.array(weights, dtype=float), action_name=f"regime_{int(regime)}")
+
+
 class RuleBasedRegimeHeuristicPolicy(BasePolicy):
     """Proxy regime benchmark before HMM posteriors are available."""
 
@@ -101,6 +140,68 @@ class RuleBasedRegimeHeuristicPolicy(BasePolicy):
         if tlt_momentum > spy_momentum and curve <= 0:
             return PolicyDecision(action_id=self.action_space.name_to_id["defensive_20_60_20"])
         return PolicyDecision(action_id=self.action_space.name_to_id["balanced_60_30_10"])
+
+
+class EnsembleActionPolicy(BasePolicy):
+    """Ensemble of seeded RL agents — majority-vote action per timestep.
+
+    Reduces seed variance by combining independent training runs. Each input is
+    a per-timestep sequence of action ids (length T) from one seed; the policy
+    returns the most-voted action at each step. Ties broken by the lowest
+    action id (deterministic).
+
+    Recommended use:
+        actions_per_seed = [rollout_agent_on_split(agent, env, frame, split)["action_id"]
+                            for agent in multi_seed_result["agents"]]
+        policy = EnsembleActionPolicy(actions_per_seed=actions_per_seed)
+    """
+
+    def __init__(
+        self,
+        actions_per_seed: Sequence[Sequence[int] | pd.Series],
+        name: str = "ensemble_rl",
+    ):
+        if not actions_per_seed:
+            raise ValueError("actions_per_seed must contain at least one seed's actions.")
+        # Normalise to list of lists of ints
+        normalised: list[list[int]] = []
+        for seq in actions_per_seed:
+            if isinstance(seq, pd.Series):
+                seq = seq.tolist()
+            normalised.append([int(v) for v in seq])
+
+        T = len(normalised[0])
+        if any(len(seq) != T for seq in normalised):
+            raise ValueError(f"All seeds must produce equal-length action sequences; got {[len(s) for s in normalised]}")
+
+        self._voted_actions = self._majority_vote(normalised)
+        self.name = name
+        self.position = 0
+
+    @staticmethod
+    def _majority_vote(actions_per_seed: list[list[int]]) -> list[int]:
+        T = len(actions_per_seed[0])
+        n_seeds = len(actions_per_seed)
+        voted: list[int] = []
+        for t in range(T):
+            counts: dict[int, int] = {}
+            for s in range(n_seeds):
+                a = actions_per_seed[s][t]
+                counts[a] = counts.get(a, 0) + 1
+            # max votes, tie broken by lowest action id
+            best = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
+            voted.append(best)
+        return voted
+
+    def reset(self) -> None:
+        self.position = 0
+
+    def decide(self, observation) -> PolicyDecision:
+        if self.position >= len(self._voted_actions):
+            raise IndexError("EnsembleActionPolicy ran out of action ids before the dataset ended.")
+        action_id = self._voted_actions[self.position]
+        self.position += 1
+        return PolicyDecision(action_id=action_id)
 
 
 class PrecomputedActionPolicy(BasePolicy):
@@ -143,7 +244,9 @@ def default_baseline_policies(action_space: ActionSpace) -> list[BasePolicy]:
     return [
         FixedActionPolicy(action_id=action_space.name_to_id["spy_only"], name="buy_hold_spy"),
         EqualWeightPolicy(),
+        SixtyFortyPolicy(),
         MomentumRotationPolicy(action_space=action_space),
+        HMMRegimeSwitchingPolicy(),
         RuleBasedRegimeHeuristicPolicy(action_space=action_space),
     ]
 

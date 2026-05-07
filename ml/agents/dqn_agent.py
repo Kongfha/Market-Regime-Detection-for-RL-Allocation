@@ -59,8 +59,8 @@ class AttentionDQNAgent:
                  learning_rate: float = 1e-4,
                  gamma: float = 0.99,
                  epsilon_start: float = 1.0,
-                 epsilon_end: float = 0.01,
-                 epsilon_decay: int = 1000,
+                 epsilon_end: float = 0.05,
+                 epsilon_decay: int = 50000,
                  buffer_capacity: int = 10000,
                  batch_size: int = 32,
                  target_update_freq: int = 100,
@@ -77,7 +77,8 @@ class AttentionDQNAgent:
             gamma: Discount factor
             epsilon_start: Initial epsilon for exploration
             epsilon_end: Final epsilon for exploration
-            epsilon_decay: Steps to decay epsilon
+            epsilon_decay: Characteristic decay time constant in steps (exploration reaches ~epsilon_end
+                after ~3*epsilon_decay steps); set to ~5-15% of total training steps
             buffer_capacity: Replay buffer capacity
             batch_size: Batch size for training
             target_update_freq: Update target network every N steps

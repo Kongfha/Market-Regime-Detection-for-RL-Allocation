@@ -220,7 +220,7 @@ RANDOM_SEED = 42
 N_ITER = 300
 TOL = 1e-5
 MIN_COVAR = 1e-3
-CLIP_SIGMA = 10.0   # clip scaled features before PCA to avoid BLAS warnings
+CLIP_SIGMA = 3.0    # Winsorise to 3σ; heavy-tailed returns bias Gaussian HMM emission if left wider
 
 # ---------------------------------------------------------------------------
 # Hard-filter thresholds

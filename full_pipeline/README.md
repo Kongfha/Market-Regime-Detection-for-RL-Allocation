@@ -1,114 +1,80 @@
-# Full Pipeline Notebook Workflow
+# full_pipeline/
 
-This folder is the canonical notebook workflow for the merged project:
+Canonical end-to-end pipeline: price/macro data → HMM regimes → DQN training → evaluation.
 
-`price + macro data -> HMM -> HMM/full-sample inference -> RL with HMM + news -> evaluation`
+## Notebooks (3 — run in order)
 
-The notebooks here replace the older split between the exploratory
-`Attention_DQN_Training.ipynb` workflow and the standalone HMM baseline.
+| Notebook | Purpose | Outputs |
+|---|---|---|
+| `01_data_regimes.ipynb` | Build weekly state, fit HMM, merge FinBERT news | `model_state_weekly_hmm_news.csv` |
+| `02_train_evaluate.ipynb` | Train DQN, backtest vs baselines, tail risk, per-regime metrics | `rl_*_actions.csv`, plots |
+| `03_analysis_viz.ipynb` | AttentionDQN heatmaps, concentration diagnostics, Gradient×Input XAI | plots |
 
-## Notebook Order
+## Quick Start
 
-### 1. `01_hmm_regime_pipeline.ipynb`
+```bash
+conda activate work313
+jupyter lab
+# 1. Open 01_data_regimes.ipynb → Run All
+# 2. Open 02_train_evaluate.ipynb → Run All  (FAST_MODE=True for smoke test)
+# 3. Open 03_analysis_viz.ipynb → Run All    (needs a saved .pt checkpoint)
+```
 
-Runs:
+## Training Options (notebook 02)
 
-- weekly FinBERT news aggregation for `SPY`, `TLT`, `GLD`, `VIX`, `TNX`
-- HMM grid search through `scripts/train_hmm_regimes.py`
-- full-sample causal regime inference
-- merged state assembly for RL and evaluation
+Edit the config cell:
 
-Primary outputs:
+```python
+FAST_MODE       = True     # False → 30 k steps, seq_len=12 (production)
+USE_MULTI_SEED  = False    # True  → 3 seeds + EnsembleActionPolicy (majority vote)
+USE_ATTENTION   = True     # True  → SB3 LSTM+attention feature extractor
+REWARD_MODE     = "net_return"   # or "dsr" (Differential Sharpe Ratio)
+```
 
-- `output/full_pipeline/news_features_weekly_finbert_5assets.csv`
-- `output/full_pipeline/hmm_regimes_full_sample.csv`
-- `output/full_pipeline/model_state_weekly_hmm_news.csv`
+## Outputs
 
-### 2. `02_rl_dqn_with_hmm_news.ipynb`
+All files land in `output/full_pipeline/`:
 
-Runs:
+| File | Description |
+|---|---|
+| `model_state_weekly_hmm_news.csv` | Merged weekly state (price + macro + regime posteriors + news) |
+| `hmm_regimes_full_sample.csv` | Raw full-sample HMM regime probabilities |
+| `rl_validation_actions.csv` | Per-week RL actions — validation split |
+| `rl_locked_test_actions.csv` | Per-week RL actions — locked-test split |
 
-- split-aware RL dataset preparation
-- DQN training on the merged state
-- action export for validation and locked test
+## Evaluation Splits
 
-Primary outputs:
+| Split | Dates | Notes |
+|---|---|---|
+| `train` | up to 2020-12-31 | Scaler + HMM fitted here |
+| `validation` | 2021-01-01 – 2022-12-30 | Early stopping / hyper-param selection |
+| `locked_test` | after 2022-12-30 | **Do not tune on this** |
 
-- `output/full_pipeline/rl_validation_actions.csv`
-- `output/full_pipeline/rl_locked_test_actions.csv`
+## Run Snapshot
 
-### 3. `03_evaluation_backtest.ipynb`
+Latest executed run (K=2 HMM, single DQN seed, fast mode):
+- Regime counts (full sample): ~317 / 308 weeks
+- Locked-test DQN: ~54.9% cumulative return, Sharpe ~1.37
 
-Runs:
-
-- evaluation baselines from `evaluation/`
-- backtests for the exported DQN actions
-- summary tables and equity-curve plots
-
-### 4. `04_finetune_dqn_with_hmm_news.ipynb`
-
-Runs:
-
-- loads merged RL state from `output/full_pipeline/model_state_weekly_hmm_news.csv`
-- loads prior policy checkpoints (or bootstraps if missing)
-- fine-tunes multiple policies on the train split and re-evaluates on validation and locked test
-- includes custom `AttentionDQNAgent` from `ml/agents/dqn_agent.py`
-- exports policy-specific action files and canonical best-policy aliases for downstream evaluation
-
-Primary outputs:
-
-- `output/full_pipeline/*_finetuned` checkpoints
-- `output/full_pipeline/*_validation_actions_finetuned.csv`
-- `output/full_pipeline/*_locked_test_actions_finetuned.csv`
-- `output/full_pipeline/rl_validation_actions_finetuned.csv`
-- `output/full_pipeline/rl_locked_test_actions_finetuned.csv`
+These are run snapshots — your results may differ.
 
 ## Helper Module
 
-`_pipeline_utils.py` is the notebook-local glue layer. It:
+`_pipeline_utils.py` is the notebook-local glue layer. Key entry points:
 
-- aggregates FinBERT sentiment into 5 weekly features
-- calls the HMM source-of-truth script using the canonical settings
-- infers full-sample HMM posteriors
-- assembles the merged state
-- prepares RL inputs and exports action files
+- `build_full_pipeline_artifacts()` — end-to-end data build
+- `prepare_rl_inputs()` — load state, scale features, assemble train/val/test tensors
+- `make_rl_env(prepared, split, ..., reward_mode, turnover_penalty, reward_clip)` — build `WeeklyPortfolioEnv`
+- `rollout_agent_on_split()` / `save_action_frame()` — export agent decisions to CSV
 
-Canonical HMM settings in the helper:
-
-- feature preset: `regime_core`
-- selection mode: `pipeline`
-
-## Current Run Snapshot
-
-Latest executed run:
-
-- selected HMM project model: `K=2`, `n_pca=8`, `cov=diag`, `seed=7`
-- development-window interpretability: `8 / 8`
-- full-sample regime counts: `317 / 308`
-- locked-test RL result (`dqn_hmm_news`): about `54.9%` cumulative return, `1.37` Sharpe
-
-These numbers are a run snapshot, not a guarantee of future reruns.
-
-## How To Regenerate
-
-Regenerate the notebooks from the generator:
+## Tests
 
 ```bash
-python scripts/generate_full_pipeline_notebooks.py
+conda run -n work313 python -m pytest ../tests/ -v
+# 18 tests — core correctness + upgrade features (DSR, ensemble, tail metrics, SB3 extractor)
 ```
 
-Execute the full notebook chain:
+## Legacy Notebooks
 
-```bash
-jupyter nbconvert --to notebook --execute --inplace full_pipeline/01_hmm_regime_pipeline.ipynb
-jupyter nbconvert --to notebook --execute --inplace full_pipeline/02_rl_dqn_with_hmm_news.ipynb
-jupyter nbconvert --to notebook --execute --inplace full_pipeline/03_evaluation_backtest.ipynb
-jupyter nbconvert --to notebook --execute --inplace full_pipeline/04_finetune_dqn_with_hmm_news.ipynb
-```
-
-## Relationship To Older Work
-
-- `scripts/train_hmm_regimes.py` is the HMM source of truth
-- `evaluation/` is the evaluation source of truth
-- `Attention_DQN_Training.ipynb` remains an exploratory notebook
-- `pattern_recognition/` remains a historical alternate HMM stack
+`01_hmm_regime_pipeline.ipynb` through `06_visualize_attention_dqn.ipynb` are kept for reference.
+The three numbered notebooks above supersede them.

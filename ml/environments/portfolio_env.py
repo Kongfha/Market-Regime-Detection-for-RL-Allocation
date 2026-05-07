@@ -24,7 +24,7 @@ class WeeklyPortfolioEnv(gym.Env):
         5: 60% SPY / 30% TLT / 10% GLD
         6: 20% SPY / 60% TLT / 20% GLD
     
-    Reward: Return - cost*Turnover + incentive*Turnover - vol_penalty*RollingVol
+    Reward: Return - cost*Turnover - vol_penalty*RollingPortfolioVol
     """
     
     # Portfolio action templates: {action_id: (SPY, TLT, GLD, CASH)}
@@ -53,10 +53,14 @@ class WeeklyPortfolioEnv(gym.Env):
                  regime_posteriors: np.ndarray,
                  asset_returns: pd.DataFrame,
                  transaction_cost: float = 0.001,
-                 turnover_incentive: float = 0.002,
+                 turnover_incentive: float = 0.0,
                  volatility_penalty: float = 0.05,
+                 reward_clip: float = 0.10,
                  lookback_vol: int = 4,
                  seq_len: int = 4,
+                 reward_mode: str = "net_return",
+                 dsr_eta: float = 0.04,
+                 turnover_penalty: float = 0.0,
                  start_step: Optional[int] = None,
                  end_step: Optional[int] = None,
                  initial_allocation: Optional[np.ndarray] = None):
@@ -70,8 +74,18 @@ class WeeklyPortfolioEnv(gym.Env):
             transaction_cost: Cost per unit of portfolio turnover
             turnover_incentive: Positive reward per unit of portfolio turnover
             volatility_penalty: Penalty for portfolio volatility
+            reward_clip: Symmetric clip applied to reward before returning; set to 0 to disable
             lookback_vol: Lookback window for rolling volatility (weeks)
             seq_len: Sequence length for temporal attention
+            reward_mode: One of {"net_return", "dsr"}.
+                - "net_return": classical return - cost - vol penalty (legacy default)
+                - "dsr": Differential Sharpe Ratio (Moody & Saffell 1998); a smooth, online,
+                  risk-adjusted reward that rewards Sharpe-improving trades. Strongly recommended
+                  for portfolio RL — trades that lift Sharpe get positive reward even when raw
+                  return is small.
+            dsr_eta: EMA decay for DSR statistics (0.01-0.1; ~1/eta is the effective window)
+            turnover_penalty: Extra quadratic penalty on turnover (added on top of transaction_cost)
+                to discourage hyperactive trading. 0.0 disables.
             start_step: First internal environment step. Reward is realized on row `start_step - 1`
             end_step: Exclusive environment end step. Reward is realized through row `end_step - 1`
             initial_allocation: Starting portfolio weights in SPY/TLT/GLD/CASH order
@@ -85,8 +99,18 @@ class WeeklyPortfolioEnv(gym.Env):
         self.transaction_cost = transaction_cost
         self.turnover_incentive = turnover_incentive
         self.volatility_penalty = volatility_penalty
+        self.reward_clip = reward_clip
         self.lookback_vol = lookback_vol
         self.seq_len = seq_len
+
+        valid_modes = {"net_return", "dsr"}
+        if reward_mode not in valid_modes:
+            raise ValueError(f"reward_mode must be one of {valid_modes}, got {reward_mode!r}")
+        self.reward_mode = reward_mode
+        self.dsr_eta = float(dsr_eta)
+        self.turnover_penalty = float(turnover_penalty)
+        self._dsr_a = 0.0  # EMA of net returns (DSR state)
+        self._dsr_b = 0.0  # EMA of squared net returns (DSR state)
         self.initial_allocation = np.array(
             initial_allocation if initial_allocation is not None else [0.0, 0.0, 0.0, 1.0],
             dtype=float,
@@ -144,7 +168,9 @@ class WeeklyPortfolioEnv(gym.Env):
         self.prev_allocation = self.initial_allocation.copy()
         self.portfolio_returns = []
         self.actions_taken = []
-        
+        self._dsr_a = 0.0
+        self._dsr_b = 0.0
+
         return self._get_observation(), {}
     
     def step(self, action: int) -> Tuple[np.ndarray, float, bool, bool, Dict]:
@@ -181,19 +207,45 @@ class WeeklyPortfolioEnv(gym.Env):
         turnover_cost = self.transaction_cost * turnover
         turnover_reward = self.turnover_incentive * turnover
         
-        # 3. Volatility penalty (rolling volatility)
-        vol_lookback = self.lookback_vol
-        if decision_step - vol_lookback >= 0:
-            recent_returns = self.asset_returns[decision_step - vol_lookback:decision_step]
-            portfolio_vols = np.std(recent_returns, axis=0)
-            portfolio_vol = np.dot(new_allocation ** 2, portfolio_vols ** 2) ** 0.5
+        # 3. Volatility penalty — use realized portfolio returns to correctly account for
+        # asset correlations (e.g. SPY/TLT ~-0.3) rather than the uncorrelated approximation.
+        if len(self.portfolio_returns) >= self.lookback_vol:
+            portfolio_vol = np.std(self.portfolio_returns[-self.lookback_vol:], ddof=0)
         else:
             portfolio_vol = 0.0
             
         volatility_penalty = self.volatility_penalty * portfolio_vol
-        
-        # Total reward
-        reward = portfolio_return - turnover_cost + turnover_reward - volatility_penalty
+
+        # Net (after-cost) return drives both legacy reward and DSR statistics
+        net_return = portfolio_return - turnover_cost + turnover_reward
+
+        # Optional turnover penalty: extra quadratic disincentive for excessive trading
+        turnover_quadratic_penalty = self.turnover_penalty * turnover * turnover
+
+        if self.reward_mode == "dsr":
+            # Differential Sharpe Ratio (Moody & Saffell 1998).
+            # On-line, smooth, risk-adjusted reward; reward is positive iff this trade
+            # lifts the rolling Sharpe estimate.
+            eta = self.dsr_eta
+            a_prev, b_prev = self._dsr_a, self._dsr_b
+            delta_a = net_return - a_prev
+            delta_b = (net_return * net_return) - b_prev
+            denom = (b_prev - a_prev * a_prev) ** 1.5
+            if denom > 1e-8:
+                dsr = (b_prev * delta_a - 0.5 * a_prev * delta_b) / denom
+            else:
+                # Cold-start: fall back to net return until variance estimate stabilises
+                dsr = net_return
+            # Update EMAs *after* reward is computed (uses values at t-1)
+            self._dsr_a = a_prev + eta * delta_a
+            self._dsr_b = b_prev + eta * delta_b
+            reward = float(dsr) - volatility_penalty - turnover_quadratic_penalty
+        else:
+            # Classical net-return reward (legacy)
+            reward = net_return - volatility_penalty - turnover_quadratic_penalty
+
+        if self.reward_clip > 0:
+            reward = float(np.clip(reward, -self.reward_clip, self.reward_clip))
         
         # Update state
         self.prev_allocation = new_allocation

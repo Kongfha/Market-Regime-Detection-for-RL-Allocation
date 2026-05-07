@@ -1,7 +1,9 @@
 """Training utilities using FinRL (stable-baselines3) for DQN agent."""
 
+import random
 import numpy as np
 import pandas as pd
+import torch
 from typing import Any, Dict, List, Optional
 from stable_baselines3 import DQN
 from stable_baselines3.common.callbacks import BaseCallback
@@ -169,6 +171,15 @@ def evaluate_episode(agent: Any,
     return result
 
 
+def set_global_seed(seed: int) -> None:
+    """Seed Python, NumPy, and PyTorch for reproducible training runs."""
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+
 def train_dqn_finrl(train_env: Any,
                     val_env: Any,
                     total_timesteps: int = 100000000,
@@ -182,7 +193,11 @@ def train_dqn_finrl(train_env: Any,
                     batch_size: int = 32,
                     device: str = 'auto',
                     verbose: int = 1,
-                    callback_verbose: Optional[int] = None) -> Dict[str, Any]:
+                    callback_verbose: Optional[int] = None,
+                    seed: Optional[int] = None,
+                    use_attention_extractor: bool = False,
+                    attention_lstm_hidden: int = 64,
+                    attention_heads: int = 4) -> Dict[str, Any]:
     """
     Train DQN agent using FinRL (stable-baselines3) with validation and early stopping.
     
@@ -201,11 +216,27 @@ def train_dqn_finrl(train_env: Any,
         device: Device for computation ('auto', 'cuda', 'cpu')
         verbose: stable-baselines3 verbosity for training logs (0/1/2)
         callback_verbose: Validation callback verbosity (None uses `verbose`)
-        
+        seed: Random seed for Python, NumPy, and PyTorch; None leaves the state unseeded
+        use_attention_extractor: Train SB3 DQN through the LSTM+attention encoder
+            (recommended for sequence observations); when False, falls back to the
+            default flattening MlpPolicy.
+        attention_lstm_hidden: LSTM hidden dim used by the attention extractor.
+        attention_heads: Number of attention heads in the extractor.
+
     Returns:
         Training results dict with history and trained agent
     """
-    
+    if seed is not None:
+        set_global_seed(seed)
+
+    policy_kwargs: Optional[Dict[str, Any]] = None
+    if use_attention_extractor:
+        from ml.models.sb3_attention_extractor import attention_policy_kwargs
+        policy_kwargs = attention_policy_kwargs(
+            lstm_hidden=attention_lstm_hidden,
+            attention_heads=attention_heads,
+        )
+
     # Initialize DQN agent from stable-baselines3
     agent = DQN(
         'MlpPolicy',
@@ -222,7 +253,9 @@ def train_dqn_finrl(train_env: Any,
         exploration_initial_eps=1.0,
         exploration_final_eps=exploration_final_eps,
         device=device,
-        verbose=verbose
+        verbose=verbose,
+        seed=seed,
+        policy_kwargs=policy_kwargs,
     )
 
     if verbose > 0:
@@ -258,6 +291,63 @@ def train_dqn_finrl(train_env: Any,
         'val_history': val_callback.val_history,
         'best_val_reward': val_callback.best_val_reward,
         'total_timesteps': agent.num_timesteps,
+    }
+
+
+def train_dqn_multi_seed(
+    train_env_factory,
+    val_env_factory,
+    seeds: List[int] = (7, 21, 42, 84, 168),
+    **train_kwargs: Any,
+) -> Dict[str, Any]:
+    """Train one DQN per seed and return all agents + per-seed validation history.
+
+    A multi-seed sweep is the cheapest way to recover a variance estimate for
+    a single architecture. Use the returned ``agents`` list with
+    ``EnsembleActionPolicy`` for evaluation; report mean ± std of
+    ``best_val_reward`` to characterise stability.
+
+    Args:
+        train_env_factory: Zero-arg callable returning a fresh training env per seed.
+            Each seed gets an independent env instance to avoid shared state.
+        val_env_factory: Zero-arg callable returning a fresh validation env per seed.
+        seeds: Iterable of seeds to train on. Defaults match the HMM convention.
+        **train_kwargs: Forwarded to ``train_dqn_finrl``.
+
+    Returns:
+        dict with keys:
+            agents: list of trained SB3 DQN agents (one per seed)
+            val_histories: list of per-seed validation curves
+            best_val_rewards: list of best validation rewards
+            seeds: the seeds used
+            mean_best_val: float
+            std_best_val: float
+    """
+    agents: List[Any] = []
+    histories: List[List[Dict[str, Any]]] = []
+    bests: List[float] = []
+
+    for s in seeds:
+        train_env = train_env_factory()
+        val_env = val_env_factory()
+        result = train_dqn_finrl(
+            train_env=train_env,
+            val_env=val_env,
+            seed=int(s),
+            **train_kwargs,
+        )
+        agents.append(result["agent"])
+        histories.append(result["val_history"])
+        bests.append(result["best_val_reward"])
+
+    bests_arr = np.array(bests, dtype=float)
+    return {
+        "agents": agents,
+        "val_histories": histories,
+        "best_val_rewards": bests,
+        "seeds": list(seeds),
+        "mean_best_val": float(bests_arr.mean()),
+        "std_best_val": float(bests_arr.std(ddof=0)),
     }
 
 
