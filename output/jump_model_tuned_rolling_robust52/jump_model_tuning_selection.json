@@ -1,0 +1,20 @@
+{
+  "selected_basis": "attention_ready",
+  "pca_components": 6,
+  "explained_variance": 0.539383616451501,
+  "compression_ratio": 9.0,
+  "scaler_mode": "rolling_robust",
+  "scaler_window": 52,
+  "scaler_min_periods": 12,
+  "scaler_clip": 6.0,
+  "k": 3,
+  "jump_penalty": 8.0,
+  "silhouette": 0.1872603429907889,
+  "inertia": 26390.722677440222,
+  "jumps": 46,
+  "min_duration_weeks": 1,
+  "average_duration_weeks": 12.319148936170214,
+  "max_duration_weeks": 55,
+  "min_cluster_size": 103,
+  "cluster_sizes": "303,103,173"
+}

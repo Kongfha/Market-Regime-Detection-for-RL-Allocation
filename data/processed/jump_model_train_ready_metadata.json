@@ -1,0 +1,139 @@
+{
+  "asset_classes": [
+    "SPY",
+    "TLT",
+    "GLD"
+  ],
+  "asset_to_id": {
+    "SPY": 0,
+    "TLT": 1,
+    "GLD": 2
+  },
+  "feature_columns": [
+    "x_jm_pc1",
+    "x_jm_pc2",
+    "x_jm_pc3",
+    "x_jm_pc4",
+    "x_jm_pc5",
+    "x_jm_pc6",
+    "x_jm_regime_distance_0",
+    "x_jm_regime_distance_1",
+    "x_jm_regime_distance_2",
+    "x_jm_regime_score_0",
+    "x_jm_regime_score_1",
+    "x_jm_regime_score_2",
+    "x_jm_regime_duration_weeks",
+    "x_jm_stress_score",
+    "x_jm_regime_changed",
+    "x_regime_0",
+    "x_regime_1",
+    "x_regime_2"
+  ],
+  "continuous_source_columns": [
+    "jm_pc1",
+    "jm_pc2",
+    "jm_pc3",
+    "jm_pc4",
+    "jm_pc5",
+    "jm_pc6",
+    "jm_regime_distance_0",
+    "jm_regime_distance_1",
+    "jm_regime_distance_2",
+    "jm_regime_score_0",
+    "jm_regime_score_1",
+    "jm_regime_score_2",
+    "jm_regime_duration_weeks",
+    "jm_stress_score"
+  ],
+  "binary_source_columns": [
+    "jm_regime_changed"
+  ],
+  "regime_one_hot_source_columns": [
+    "regime_0",
+    "regime_1",
+    "regime_2"
+  ],
+  "target_columns": [
+    "y_next_return_spy",
+    "y_next_return_tlt",
+    "y_next_return_gld",
+    "y_best_asset_id",
+    "y_best_asset"
+  ],
+  "scaler_stats": {
+    "jm_pc1": {
+      "mean": 0.14418174001866044,
+      "std": 5.018545373655637
+    },
+    "jm_pc2": {
+      "mean": 0.0872778077398929,
+      "std": 4.064882794957237
+    },
+    "jm_pc3": {
+      "mean": 0.21266951749726892,
+      "std": 3.323433290120447
+    },
+    "jm_pc4": {
+      "mean": 0.006461125369863745,
+      "std": 2.885925345090571
+    },
+    "jm_pc5": {
+      "mean": -0.3033164425266062,
+      "std": 2.486637428186202
+    },
+    "jm_pc6": {
+      "mean": 0.185649606742913,
+      "std": 2.4455757684538377
+    },
+    "jm_regime_distance_0": {
+      "mean": 82.18590376012493,
+      "std": 109.12844420317587
+    },
+    "jm_regime_distance_1": {
+      "mean": 92.32808420617228,
+      "std": 82.86909357536076
+    },
+    "jm_regime_distance_2": {
+      "mean": 127.74940087902652,
+      "std": 77.27103738932918
+    },
+    "jm_regime_score_0": {
+      "mean": 0.46781236658982345,
+      "std": 0.30281083997087205
+    },
+    "jm_regime_score_1": {
+      "mean": 0.3450303053397434,
+      "std": 0.2814339380799514
+    },
+    "jm_regime_score_2": {
+      "mean": 0.18715732807043303,
+      "std": 0.2868543377907804
+    },
+    "jm_regime_duration_weeks": {
+      "mean": 23.632275132275133,
+      "std": 23.156123342712757
+    },
+    "jm_stress_score": {
+      "mean": 0.18715732807043303,
+      "std": 0.2868543377907804
+    }
+  },
+  "source": "data/processed/attention_jump_model_features.csv",
+  "weekly_rows": 579,
+  "sequence_rows": 568,
+  "lookback_weeks": 12,
+  "train_end": "2021-12-31",
+  "validation_end": "2023-12-31",
+  "x_shape": [
+    568,
+    12,
+    18
+  ],
+  "y_returns_shape": [
+    568,
+    3
+  ],
+  "y_class_shape": [
+    568
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "rows": 579,
+  "feature_count": 54,
+  "pca_components": 6,
+  "requested_pca_components": 6,
+  "pca_explained_variance": 0.539383616451501,
+  "scaler_mode": "rolling_robust",
+  "scaler_window": 52,
+  "scaler_min_periods": 12,
+  "scaler_clip": 6.0,
+  "elbow_k": 6,
+  "best_silhouette_k": 2,
+  "selected_k": 3,
+  "jump_penalty": 8.0,
+  "smooth_min_duration": 3,
+  "smoothed_weeks": 10
+}

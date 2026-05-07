@@ -1,0 +1,11 @@
+{
+  "rows": 579,
+  "feature_count": 54,
+  "pca_components": 6,
+  "requested_pca_components": 6,
+  "pca_explained_variance": 0.5611103390517252,
+  "elbow_k": 6,
+  "best_silhouette_k": 4,
+  "selected_k": 2,
+  "jump_penalty": 0.0
+}

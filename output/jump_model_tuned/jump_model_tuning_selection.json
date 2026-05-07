@@ -1,0 +1,14 @@
+{
+  "selected_basis": "attention_ready",
+  "pca_components": 5,
+  "explained_variance": 0.5118327253123616,
+  "compression_ratio": 10.8,
+  "k": 3,
+  "jump_penalty": 1.0,
+  "silhouette": 0.3315109657924411,
+  "inertia": 10416.635841889503,
+  "jumps": 21,
+  "average_duration_weeks": 26.318181818181817,
+  "min_cluster_size": 29,
+  "cluster_sizes": "200,29,350"
+}
