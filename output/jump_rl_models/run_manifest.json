@@ -1,0 +1,25 @@
+{
+  "weekly_path": "/home/yuaylong/Market-Regime-Detection-for-RL-Allocation/data/processed/jump_model_train_ready_weekly.csv",
+  "metadata_path": "/home/yuaylong/Market-Regime-Detection-for-RL-Allocation/data/processed/jump_model_train_ready_metadata.json",
+  "source_state_path": "/home/yuaylong/Market-Regime-Detection-for-RL-Allocation/data/processed/model_state_weekly_price_macro.csv",
+  "budget": "fast",
+  "preset": {
+    "stage1_per_algo": 1,
+    "stage1_timesteps": 5000,
+    "stage2_top": 3,
+    "stage2_timesteps": 20000,
+    "stage3_top": 3,
+    "stage3_timesteps": 50000,
+    "stage3_seeds": [
+      7
+    ]
+  },
+  "feature_count": 21,
+  "weekly_rows": 625,
+  "split_counts": {
+    "train": 406,
+    "test": 115,
+    "validation": 104
+  },
+  "best_trial_id": "stage3_attention_dqn_000_seed7"
+}

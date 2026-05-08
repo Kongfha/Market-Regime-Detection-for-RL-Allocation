@@ -1,0 +1,55 @@
+{
+  "selection_rule": "Highest validation Sharpe, tie-broken by validation cumulative return, max drawdown, then lower turnover. Locked test was not used for selection.",
+  "best_trial": {
+    "stage": "stage3",
+    "trial_id": "stage3_attention_dqn_000_seed7",
+    "candidate_id": "attention_dqn_000",
+    "algorithm": "attention_dqn",
+    "seed": 7,
+    "timesteps": 50000,
+    "params": {
+      "learning_rate": 0.0001,
+      "gamma": 0.99,
+      "batch_size": 256,
+      "buffer_capacity": 250000,
+      "target_update_freq": 500,
+      "epsilon_end": 0.05,
+      "epsilon_decay": 3000
+    }
+  },
+  "model_weights_path": "output/jump_rl_models/checkpoints/best_model.pt",
+  "portfolio_weight_files": {
+    "validation": "output/jump_rl_models/best_validation_weights.csv",
+    "locked_test": "output/jump_rl_models/best_locked_test_weights.csv"
+  },
+  "validation_metrics": {
+    "weeks": 104.0,
+    "cumulative_return": 0.03237338359346942,
+    "annualized_return": 0.016057765874297747,
+    "annualized_volatility": 0.12776066573754885,
+    "annualized_excess_return": -0.009809473851300592,
+    "sharpe_ratio": -0.07670249420619676,
+    "sortino_ratio": -0.10336059108253146,
+    "max_drawdown": -0.17561784769167932,
+    "calmar_ratio": 0.09143584257158935,
+    "average_turnover": 0.25,
+    "total_transaction_cost": 0.026,
+    "win_rate": 0.5961538461538461,
+    "mean_reward": -0.0003469725212143527
+  },
+  "locked_test_metrics": {
+    "weeks": 115.0,
+    "cumulative_return": 0.059996405209087555,
+    "annualized_return": 0.026696274530230824,
+    "annualized_volatility": 0.12548782523065602,
+    "annualized_excess_return": -0.011537145862820942,
+    "sharpe_ratio": -0.09191338075243471,
+    "sortino_ratio": -0.13842103352599716,
+    "max_drawdown": -0.13110951235462254,
+    "calmar_ratio": 0.2036181360969694,
+    "average_turnover": 0.36695652173913046,
+    "total_transaction_cost": 0.0422,
+    "win_rate": 0.5217391304347826,
+    "mean_reward": -0.00015258589549565818
+  }
+}
