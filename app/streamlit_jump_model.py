@@ -18,6 +18,7 @@ if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
 from evaluation.actions import default_action_space  # noqa: E402
+from evaluation.config import EvaluationConfig  # noqa: E402
 from jump_model import (  # noqa: E402
     DEFAULT_STATE_PATH,
     JumpModelConfig,
@@ -32,6 +33,13 @@ from jump_model import (  # noqa: E402
     pca_columns,
     regime_color_map,
     run_jump_analysis,
+)
+from tune_jump_rl import (  # noqa: E402
+    METADATA_PATH,
+    SOURCE_STATE_PATH,
+    WEEKLY_PATH,
+    load_jump_dataset,
+    make_env,
 )
 
 DEFAULT_PCA_COMPONENTS = 6
@@ -56,6 +64,8 @@ ACTION_COLORS = {
     "balanced_60_30_10": "#38BDF8",
     "defensive_20_60_20": "#A3E635",
 }
+HORIZON_OPTIONS = {"1M": 4, "3M": 13, "6M": 26, "12M": 52}
+WINDOW_OPTIONS = {"6M": 26, "1Y": 52, "2Y": 104, "5Y": 260, "All": None}
 
 
 st.set_page_config(
@@ -133,6 +143,93 @@ st.markdown(
     .signal-buy { color: #22C55E; }
     .signal-hold { color: #FBBF24; }
     .signal-risk { color: #F87171; }
+    .decision-hero {
+        border: 1px solid #24344D;
+        border-radius: 10px;
+        padding: 1.15rem 1.25rem;
+        background:
+            linear-gradient(135deg, rgba(45, 212, 191, 0.14), rgba(15, 23, 42, 0.55) 42%),
+            #0B1220;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+        margin-top: 0.35rem;
+        margin-bottom: 1rem;
+    }
+    .decision-grid {
+        display: grid;
+        grid-template-columns: minmax(260px, 1.45fr) repeat(5, minmax(116px, 0.62fr));
+        gap: 0.85rem;
+        align-items: stretch;
+    }
+    .decision-main {
+        min-height: 142px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .decision-title {
+        color: #94A3B8;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.45rem;
+    }
+    .decision-action {
+        color: #F8FAFC;
+        font-size: 3rem;
+        font-weight: 800;
+        line-height: 0.95;
+    }
+    .decision-subtitle {
+        color: #CBD5E1;
+        font-size: 1.05rem;
+        margin-top: 0.55rem;
+    }
+    .decision-card {
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 8px;
+        padding: 0.75rem 0.85rem;
+        background: rgba(15, 23, 42, 0.82);
+    }
+    .decision-card-value {
+        color: #F8FAFC;
+        font-size: 1.55rem;
+        font-weight: 750;
+        margin-top: 0.25rem;
+    }
+    .decision-card-note {
+        color: #94A3B8;
+        font-size: 0.78rem;
+        margin-top: 0.25rem;
+    }
+    .control-panel {
+        border: 1px solid #1F2937;
+        border-radius: 9px;
+        padding: 0.9rem 1rem 0.75rem;
+        background: #0B1220;
+        margin-bottom: 0.9rem;
+    }
+    .section-kicker {
+        color: #94A3B8;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.35rem;
+    }
+    .buy-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #CBD5E1;
+        font-size: 0.92rem;
+    }
+    .buy-table td {
+        padding: 0.48rem 0;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    }
+    .buy-table td:last-child {
+        color: #F8FAFC;
+        text-align: right;
+        font-weight: 650;
+    }
     .order-ticket {
         border: 1px solid #334155;
         border-radius: 7px;
@@ -149,6 +246,11 @@ st.markdown(
     section.main a { color: #7DD3FC; }
     div[data-testid="stDataFrameResizable"] {
         background: #0F172A;
+    }
+    @media (max-width: 1100px) {
+        .decision-grid { grid-template-columns: 1fr 1fr; }
+        .decision-main { grid-column: 1 / -1; }
+        .decision-action { font-size: 2.35rem; }
     }
     </style>
     """,
@@ -235,6 +337,25 @@ def action_label(name: str | None) -> str:
     return labels.get(name, name.replace("_", " ").title())
 
 
+def recommendation_headline(action_name: str | None) -> str:
+    if action_name == "cash_only":
+        return "Move to cash"
+    if action_name in {"spy_only", "tlt_only", "gld_only"}:
+        return f"Buy {action_label(action_name).replace(' only', '')}"
+    return f"Buy {action_label(action_name)}"
+
+
+def rl_probability_text(probability: dict | None) -> tuple[str, str]:
+    if not probability:
+        return "n/a", "No saved RL prediction for this week"
+    if probability.get("available") and np.isfinite(probability.get("probability", np.nan)):
+        return (
+            f"{probability['probability']:.1%}",
+            f"softmax Q probability | Q-gap {probability.get('q_gap', np.nan):.3f}",
+        )
+    return "saved", "Saved RL action exists; Q probability unavailable"
+
+
 @st.cache_data(show_spinner=False)
 def cached_cash_returns() -> pd.DataFrame:
     frame = pd.read_csv(DEFAULT_STATE_PATH, usecols=["week_end", "dff_level"], parse_dates=["week_end"])
@@ -255,6 +376,23 @@ def cached_long_dqn_actions() -> pd.DataFrame:
     if not rows:
         return pd.DataFrame()
     return pd.concat(rows, ignore_index=True).sort_values("week_end").drop_duplicates("week_end", keep="last")
+
+
+@st.cache_resource(show_spinner=False)
+def cached_long_dqn_model():
+    model_path = LONG_DQN_OUTPUT / "checkpoints" / "best_model.zip"
+    if not model_path.exists():
+        return None
+    try:
+        from stable_baselines3 import DQN
+    except ImportError:
+        return None
+    return DQN.load(str(model_path), device="cpu")
+
+
+@st.cache_data(show_spinner=False)
+def cached_jump_rl_dataset():
+    return load_jump_dataset(WEEKLY_PATH, METADATA_PATH, SOURCE_STATE_PATH)
 
 
 def cash_return_for_week(cash_returns: pd.DataFrame, week_end: pd.Timestamp) -> float:
@@ -293,11 +431,66 @@ def previous_dqn_weights(assignments: pd.DataFrame, current_index: int, dqn_acti
     return matched.iloc[-1][["w_spy", "w_tlt", "w_gld", "w_cash"]].to_numpy(dtype=float)
 
 
+def long_dqn_prediction_probability(week_end: pd.Timestamp, dqn_actions: pd.DataFrame) -> dict | None:
+    if dqn_actions.empty:
+        return None
+    matched = dqn_actions.loc[dqn_actions["week_end"].eq(pd.Timestamp(week_end))]
+    if matched.empty:
+        return None
+
+    dqn_action = matched.iloc[-1]
+    action_id = int(dqn_action["action_id"])
+    fallback = {
+        "action_id": action_id,
+        "action_name": str(dqn_action["action_name"]),
+        "probability": np.nan,
+        "q_value": np.nan,
+        "q_gap": np.nan,
+        "method": "saved_action_only",
+        "available": False,
+    }
+    model = cached_long_dqn_model()
+    if model is None:
+        return fallback
+
+    split = str(dqn_action["split"])
+    try:
+        dataset = cached_jump_rl_dataset()
+        env = make_env(dataset, split, config=EvaluationConfig())
+        observation, _ = env.reset(seed=7)
+        split_actions = dqn_actions.loc[dqn_actions["split"].eq(split)].sort_values("week_end")
+        for _, row in split_actions.iterrows():
+            row_date = pd.Timestamp(row["week_end"])
+            if row_date >= pd.Timestamp(week_end):
+                break
+            observation, _, _, truncated, _ = env.step(int(row["action_id"]))
+            if truncated:
+                break
+        obs_tensor, _ = model.policy.obs_to_tensor(observation)
+        q_values = model.q_net(obs_tensor).detach().cpu().numpy().reshape(-1)
+        shifted = q_values - np.nanmax(q_values)
+        probabilities = np.exp(shifted) / np.exp(shifted).sum()
+        ordered = np.sort(q_values)[::-1]
+        q_gap = float(ordered[0] - ordered[1]) if len(ordered) > 1 else np.nan
+        return {
+            "action_id": action_id,
+            "action_name": str(dqn_action["action_name"]),
+            "probability": float(probabilities[action_id]),
+            "q_value": float(q_values[action_id]),
+            "q_gap": q_gap,
+            "method": "softmax_q_values",
+            "available": True,
+        }
+    except Exception:
+        return fallback
+
+
 def build_prediction_snapshot(
     assignments: pd.DataFrame,
     current_index: int,
     cash_returns: pd.DataFrame,
     dqn_actions: pd.DataFrame,
+    horizon_weeks: int = 26,
 ) -> dict:
     current = assignments.iloc[current_index]
     past = finite_return_pool(assignments.iloc[:current_index])
@@ -325,8 +518,11 @@ def build_prediction_snapshot(
         annual_return = float(np.dot(weights, expected) * 52.0)
         annual_vol = weekly_vol * np.sqrt(52.0)
         turnover = float(0.5 * np.abs(weights - previous_weights).sum())
-        transaction_drag = 0.001 * turnover * 52.0
-        score = annual_return - 0.35 * annual_vol - transaction_drag
+        expected_weekly = float(np.dot(weights, expected))
+        expected_horizon = float((1.0 + expected_weekly) ** horizon_weeks - 1.0)
+        horizon_vol = weekly_vol * np.sqrt(float(horizon_weeks))
+        transaction_drag = 0.001 * turnover
+        score = expected_horizon - 0.45 * horizon_vol - transaction_drag
         score_rows.append(
             {
                 "action_id": template.action_id,
@@ -336,7 +532,9 @@ def build_prediction_snapshot(
                 "w_tlt": weights[1],
                 "w_gld": weights[2],
                 "w_cash": weights[3],
-                "expected_weekly_return": float(np.dot(weights, expected)),
+                "expected_weekly_return": expected_weekly,
+                "expected_horizon_return": expected_horizon,
+                "horizon_volatility": horizon_vol,
                 "annualized_expected_return": annual_return,
                 "annualized_volatility": annual_vol,
                 "turnover_from_previous": turnover,
@@ -381,6 +579,7 @@ def build_prediction_snapshot(
     dqn_match = pd.DataFrame()
     if not dqn_actions.empty:
         dqn_match = dqn_actions.loc[dqn_actions["week_end"].eq(pd.Timestamp(current["week_end"]))]
+    rl_probability = long_dqn_prediction_probability(current["week_end"], dqn_actions)
 
     return {
         "current": current,
@@ -399,6 +598,8 @@ def build_prediction_snapshot(
         "action_name": action_name,
         "actual_next_return": actual_next,
         "dqn_action": None if dqn_match.empty else dqn_match.iloc[-1],
+        "rl_probability": rl_probability,
+        "horizon_weeks": int(horizon_weeks),
     }
 
 
@@ -488,7 +689,7 @@ def make_projection_cone_figure(paths: pd.DataFrame) -> go.Figure:
     fig.add_hline(y=100, line_color="#64748B", line_dash="dash", line_width=1)
     fig.update_layout(
         template="plotly_dark",
-        paper_bgcolor="#0B1220",
+        paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="#0B1220",
         height=420,
         margin=dict(l=20, r=20, t=45, b=35),
@@ -515,9 +716,9 @@ def make_allocation_figure(snapshot: dict) -> go.Figure:
     )
     fig.update_layout(
         template="plotly_dark",
-        paper_bgcolor="#0B1220",
+        paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="#0B1220",
-        height=300,
+        height=270,
         margin=dict(l=20, r=20, t=40, b=35),
         title="Recommended Allocation",
         yaxis=dict(range=[0, 110], title="Weight (%)"),
@@ -543,9 +744,9 @@ def make_asset_forecast_figure(snapshot: dict) -> go.Figure:
     fig.add_hline(y=0, line_color="#64748B", line_width=1)
     fig.update_layout(
         template="plotly_dark",
-        paper_bgcolor="#0B1220",
+        paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="#0B1220",
-        height=300,
+        height=270,
         margin=dict(l=20, r=20, t=40, b=35),
         title="Regime-Based Asset Forecast",
         yaxis_title="Annualized expected return (%)",
@@ -626,6 +827,7 @@ def make_trade_replay_figure(
                     customdata=group[
                         ["net_return", "w_spy", "w_tlt", "w_gld", "w_cash", "portfolio_value"]
                     ],
+                    showlegend=False,
                     hovertemplate=(
                         "%{x|%Y-%m-%d}<br>"
                         f"RL action: {action_label(action_name)}<br>"
@@ -639,15 +841,15 @@ def make_trade_replay_figure(
             )
     fig.update_layout(
         template="plotly_dark",
-        paper_bgcolor="#0B1220",
+        paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="#0B1220",
         height=440,
-        title="Trading Replay: SPY With Jump-Model Regime Bands",
-        margin=dict(l=20, r=20, t=45, b=35),
+        title=dict(text="Market Replay & Saved RL Actions", font=dict(size=18), x=0.01),
+        margin=dict(l=20, r=20, t=55, b=70),
         xaxis_title="Week",
         yaxis_title="SPY weekly close",
         hovermode="x unified",
-        legend=dict(orientation="h", y=1.08, x=0),
+        legend=dict(orientation="h", y=-0.2, x=0),
     )
     return fig
 
@@ -674,7 +876,7 @@ def make_rl_action_profit_figure(dqn_actions: pd.DataFrame, paper_capital: float
     if dqn_actions.empty:
         fig.update_layout(
             template="plotly_dark",
-            paper_bgcolor="#0B1220",
+            paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="#0B1220",
             height=440,
             title="Saved Long-DQN Actions And Profit",
@@ -733,10 +935,10 @@ def make_rl_action_profit_figure(dqn_actions: pd.DataFrame, paper_capital: float
     fig.add_hline(y=0, line_color="#64748B", line_width=1)
     fig.update_layout(
         template="plotly_dark",
-        paper_bgcolor="#0B1220",
+        paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="#0B1220",
         height=440,
-        title="Saved Long-DQN Actions And Profit",
+        title=dict(text="Saved Long-DQN Actions And Profit", font=dict(size=18), x=0.01),
         margin=dict(l=20, r=20, t=45, b=35),
         barmode="relative",
         legend=dict(orientation="h", y=1.08, x=0),
@@ -985,7 +1187,6 @@ with st.sidebar:
         value=100_000.0,
         step=10_000.0,
     )
-    projection_weeks = st.slider("Projection horizon weeks", min_value=4, max_value=52, value=26, step=2)
     simulation_paths = st.slider("Simulation paths", min_value=100, max_value=1_000, value=500, step=100)
 
 
@@ -1061,13 +1262,6 @@ selected_metric = analysis.metrics.loc[analysis.metrics["k"] == analysis.selecte
 explained = analysis.prepared.pca.explained_variance_ratio_.sum()
 cash_returns = cached_cash_returns()
 long_dqn_actions = cached_long_dqn_actions()
-prediction_snapshot = build_prediction_snapshot(assignments, current_index, cash_returns, long_dqn_actions)
-projection_paths = simulate_prediction_paths(
-    prediction_snapshot,
-    horizon_weeks=int(projection_weeks),
-    path_count=int(simulation_paths),
-    seed=42 + int(current_index),
-)
 
 st.title("Jump Model Trading Desk")
 
@@ -1084,16 +1278,17 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-kpi_cols = st.columns(5)
-kpi_cols[0].metric("Selected K", f"{analysis.selected_k}", f"elbow {analysis.elbow_k}")
-kpi_cols[1].metric("Silhouette", number(selected_metric["silhouette"], 3), f"best K {analysis.best_silhouette_k}")
-kpi_cols[2].metric("Inertia", number(selected_metric["inertia"], 1))
-kpi_cols[3].metric(
-    "Jumps",
-    f"{int(selected_metric['jumps'])}",
-    f"{selected_metric['average_duration_weeks']:.1f}w/run, {int(selected_metric['smoothed_weeks'])}w smoothed",
-)
-kpi_cols[4].metric("PCA", f"{analysis.prepared.pca.n_components_} PCs", percent(explained))
+with st.expander("Model diagnostics", expanded=False):
+    kpi_cols = st.columns(5)
+    kpi_cols[0].metric("Selected K", f"{analysis.selected_k}", f"elbow {analysis.elbow_k}")
+    kpi_cols[1].metric("Silhouette", number(selected_metric["silhouette"], 3), f"best K {analysis.best_silhouette_k}")
+    kpi_cols[2].metric("Inertia", number(selected_metric["inertia"], 1))
+    kpi_cols[3].metric(
+        "Jumps",
+        f"{int(selected_metric['jumps'])}",
+        f"{selected_metric['average_duration_weeks']:.1f}w/run, {int(selected_metric['smoothed_weeks'])}w smoothed",
+    )
+    kpi_cols[4].metric("PCA", f"{analysis.prepared.pca.n_components_} PCs", percent(explained))
 
 tab_trade, tab_market, tab_presentation, tab_clusters, tab_pca, tab_regimes, tab_diagnostics, tab_table = st.tabs(
     [
@@ -1109,14 +1304,64 @@ tab_trade, tab_market, tab_presentation, tab_clusters, tab_pca, tab_regimes, tab
 )
 
 with tab_trade:
+    st.markdown('<div class="section-kicker">Decision controls</div>', unsafe_allow_html=True)
+    with st.container(border=True):
+        control_cols = st.columns([0.9, 0.9, 1.0, 1.1])
+        with control_cols[0]:
+            trade_window_label = st.segmented_control(
+                "Market window",
+                options=list(WINDOW_OPTIONS),
+                default="2Y",
+                key="trade_window_label",
+            )
+        with control_cols[1]:
+            horizon_label = st.segmented_control(
+                "Prediction period",
+                options=list(HORIZON_OPTIONS),
+                default="6M",
+                key="trade_horizon_label",
+            )
+        with control_cols[2]:
+            decision_engine = st.selectbox(
+                "Decision engine",
+                options=["Regime simulator", "Saved long-DQN overlay"],
+                index=0,
+            )
+        with control_cols[3]:
+            st.caption(
+                "Select a market window and horizon; the recommendation, action ranking, and simulation update immediately."
+            )
+
+    trade_trailing_weeks = WINDOW_OPTIONS[trade_window_label]
+    active_projection_weeks = HORIZON_OPTIONS[horizon_label]
+    prediction_snapshot = build_prediction_snapshot(
+        assignments,
+        current_index,
+        cash_returns,
+        long_dqn_actions,
+        horizon_weeks=active_projection_weeks,
+    )
+    projection_paths = simulate_prediction_paths(
+        prediction_snapshot,
+        horizon_weeks=active_projection_weeks,
+        path_count=int(simulation_paths),
+        seed=42 + int(current_index) + active_projection_weeks,
+    )
     best = prediction_snapshot["best"]
     dqn_action = prediction_snapshot["dqn_action"]
-    rl_actions_view = filter_rl_actions_for_view(long_dqn_actions, assignments, current_index, trailing_weeks)
+    rl_prob_value, rl_prob_note = rl_probability_text(prediction_snapshot["rl_probability"])
+    rl_actions_view = filter_rl_actions_for_view(
+        long_dqn_actions,
+        assignments,
+        current_index,
+        trade_trailing_weeks,
+    )
     expected_weekly = float(best["expected_weekly_return"])
+    expected_horizon = float(best["expected_horizon_return"])
     median_end = float(projection_paths["p50"].iloc[-1])
     downside_end = float(projection_paths["p05"].iloc[-1])
     upside_end = float(projection_paths["p95"].iloc[-1])
-    expected_dollars = paper_capital * expected_weekly
+    expected_dollars = paper_capital * expected_horizon
     action_weights = best[["w_spy", "w_tlt", "w_gld", "w_cash"]].to_numpy(dtype=float)
     target_dollars = action_weights * paper_capital
     shares = {
@@ -1126,29 +1371,60 @@ with tab_trade:
         "CASH": target_dollars[3],
     }
 
+    dqn_note = ""
+    if decision_engine == "Saved long-DQN overlay" and dqn_action is not None:
+        dqn_note = f"Saved long-DQN says {action_label(str(dqn_action['action_name']))} for this replay week."
+    elif decision_engine == "Saved long-DQN overlay":
+        dqn_note = "Saved long-DQN has no action for this selected week, so the simulator recommendation is shown."
+    else:
+        dqn_note = "Saved long-DQN actions are overlaid on the market chart for comparison."
+
     st.markdown(
         f"""
-        <div class="trade-shell">
-          <div class="trade-label">Paper Trading Signal</div>
-          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:0.3rem;">
-            <div class="trade-value {prediction_snapshot['signal_class']}">{prediction_snapshot['headline_signal']}</div>
-            <div style="color:#CBD5E1;font-size:1.15rem;">{action_label(prediction_snapshot['action_name'])}</div>
-            <div style="color:#94A3B8;">as of {current['week_end']:%Y-%m-%d} | {current['regime_name']}</div>
-          </div>
-          <div class="trade-note">
-            Signal uses only history before the selected week. The realized next-week return below is replay diagnostics, not an input to the signal.
+        <div class="decision-hero">
+          <div class="decision-grid">
+            <div class="decision-main">
+              <div class="decision-title">Recommended trade for {horizon_label}</div>
+              <div class="decision-action {prediction_snapshot['signal_class']}">{recommendation_headline(prediction_snapshot['action_name'])}</div>
+              <div class="decision-subtitle">{prediction_snapshot['headline_signal']} | {current['week_end']:%Y-%m-%d} | {current['regime_name']}</div>
+              <div class="trade-note">{dqn_note}</div>
+            </div>
+            <div class="decision-card">
+              <div class="trade-label">Confidence</div>
+              <div class="decision-card-value">{prediction_snapshot['confidence']:.0f}%</div>
+              <div class="decision-card-note">{prediction_snapshot['pool_size']} history samples</div>
+            </div>
+            <div class="decision-card">
+              <div class="trade-label">RL prediction prob</div>
+              <div class="decision-card-value">{rl_prob_value}</div>
+              <div class="decision-card-note">{rl_prob_note}</div>
+            </div>
+            <div class="decision-card">
+              <div class="trade-label">Expected {horizon_label} P/L</div>
+              <div class="decision-card-value">{currency(expected_dollars)}</div>
+              <div class="decision-card-note">{signed_percent(expected_horizon)} projected</div>
+            </div>
+            <div class="decision-card">
+              <div class="trade-label">Median path</div>
+              <div class="decision-card-value">{median_end:.1f}</div>
+              <div class="decision-card-note">{signed_percent(median_end / 100.0 - 1.0)} by {horizon_label}</div>
+            </div>
+            <div class="decision-card">
+              <div class="trade-label">Market stress</div>
+              <div class="decision-card-value">{prediction_snapshot['stress'] * 100:.0f}%</div>
+              <div class="decision-card-note">VIX {current['vix_level']:.1f} | SPY 20d {current['spy_ret_20d']:.1%}</div>
+            </div>
           </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    signal_cols = st.columns(5)
-    signal_cols[0].metric("Confidence", f"{prediction_snapshot['confidence']:.0f}%")
-    signal_cols[1].metric("Expected 1w P/L", currency(expected_dollars), signed_percent(expected_weekly))
-    signal_cols[2].metric("Replay actual 1w", signed_percent(prediction_snapshot["actual_next_return"]))
-    signal_cols[3].metric("26w median" if projection_weeks == 26 else f"{projection_weeks}w median", f"{median_end:.1f}", signed_percent(median_end / 100.0 - 1.0))
-    signal_cols[4].metric("Stress", f"{prediction_snapshot['stress'] * 100:.0f}%", f"{prediction_snapshot['pool_size']} samples")
+    audit_cols = st.columns(4)
+    audit_cols[0].metric("Expected 1w return", signed_percent(expected_weekly))
+    audit_cols[1].metric("Replay actual next week", signed_percent(prediction_snapshot["actual_next_return"]))
+    audit_cols[2].metric("Downside p05", f"{downside_end:.1f}", signed_percent(downside_end / 100.0 - 1.0))
+    audit_cols[3].metric("Upside p95", f"{upside_end:.1f}", signed_percent(upside_end / 100.0 - 1.0))
 
     top_left, top_right = st.columns([1.35, 1.0])
     with top_left:
@@ -1156,7 +1432,7 @@ with tab_trade:
             make_trade_replay_figure(
                 assignments,
                 current_index,
-                trailing_weeks,
+                trade_trailing_weeks,
                 prediction_snapshot,
                 long_dqn_actions,
             ),
@@ -1166,16 +1442,16 @@ with tab_trade:
         st.markdown(
             f"""
             <div class="order-ticket">
-              <div class="trade-label">Simulated Order Ticket</div>
+              <div class="trade-label">Buy list / target order</div>
               <div class="trade-value">{action_label(prediction_snapshot['action_name'])}</div>
-              <div class="trade-note">Portfolio: {currency(paper_capital)} | Method: next-week paper rebalance simulation</div>
+              <div class="trade-note">Portfolio: {currency(paper_capital)} | Horizon: {horizon_label} | Window: {trade_window_label}</div>
               <hr>
-              <div class="small-table-text">
-                SPY target: {currency(target_dollars[0])} / {shares['SPY']:.1f} shares<br>
-                TLT target: {currency(target_dollars[1])} / {shares['TLT']:.1f} shares<br>
-                GLD target: {currency(target_dollars[2])} / {shares['GLD']:.1f} shares<br>
-                Cash reserve: {currency(shares['CASH'])}
-              </div>
+              <table class="buy-table">
+                <tr><td>SPY target</td><td>{currency(target_dollars[0])} / {shares['SPY']:.1f} sh</td></tr>
+                <tr><td>TLT target</td><td>{currency(target_dollars[1])} / {shares['TLT']:.1f} sh</td></tr>
+                <tr><td>GLD target</td><td>{currency(target_dollars[2])} / {shares['GLD']:.1f} sh</td></tr>
+                <tr><td>Cash reserve</td><td>{currency(shares['CASH'])}</td></tr>
+              </table>
             </div>
             """,
             unsafe_allow_html=True,
@@ -1189,7 +1465,7 @@ with tab_trade:
         st.plotly_chart(make_asset_forecast_figure(prediction_snapshot), width="stretch")
         st.caption(
             f"Projection samples from {prediction_snapshot['pool_label']} for the current regime. "
-            f"Median endpoint {median_end:.1f}; 5-95% range {downside_end:.1f}-{upside_end:.1f}."
+            f"{horizon_label} median endpoint {median_end:.1f}; 5-95% range {downside_end:.1f}-{upside_end:.1f}."
         )
 
     st.subheader("Saved RL Decision Timeline")
@@ -1224,6 +1500,8 @@ with tab_trade:
     comparison_cols = st.columns([1.0, 1.0])
     score_table = prediction_snapshot["scores"].copy()
     score_table["expected_weekly_return"] = score_table["expected_weekly_return"].map(lambda value: signed_percent(value))
+    score_table["expected_horizon_return"] = score_table["expected_horizon_return"].map(lambda value: signed_percent(value))
+    score_table["horizon_volatility"] = score_table["horizon_volatility"].map(lambda value: percent(value))
     score_table["annualized_expected_return"] = score_table["annualized_expected_return"].map(lambda value: signed_percent(value))
     score_table["annualized_volatility"] = score_table["annualized_volatility"].map(lambda value: percent(value))
     score_table["score"] = score_table["score"].map(lambda value: number(value, 3))
@@ -1233,9 +1511,9 @@ with tab_trade:
             score_table[
                 [
                     "label",
+                    "expected_horizon_return",
+                    "horizon_volatility",
                     "expected_weekly_return",
-                    "annualized_expected_return",
-                    "annualized_volatility",
                     "turnover_from_previous",
                     "score",
                 ]
