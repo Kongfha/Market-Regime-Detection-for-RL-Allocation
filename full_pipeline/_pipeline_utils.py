@@ -18,6 +18,8 @@ from evaluation import EvaluationConfig, SplitBoundaries, default_action_space, 
 
 OUTPUT_DIR = REPO_ROOT / "output" / "full_pipeline"
 BASE_STATE_PATH = REPO_ROOT / "data" / "processed" / "model_state_weekly_price_macro.csv"
+JUMP_ATTENTION_PATH = REPO_ROOT / "data" / "processed" / "leak_safe_attention_jump_model_features.csv"
+JUMP_WEEKLY_PATH = REPO_ROOT / "data" / "processed" / "jump_model_train_ready_weekly.csv"
 NEWS_SENTIMENT_PATH = REPO_ROOT / "data" / "raw" / "news_sentiment" / "all_assets_news_weekly_finbert.csv"
 HMM_FEATURE_PRESET = "regime_core"
 HMM_SELECTION_MODE = "pipeline"
@@ -350,6 +352,72 @@ def prepare_rl_inputs(
     }
 
 
+def prepare_jump_rl_inputs(
+    weekly_path: Path = JUMP_WEEKLY_PATH,
+    attention_path: Path = JUMP_ATTENTION_PATH,
+    base_state_path: Path = BASE_STATE_PATH,
+) -> dict[str, Any]:
+    weekly = pd.read_csv(weekly_path, parse_dates=["week_end", "week_last_trade_date"])
+    weekly = weekly.sort_values("week_end").reset_index(drop=True)
+    weekly["eval_split"] = weekly["split"].replace({"test": "locked_test"})
+
+    attention = pd.read_csv(attention_path, parse_dates=["week_end"])
+    attention = attention.sort_values("week_end").reset_index(drop=True)
+    score_cols = sorted(
+        [column for column in attention.columns if column.startswith("jm_regime_score_")],
+        key=lambda column: int(column.rsplit("_", 1)[-1]),
+    )
+    if not score_cols:
+        raise ValueError(f"No jm_regime_score_* columns found in {attention_path}.")
+
+    posterior_frame = (
+        weekly[["week_end"]]
+        .merge(attention[["week_end", *score_cols]], on="week_end", how="left")
+        .loc[:, score_cols]
+    )
+    if posterior_frame.isna().any().any():
+        missing = posterior_frame.isna().sum().to_dict()
+        raise ValueError(f"Missing Jump Model regime scores after alignment: {missing}")
+
+    base_state = pd.read_csv(base_state_path, parse_dates=["week_end"], low_memory=False)
+    cash_frame = base_state[["week_end", "dff_level"]].copy()
+    cash_frame["cash_return"] = cash_frame["dff_level"].fillna(0.0) / 100.0 / 52.0
+    weekly = weekly.merge(cash_frame[["week_end", "cash_return"]], on="week_end", how="left")
+    weekly["cash_return"] = weekly["cash_return"].fillna(0.0)
+
+    feature_cols = [
+        column
+        for column in weekly.columns
+        if column.startswith("x_")
+        and not column.startswith("x_jm_regime_score_")
+        and not column.startswith("x_regime_")
+    ]
+    if not feature_cols:
+        raise ValueError(f"No x_* feature columns found in {weekly_path}.")
+
+    asset_returns = pd.DataFrame(
+        {
+            "SPY": weekly["y_next_return_spy"].to_numpy(dtype=float),
+            "TLT": weekly["y_next_return_tlt"].to_numpy(dtype=float),
+            "GLD": weekly["y_next_return_gld"].to_numpy(dtype=float),
+            "CASH": weekly["cash_return"].to_numpy(dtype=float),
+        }
+    )
+
+    return {
+        "dataset": None,
+        "frame": weekly,
+        "feature_cols": feature_cols,
+        "posterior_cols": score_cols,
+        "scaled_features": weekly.loc[:, feature_cols].copy(),
+        "posterior_frame": posterior_frame.copy(),
+        "asset_returns": asset_returns,
+        "split_ranges": compute_split_ranges(weekly, split_column="eval_split"),
+        "scaler": None,
+        "action_space": default_action_space(),
+    }
+
+
 def make_rl_env(
     prepared: dict[str, Any],
     split: str,
@@ -382,28 +450,52 @@ def rollout_agent_on_split(
     env: Any,
     frame: pd.DataFrame,
     split: str,
+    min_action_hold_weeks: int = 1,
 ) -> pd.DataFrame:
     action_space = default_action_space()
     obs, _ = env.reset()
     rows: list[dict[str, Any]] = []
+    held_action_id: int | None = None
+    held_action_age = 0
+    min_action_hold_weeks = max(1, int(min_action_hold_weeks))
 
     while True:
         decision_index = env.current_step - 1
         action, _ = agent.predict(obs, deterministic=True)
-        action_id = int(action.item() if isinstance(action, np.ndarray) else action)
-        obs, reward, terminated, truncated, info = env.step(action)
+        raw_action_id = int(action.item() if isinstance(action, np.ndarray) else action)
+        if held_action_id is None:
+            action_id = raw_action_id
+            held_action_id = action_id
+            held_action_age = 1
+        elif raw_action_id == held_action_id:
+            action_id = held_action_id
+            held_action_age += 1
+        elif held_action_age < min_action_hold_weeks:
+            action_id = held_action_id
+            held_action_age += 1
+        else:
+            action_id = raw_action_id
+            held_action_id = action_id
+            held_action_age = 1
+        obs, reward, terminated, truncated, info = env.step(action_id)
 
         row = frame.iloc[decision_index]
+        transaction_cost = float(info.get("turnover_cost", np.nan))
+        portfolio_return = float(info.get("portfolio_return", np.nan))
         rows.append(
             {
                 "week_end": row["week_end"],
                 "eval_split": split,
                 "action_id": action_id,
                 "action_name": action_space.name_for(action_id),
+                "raw_action_id": raw_action_id,
+                "raw_action_name": action_space.name_for(raw_action_id),
+                "held_action_age": int(held_action_age),
                 "reward": float(reward),
-                "portfolio_return": float(info.get("portfolio_return", np.nan)),
+                "portfolio_return": portfolio_return,
+                "net_return": portfolio_return - transaction_cost,
                 "turnover": float(info.get("turnover", np.nan)),
-                "transaction_cost": float(info.get("turnover_cost", np.nan)),
+                "transaction_cost": transaction_cost,
             }
         )
         if terminated or truncated:

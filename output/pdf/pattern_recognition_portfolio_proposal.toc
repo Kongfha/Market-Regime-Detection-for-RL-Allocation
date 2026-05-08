@@ -1,0 +1,53 @@
+\contentsline {section}{\numberline {1}Executive Summary}{3}{section.1}%
+\contentsline {section}{\numberline {2}Motivation and Problem Statement}{3}{section.2}%
+\contentsline {section}{\numberline {3}Objectives, Scope, and Hypotheses}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Project Objectives}{4}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Hypotheses}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Hypothesis-to-Evidence Map}{5}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Scope Control}{5}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Data Assets, Coverage, and Alignment}{5}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Collected Data Sources}{5}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Exact Data Fields to Keep}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Temporal Coverage and Alignment Logic}{7}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}What Is Fully Aligned Right Now}{7}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Proposed System Architecture}{8}{section.5}%
+\contentsline {section}{\numberline {6}Pattern Recognition Layer}{8}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Model-Ready Weekly State}{8}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Quantitative Feature Block}{9}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Price-Derived Features}{9}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Macro-Derived Features}{9}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}Primary Encoder Choice}{9}{subsubsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.3}Qualitative Feature Block}{10}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Per-Headline Labels}{10}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Text Modeling Recommendation}{10}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}Weekly Text Aggregates}{11}{subsubsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.4}Feature Fusion and Regime Discovery}{11}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Stretch Extensions}{12}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}Failure and Fallback Logic}{12}{subsection.6.6}%
+\contentsline {section}{\numberline {7}Reinforcement Learning Formulation}{13}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Environment Design}{13}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Markov Decision Process}{13}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}State}{13}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.2}Action}{13}{subsubsection.7.2.2}%
+\contentsline {subsubsection}{\numberline {7.2.3}Transition}{14}{subsubsection.7.2.3}%
+\contentsline {subsubsection}{\numberline {7.2.4}Reward}{14}{subsubsection.7.2.4}%
+\contentsline {subsection}{\numberline {7.3}Algorithm Selection}{14}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Role of the LLM and Explainability Layer}{15}{section.8}%
+\contentsline {subsection}{\numberline {8.1}What the LLM Should Do}{15}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}What the LLM Should Not Do in Version 1}{15}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Interpretability Claim}{15}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Experimental Protocol and Evaluation}{16}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Ablation Ladder}{16}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Regime Evaluation}{16}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Portfolio Evaluation}{16}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Text Module Evaluation}{17}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Backtest Timeline}{17}{subsection.9.5}%
+\contentsline {subsection}{\numberline {9.6}Walk-Forward Protocol and Leakage Control}{18}{subsection.9.6}%
+\contentsline {section}{\numberline {10}Implementation Plan}{18}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Technical Stack}{18}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}One-Month Work Plan}{19}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Team Role Allocation}{19}{subsection.10.3}%
+\contentsline {section}{\numberline {11}Risk Register and Mitigation}{20}{section.11}%
+\contentsline {section}{\numberline {12}Expected Deliverables and Submission Positioning}{20}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Negative-Result Plan}{21}{subsection.12.1}%
+\contentsline {section}{\numberline {13}Conclusion}{21}{section.13}%

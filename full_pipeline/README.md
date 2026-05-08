@@ -7,6 +7,10 @@ This folder is the canonical notebook workflow for the merged project:
 The notebooks here replace the older split between the exploratory
 `Attention_DQN_Training.ipynb` workflow and the standalone HMM baseline.
 
+The Jump Model path now lives beside the HMM path as a scriptable pipeline:
+
+`price + macro data -> leak-safe PCA Jump Model features -> DQN allocation -> action exports`
+
 ## Notebook Order
 
 ### 1. `01_hmm_regime_pipeline.ipynb`
@@ -63,6 +67,24 @@ Primary outputs:
 - `output/full_pipeline/rl_validation_actions_finetuned.csv`
 - `output/full_pipeline/rl_locked_test_actions_finetuned.csv`
 
+### Jump Model RL Script
+
+Runs:
+
+- regenerates leak-safe Jump Model train-ready data when requested
+- loads `data/processed/jump_model_train_ready_weekly.csv`
+- uses raw `jm_regime_score_*` columns from `data/processed/leak_safe_attention_jump_model_features.csv` as the regime posterior block
+- trains the same weekly portfolio environment on train split only
+- scales rewards during DQN training so weekly return differences are easier for the optimizer to learn
+- exports validation and locked-test actions with configurable minimum action-hold smoothing
+
+Primary outputs:
+
+- `output/full_pipeline/jump_model_dqn.zip`
+- `output/full_pipeline/jump_rl_validation_actions.csv`
+- `output/full_pipeline/jump_rl_locked_test_actions.csv`
+- `output/full_pipeline/jump_rl_training_summary.json`
+
 ## Helper Module
 
 `_pipeline_utils.py` is the notebook-local glue layer. It:
@@ -104,6 +126,26 @@ jupyter nbconvert --to notebook --execute --inplace full_pipeline/01_hmm_regime_
 jupyter nbconvert --to notebook --execute --inplace full_pipeline/02_rl_dqn_with_hmm_news.ipynb
 jupyter nbconvert --to notebook --execute --inplace full_pipeline/03_evaluation_backtest.ipynb
 jupyter nbconvert --to notebook --execute --inplace full_pipeline/04_finetune_dqn_with_hmm_news.ipynb
+```
+
+Run the Jump Model RL path:
+
+```bash
+python scripts/build_train_ready_dataset.py
+python scripts/train_jump_rl.py --timesteps 50000
+```
+
+Useful defaults in the Jump RL runner:
+
+- `--reward-scale 100.0` scales only the training reward, not reported returns
+- `--min-action-hold-weeks 6` suppresses weekly action thrash in exported decisions
+- summary metrics use `net_return`, so transaction costs are included
+- `jump_rl_training_summary.json` also includes fixed-action baselines for validation sanity checks
+
+For a quick smoke run:
+
+```bash
+python scripts/train_jump_rl.py --timesteps 20 --learning-starts 10 --batch-size 8 --no-progress --verbose 0
 ```
 
 ## Relationship To Older Work

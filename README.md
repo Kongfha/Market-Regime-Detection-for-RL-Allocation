@@ -9,6 +9,12 @@ The current canonical pipeline is:
 4. train a DQN allocation agent
 5. evaluate against rule-based and static baselines with `evaluation/`
 
+An alternate Jump Model path is also available:
+
+1. build leak-safe PCA Jump Model features with `scripts/build_train_ready_dataset.py`
+2. train a DQN allocation agent with `scripts/train_jump_rl.py`
+3. evaluate the exported Jump RL actions from `output/full_pipeline/`
+
 The active notebook workflow lives in `full_pipeline/`. Older notebook experiments and the alternate `pattern_recognition/` stack remain in the repo for reference, but they are not the source of truth.
 
 ## Canonical Pipeline
@@ -133,6 +139,16 @@ jupyter nbconvert --to notebook --execute --inplace full_pipeline/01_hmm_regime_
 jupyter nbconvert --to notebook --execute --inplace full_pipeline/02_rl_dqn_with_hmm_news.ipynb
 jupyter nbconvert --to notebook --execute --inplace full_pipeline/03_evaluation_backtest.ipynb
 ```
+
+### 5. Train the Jump Model RL path
+
+```bash
+python scripts/build_train_ready_dataset.py
+python scripts/train_jump_rl.py --timesteps 50000
+```
+
+This path uses train-only PCA/Jump centroids and causal validation/test regime assignment from `data/processed/leak_safe_attention_jump_model_features.csv`.
+The Jump RL runner reports net returns after transaction costs, scales rewards during training by default, and applies a default 6-week minimum action hold to reduce weekly action thrash.
 
 ## Active vs Historical Components
 

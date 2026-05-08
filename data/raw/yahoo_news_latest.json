@@ -1,0 +1,4440 @@
+[
+  {
+    "requested_symbol": "SPY",
+    "records": [
+      {
+        "id": "823bc14a-1cc8-3341-bcf4-d26e038cb3cf",
+        "content": {
+          "id": "823bc14a-1cc8-3341-bcf4-d26e038cb3cf",
+          "contentType": "STORY",
+          "title": "MIDD’s $3.3B Restructuring: A Leaner Company Chasing a Higher Stock Price",
+          "description": "",
+          "summary": "Middleby Corporation (MIDD) Middleby Corporation (NASDAQ:MIDD) is in the middle of its most aggressive restructuring in decades, and the stock’s reaction tells a complicated story. Despite completing a $885 million divestiture of its Residential Kitchen business and preparing a Food Processing spin-off for Q2 2026, shares have dropped 15.53% over the past month and trade ... MIDD’s $3.3B Restructuring: A Leaner Company Chasing a Higher Stock Price",
+          "pubDate": "2026-03-22T14:54:33Z",
+          "displayTime": "2026-03-22T14:54:33Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/6d779bce02e47e57dd83a0a006f1c0fe",
+            "originalWidth": 1366,
+            "originalHeight": 767,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/o88warKFR2teQ7.v0BC9XA--~B/aD03Njc7dz0xMzY2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/6d779bce02e47e57dd83a0a006f1c0fe",
+                "width": 1366,
+                "height": 767,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/TmEX8Ad7gt5rx4.AKXyl0w--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/6d779bce02e47e57dd83a0a006f1c0fe",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/22/midds-3-3b-restructuring-a-leaner-company-chasing-a-higher-stock-price/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/midd-3-3b-restructuring-leaner-145433586.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "bb42235a-4b01-3ebc-8526-6df04c704ab0",
+        "content": {
+          "id": "bb42235a-4b01-3ebc-8526-6df04c704ab0",
+          "contentType": "STORY",
+          "title": "USA Compression Partners Eyes Debt Reduction as Record Cash Flow Powers 1.6x Coverage Target",
+          "description": "",
+          "summary": "One of the largest independent providers of natural gas compression services, USA Compression Partners (NYSE:USAC) has rallied 24.61% year-to-date through mid-March 20, 2026, powered by record cash flow and the January 12, 2026, close of the J-W Power acquisition. The central question for income investors: Is a 1.6x-plus distribution coverage target cited at an investor ... USA Compression Partners Eyes Debt Reduction as Record Cash Flow Powers 1.6x Coverage Target",
+          "pubDate": "2026-03-22T11:52:26Z",
+          "displayTime": "2026-03-22T11:52:26Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/3fa11a8c96eccbbf37febbcb6031dd4c",
+            "originalWidth": 1366,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/IbpeS3lybQ8gTY_lY2edhA--~B/aD03Njg7dz0xMzY2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/3fa11a8c96eccbbf37febbcb6031dd4c",
+                "width": 1366,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Rct3fYGHQD73fOLrfIrh3A--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/3fa11a8c96eccbbf37febbcb6031dd4c",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/22/usa-compression-partners-eyes-debt-reduction-as-record-cash-flow-powers-1-6x-coverage-target/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/usa-compression-partners-eyes-debt-115226282.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "11c49dda-c663-3729-aa65-a16f8979fb95",
+        "content": {
+          "id": "11c49dda-c663-3729-aa65-a16f8979fb95",
+          "contentType": "STORY",
+          "title": "Exclusively Mitigating Market Volatility For Yield Through SVOL",
+          "description": "",
+          "summary": "Simplify Volatility Premium ETF (NYSEARCA:SVOL) pays a 21.2% dividend yield by doing something most income funds avoid entirely: systematically shorting volatility. With the VIX sitting at 25.09 as of March 18, 2026 and climbing, the core risk baked into this fund deserves a close look. What SVOL Actually Does SVOL targets roughly -0.2x to -0.3x ... Exclusively Mitigating Market Volatility For Yield Through SVOL",
+          "pubDate": "2026-03-22T09:59:48Z",
+          "displayTime": "2026-03-22T09:59:48Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+            "originalWidth": 1500,
+            "originalHeight": 1001,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Pa60PAW5L0V72K_0lo1S8w--~B/aD0xMDAxO3c9MTUwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+                "width": 1500,
+                "height": 1001,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Jgsh.nqNjUSuuVWagsTTbw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/22/exclusively-mitigating-market-volatility-for-yield-through-svol/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/options/articles/exclusively-mitigating-market-volatility-yield-095948379.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "7f2c7519-bd4b-3842-8aad-ff62286c6da6",
+        "content": {
+          "id": "7f2c7519-bd4b-3842-8aad-ff62286c6da6",
+          "contentType": "STORY",
+          "title": "This 1 ETF Keeps Outrallying the SPY, While Also Losing Less During Downturns",
+          "description": "",
+          "summary": "Most investors who want broad U.S. equity exposure reach for SPDR S&P 500 ETF Trust (NYSEARCA:SPY). It is the default. But a lesser-known fund built entirely from stocks already inside the S&P 500 has quietly delivered stronger returns over virtually every meaningful time horizon, while also holding up better when markets fall. That fund is ... This 1 ETF Keeps Outrallying the SPY, While Also Losing Less During Downturns",
+          "pubDate": "2026-03-21T12:21:49Z",
+          "displayTime": "2026-03-21T12:21:49Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/9f0826a1588c954a855597bde64a8cab",
+            "originalWidth": 1500,
+            "originalHeight": 927,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/iHS6.XcWCw4hOg.ZbPlX9w--~B/aD05Mjc7dz0xNTAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/9f0826a1588c954a855597bde64a8cab",
+                "width": 1500,
+                "height": 927,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/LP.PsI984diRulXnn7ScLQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/9f0826a1588c954a855597bde64a8cab",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/21/this-1-etf-keeps-outrallying-the-spy-while-also-losing-less-during-downturns/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/1-etf-keeps-outrallying-spy-122149335.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "ca9116fc-a73e-3905-bd71-aa5d0b4dfb31",
+        "content": {
+          "id": "ca9116fc-a73e-3905-bd71-aa5d0b4dfb31",
+          "contentType": "STORY",
+          "title": "Who’s Right on Arbor Realty? Insiders Load Up While Bears Circle",
+          "description": "",
+          "summary": "Founded in 1991, Arbor Realty Trust (NYSE:ABR) sits at the center of one of the sharpest disagreements in the REIT sector: insiders are buying aggressively, while short-sellers have built a formidable position betting against it. The Short-Seller Position Nearly 47.24 million shares are sold short, representing 29.09% of the float, with 9.85 days to cover, ... Who’s Right on Arbor Realty? Insiders Load Up While Bears Circle",
+          "pubDate": "2026-03-21T12:00:49Z",
+          "displayTime": "2026-03-21T12:00:49Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/d429867c81feb5cc332f2008bc7d1af1",
+            "originalWidth": 1500,
+            "originalHeight": 791,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/N7GdJTuNf96gWKvcqstNUg--~B/aD03OTE7dz0xNTAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/d429867c81feb5cc332f2008bc7d1af1",
+                "width": 1500,
+                "height": 791,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/zTYK1fwYcASWQiu1qFLNng--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/d429867c81feb5cc332f2008bc7d1af1",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/21/whos-right-on-arbor-realty-insiders-load-up-while-bears-circle/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/arbor-realty-insiders-load-while-120049705.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "d01cde5e-055b-37b0-9925-4facf43a7235",
+        "content": {
+          "id": "d01cde5e-055b-37b0-9925-4facf43a7235",
+          "contentType": "STORY",
+          "title": "NNN REIT’s 36-Year Dividend Streak Meets Its Toughest Test Yet",
+          "description": "",
+          "summary": "Few REITs can claim what NNN REIT (NYSE:NNN) has quietly built over three and a half decades: a dividend raised every single year since 1990, through two recessions, a global pandemic, and the sharpest rate-hiking cycle in a generation. With occupancy having improved to 98.3% in Q4 2025 and the stock trading near $42.46 as ... NNN REIT’s 36-Year Dividend Streak Meets Its Toughest Test Yet",
+          "pubDate": "2026-03-21T11:36:49Z",
+          "displayTime": "2026-03-21T11:36:49Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/5851ebcc5068d9a690e693543843ad24",
+            "originalWidth": 1500,
+            "originalHeight": 663,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/zQGJn8IEr_ozThn05nxd9Q--~B/aD02NjM7dz0xNTAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/5851ebcc5068d9a690e693543843ad24",
+                "width": 1500,
+                "height": 663,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/gZp_3NGvoq8iKQqPTfCCxw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/5851ebcc5068d9a690e693543843ad24",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/21/nnn-reits-36-year-dividend-streak-meets-its-toughest-test-yet/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/nnn-reit-36-dividend-streak-113649534.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "cb496a21-9104-318c-9ef1-41824620159d",
+        "content": {
+          "id": "cb496a21-9104-318c-9ef1-41824620159d",
+          "contentType": "STORY",
+          "title": "Small-Cap Oil Producer Hits 50 Consecutive Dividends With a 10.6% Yield, But the Cushion Is Thin",
+          "description": "",
+          "summary": "Founded in 2003, Evolution Petroleum (NYSE:EPM) is focused on developing and producing onshore oil and natural gas properties in the US and just declared its 50th consecutive quarterly dividend, a milestone that puts it in rare company among small-cap energy producers. With the stock at $4.48 and the annualized payout at $0.48 per share, the ... Small-Cap Oil Producer Hits 50 Consecutive Dividends With a 10.6% Yield, But the Cushion Is Thin",
+          "pubDate": "2026-03-21T11:00:24Z",
+          "displayTime": "2026-03-21T11:00:24Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/8dd3e09542c875292a55f9b2a1f51d1e",
+            "originalWidth": 1366,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/JfYqPVglesdsIb6dJSJzUg--~B/aD03Njg7dz0xMzY2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/8dd3e09542c875292a55f9b2a1f51d1e",
+                "width": 1366,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/5XJJtlGw5LLZVgQj7RKV6A--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/8dd3e09542c875292a55f9b2a1f51d1e",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/21/small-cap-oil-producer-hits-50-consecutive-dividends-with-a-10-6-yield-but-the-cushion-is-thin/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/sectors/energy/articles/small-cap-oil-producer-hits-110024851.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "c374b0b3-2779-3c1e-acb4-be0870beb455",
+        "content": {
+          "id": "c374b0b3-2779-3c1e-acb4-be0870beb455",
+          "contentType": "STORY",
+          "title": "The VT ETF Might Be Smarter Than the S&P 500 Right Now | VOO SPY VT",
+          "description": "",
+          "summary": "The S&P 500 is down 3% year-to-date in 2026. Vanguard Total World Stock Index Fund ETF Shares (NYSEARCA:VT) is down less than 1% over the same period. That gap is not a coincidence. It reflects what happens when a portfolio holds the whole world instead of just one corner of it. What VT Actually Does ... The VT ETF Might Be Smarter Than the S&P 500 Right Now | VOO SPY VT",
+          "pubDate": "2026-03-21T10:14:21Z",
+          "displayTime": "2026-03-21T10:14:21Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/b9b5fcae1bd0c5e889fa2c4a6d6001a3",
+            "originalWidth": 1500,
+            "originalHeight": 1000,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/4G_gJVR.0.SK91ktfem0Bg--~B/aD0xMDAwO3c9MTUwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/24_7_wall_st__718/b9b5fcae1bd0c5e889fa2c4a6d6001a3",
+                "width": 1500,
+                "height": 1000,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/ZfNEDptymZ7dU9Yf1YVo_Q--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/b9b5fcae1bd0c5e889fa2c4a6d6001a3",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/21/the-vt-etf-might-be-smarter-than-the-sp-500-right-now-voo-spy-vt/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/vt-etf-might-smarter-p-101421393.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "2b5fe2e6-16cb-3a90-a4b8-c7d6488680e4",
+        "content": {
+          "id": "2b5fe2e6-16cb-3a90-a4b8-c7d6488680e4",
+          "contentType": "STORY",
+          "title": "The Core Question for Freshworks Investors: Does a $400 Million Buyback Matter If AI Breaks the Business Model?",
+          "description": "",
+          "summary": "Helping over 74,000 businesses like Sony and Bridgestone, Freshworks, which provides AI-powered, cloud-based software (NASDAQ:FRSH) is trading at $8.01, down 34.61% year-to-date and 47.37% over the past year. Against that backdrop, management just authorized a $400 million share repurchase program on February 26, 2026. The stock jumped 15.9% on March 4 following the announcement, then ... The Core Question for Freshworks Investors: Does a $400 Million Buyback Matter If AI Breaks the Business Mod",
+          "pubDate": "2026-03-21T10:00:00Z",
+          "displayTime": "2026-03-21T10:00:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/d797d3969486b9cfae6e73873640f739",
+            "originalWidth": 1500,
+            "originalHeight": 698,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/ca5Ly.ifddd3nKRvITgluw--~B/aD02OTg7dz0xNTAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/d797d3969486b9cfae6e73873640f739",
+                "width": 1500,
+                "height": 698,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/z.LAOdYG0V3LxHyAB9HxKQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/d797d3969486b9cfae6e73873640f739",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/21/the-core-question-for-freshworks-investors-does-a-400-million-buyback-matter-if-ai-breaks-the-business-model/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/core-freshworks-investors-does-400-100000287.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "3bbdaaa5-5809-3e42-8a11-c98255b9d76f",
+        "content": {
+          "id": "3bbdaaa5-5809-3e42-8a11-c98255b9d76f",
+          "contentType": "STORY",
+          "title": "Why ZIM Shares Trade $7 Below Hapag-Lloyd’s Offer Price",
+          "description": "",
+          "summary": "A well-known Israeli shipping company, ZIM Integrated Shipping Services (NYSE:ZIM) is trading at $27.41, against the $35.00 per share cash offer from Hapag-Lloyd. The spread between the current price and the offer price is not noise, as the market is pricing in the real possibility that this deal will never close. ZIM Integrated Shipping Services ... Why ZIM Shares Trade $7 Below Hapag-Lloyd’s Offer Price",
+          "pubDate": "2026-03-21T09:00:32Z",
+          "displayTime": "2026-03-21T09:00:32Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/08ab01f0ca44a6aafc75c7ac646c6fd1",
+            "originalWidth": 1366,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/B2to.04T0Xz7M9bq8wz5BQ--~B/aD03Njg7dz0xMzY2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/08ab01f0ca44a6aafc75c7ac646c6fd1",
+                "width": 1366,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/S_aL_FEml1bRPpdelETqaQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/08ab01f0ca44a6aafc75c7ac646c6fd1",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/21/why-zim-shares-trade-7-below-hapag-lloyds-offer-price/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/why-zim-shares-trade-7-090032754.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "f3f95790-26ef-385b-84c3-6098bb03675a",
+        "content": {
+          "id": "f3f95790-26ef-385b-84c3-6098bb03675a",
+          "contentType": "STORY",
+          "title": "What if Warsh is not confirmed as Fed Chair by May 15?",
+          "description": "",
+          "summary": "Investing.com -- The Federal Reserve is facing a profound institutional crisis as a deepening legal standoff with the Department of Justice (DOJ) threatens to upend the leadership transition of Chair Jerome Powell.",
+          "pubDate": "2026-03-21T01:00:49Z",
+          "displayTime": "2026-03-21T01:00:49Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "Investing.com",
+            "url": "https://www.investing.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/economy/policy/articles/barclays-warns-succession-risks-fed-010049435.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/economy/policy/articles/barclays-warns-succession-risks-fed-010049435.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "67cc1589-abe5-3ecc-bd60-28b69837be3b",
+        "content": {
+          "id": "67cc1589-abe5-3ecc-bd60-28b69837be3b",
+          "contentType": "STORY",
+          "title": "March Madness Sees The S&P 500 Master The Art Of 'The Head Fake'",
+          "description": "",
+          "summary": "In that regard, the S&P 500 seems to be an excellent point guard, creating multiple fakes that are keeping investors off balance.  Consider the State Street SPDR S&P 500 exchange traded fund.  It tracks the S&P 500, allowing investors to gain exposure to the index of 500 stocks with a single trade.",
+          "pubDate": "2026-03-20T21:00:43Z",
+          "displayTime": "2026-03-20T21:00:43Z",
+          "isHosted": false,
+          "bypassModal": false,
+          "previewUrl": "https://finance.yahoo.com/m/67cc1589-abe5-3ecc-bd60-28b69837be3b/march-madness-sees-the-s-p.html",
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/ibd.com/ddec3071c9a881420a65e6c45907f9d3",
+            "originalWidth": 1060,
+            "originalHeight": 599,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/OAizEOn4cu_Ddj0Bb62Rog--~B/aD01OTk7dz0xMDYwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/ibd.com/ddec3071c9a881420a65e6c45907f9d3",
+                "width": 1060,
+                "height": 599,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/_zHef_hbQZggmh.xVRbUzw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/ibd.com/ddec3071c9a881420a65e6c45907f9d3",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Investor's Business Daily",
+            "url": "http://www.investors.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.investors.com/research/swing-trading/sp-500-masters-head-fake-march-madness/?src=A00220&yptr=yahoo",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": null,
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "fbb5872f-056f-38e5-88f8-fc2074e7b0af",
+        "content": {
+          "id": "fbb5872f-056f-38e5-88f8-fc2074e7b0af",
+          "contentType": "STORY",
+          "title": "The S&P 500 Broke Its 200-Day Moving Average—Here's What to Expect",
+          "description": "",
+          "summary": "The S&P 500’s break below its 200-day average is a red flag, but whether it stays below, or quickly recovers, will determine how bad this could get.",
+          "pubDate": "2026-03-20T20:40:00Z",
+          "displayTime": "2026-03-20T20:40:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/marketbeat_955/45dcfbc38768d92e60cf555296d96130",
+            "originalWidth": 1200,
+            "originalHeight": 675,
+            "caption": "Digital stock chart showing sharp drop crossing below trend line with sparks, symbolizing S&P 500 breakdown and volatility.",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/z3YgnopTkfI_6.oofAfzog--~B/aD02NzU7dz0xMjAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/marketbeat_955/45dcfbc38768d92e60cf555296d96130",
+                "width": 1200,
+                "height": 675,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/RxyiyroF.dQYuY3sBu1n7A--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/marketbeat_955/45dcfbc38768d92e60cf555296d96130",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "MarketBeat",
+            "url": "https://www.marketbeat.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.marketbeat.com/originals/the-s-and-p-500-broke-its-200-day-moving-averageheres-what-to-expect/?utm_source=yahoofinance&utm_medium=yahoofinance",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/p-500-broke-200-day-204000849.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "e65da8c3-8325-347b-b56f-8ec735b404b0",
+        "content": {
+          "id": "e65da8c3-8325-347b-b56f-8ec735b404b0",
+          "contentType": "STORY",
+          "title": "Accenture Stock Gets 2 Price Target Cuts Today — Is the AI Revenue Story Falling Apart?",
+          "description": "",
+          "summary": "Accenture (NYSE:ACN) beat earnings estimates again on Thursday, raised full-year guidance, and posted record bookings. The stock still fell sharply. That disconnect is precisely what has two Wall Street firms cutting their price targets today, and it points to a deeper question about whether AI is actually driving new revenue growth at Accenture, or quietly ... Accenture Stock Gets 2 Price Target Cuts Today — Is the AI Revenue Story Falling Apart?",
+          "pubDate": "2026-03-20T17:46:53Z",
+          "displayTime": "2026-03-20T17:46:53Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/b2287600f7e676fc8c07cc1d07c72884",
+            "originalWidth": 1500,
+            "originalHeight": 1000,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/UFf1i.RvxfBd9RDyuBFt0A--~B/aD0xMDAwO3c9MTUwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/24_7_wall_st__718/b2287600f7e676fc8c07cc1d07c72884",
+                "width": 1500,
+                "height": 1000,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/5_nYrUXhaVerr2nhiLFAhg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/b2287600f7e676fc8c07cc1d07c72884",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/accenture-stock-gets-2-price-target-cuts-today-is-the-ai-revenue-story-falling-apart/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/accenture-stock-gets-2-price-174653127.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "9ce4fdc7-2303-3403-901e-bd60e14ae993",
+        "content": {
+          "id": "9ce4fdc7-2303-3403-901e-bd60e14ae993",
+          "contentType": "STORY",
+          "title": "The Only S&P 500 ETF You Need in 2026 and It’s Not the One You Think",
+          "description": "",
+          "summary": "SPDR S&P 500 ETF Trust (NYSEARCA:SPY) out of habit. It was the first U.S. ETF, it dominates options trading, and its name recognition is unmatched. But for investors simply buying and holding the S&P 500, that habit is quietly costing them money every year. The Case for IVV Over SPY iShares Core S&P 500 ETF ... The Only S&P 500 ETF You Need in 2026 and It’s Not the One You Think",
+          "pubDate": "2026-03-20T15:42:03Z",
+          "displayTime": "2026-03-20T15:42:03Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/df59dcb9ebd3f9397032460f1a073377",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/QjZnPGAsK7.2NP2QBz6X9w--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/df59dcb9ebd3f9397032460f1a073377",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/R9Qj2R7tJTPdNJuROdfhwQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/df59dcb9ebd3f9397032460f1a073377",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/the-only-sp-500-etf-you-need-in-2026-and-its-not-the-one-you-think/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/only-p-500-etf-2026-154203467.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "12a77d6a-fdbc-3e8e-8e54-8afda9d4b91f",
+        "content": {
+          "id": "12a77d6a-fdbc-3e8e-8e54-8afda9d4b91f",
+          "contentType": "STORY",
+          "title": "The Nasdaq Sinks As Super Micro AI Chip Smuggling to China Takes Center Stage | SMCI IXIC",
+          "description": "",
+          "summary": "The Nasdaq composite fell about 1% by mid-morning on Friday, March 20, 2026, dragged lower after federal prosecutors charged Super Micro Computer (NASDAQ:SMCI) co-founder with conspiring to smuggle billions of dollars in AI chips to China. The Invesco QQQ Trust (NASDAQ:QQQ), which tracks the Nasdaq-100, slid about 1% in sympathy, extending a losing streak that ... The Nasdaq Sinks As Super Micro AI Chip Smuggling to China Takes Center Stage | SMCI IXIC",
+          "pubDate": "2026-03-20T15:27:44Z",
+          "displayTime": "2026-03-20T15:27:44Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/f24594b0e1a8a8428edfa30da1133050",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/CrQ.r3Zt9d9G4c9FZ49lrQ--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/f24594b0e1a8a8428edfa30da1133050",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/14AeDm9M7HmHFkN14yoppg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/f24594b0e1a8a8428edfa30da1133050",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/the-nasdaq-sinks-as-super-micro-ai-chip-fraud-takes-center-stage-smci-ixic/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/nasdaq-sinks-super-micro-ai-152744959.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "2bb91194-3c57-3e63-9afe-e31779d699a3",
+        "content": {
+          "id": "2bb91194-3c57-3e63-9afe-e31779d699a3",
+          "contentType": "STORY",
+          "title": "The VIX Rips 10% Higher As Oil Punches Through $100 A Barrel and Panic Enters The Arena",
+          "description": "",
+          "summary": "Brent crude surged past $108 per barrel on Friday following fresh attacks on Persian Gulf energy infrastructure, sending the CBOE Volatility Index sharply higher and fear through every major U.S. equity index. The VIX, which had been moderating earlier in the week, is now sitting in territory that signals genuine investor anxiety rather than routine ... The VIX Rips 10% Higher As Oil Punches Through $100 A Barrel and Panic Enters The Arena",
+          "pubDate": "2026-03-20T15:27:01Z",
+          "displayTime": "2026-03-20T15:27:01Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/78afdaccffa05c9f974701d4ac4f223a",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/3unzQj45mIGqOghb1M6mnQ--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/78afdaccffa05c9f974701d4ac4f223a",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/GK_tEsFhKlcXtG3UU.qTbg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/78afdaccffa05c9f974701d4ac4f223a",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/the-vix-rips-10-higher-as-oil-punches-through-100-a-barrel-and-panic-enters-the-arena/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/options/articles/vix-rips-10-higher-oil-152701381.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "f4b74863-c1db-31f0-938a-208338520f7f",
+        "content": {
+          "id": "f4b74863-c1db-31f0-938a-208338520f7f",
+          "contentType": "STORY",
+          "title": "The S&P Falls Close to 1% As Oil Blasts Past $100 A Barrel",
+          "description": "",
+          "summary": "The S&P 500 fell to 6,557.94, down 0.73% as of mid-morning Friday, with all three major indexes on pace for a fourth consecutive losing week as surging oil prices and Middle East conflict weighed on sentiment. Brent crude is trading at $108.6 a barrel after spiking as high as $119 earlier in the week, with ... The S&P Falls Close to 1% As Oil Blasts Past $100 A Barrel",
+          "pubDate": "2026-03-20T15:26:19Z",
+          "displayTime": "2026-03-20T15:26:19Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/2ae6b54cfccafc36d72ae1cd01b4db82",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/rLvsBWW9Uy8EBd9Tl.HokQ--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/2ae6b54cfccafc36d72ae1cd01b4db82",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/j6X8fqwX4TDMskjImnjPpQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/2ae6b54cfccafc36d72ae1cd01b4db82",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/the-sp-falls-close-to-1-as-oil-blasts-past-100-a-barrel/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/p-falls-close-1-oil-152619185.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "7a782052-e135-3b7d-bf60-cd7f6e10541b",
+        "content": {
+          "id": "7a782052-e135-3b7d-bf60-cd7f6e10541b",
+          "contentType": "STORY",
+          "title": "Spring Equinox: Reflecting on a Nearly Full Q1",
+          "description": "",
+          "summary": "Major indexes are down both in the past week and the past month of trading. Only the Russell 2000 is still in the green year to date.",
+          "pubDate": "2026-03-20T14:24:00Z",
+          "displayTime": "2026-03-20T14:24:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "Zacks",
+            "url": "http://www.zacks.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/spring-equinox-reflecting-nearly-full-142400626.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/spring-equinox-reflecting-nearly-full-142400626.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "cec8616d-7529-3e35-83e3-8e5419e401c5",
+        "content": {
+          "id": "cec8616d-7529-3e35-83e3-8e5419e401c5",
+          "contentType": "STORY",
+          "title": "The Only 3 Growth ETFs I Would Buy and Hold Through Any Market",
+          "description": "",
+          "summary": "Growth investing has had a choppy start to 2026. The major growth benchmarks are down in the low single digits year-to-date, and some of the biggest names in tech have pulled back meaningfully from their late-2025 highs. For investors with a multi-year horizon, that kind of consolidation is worth understanding in the context of each ... The Only 3 Growth ETFs I Would Buy and Hold Through Any Market",
+          "pubDate": "2026-03-20T14:02:46Z",
+          "displayTime": "2026-03-20T14:02:46Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+            "originalWidth": 1500,
+            "originalHeight": 1001,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Pa60PAW5L0V72K_0lo1S8w--~B/aD0xMDAxO3c9MTUwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+                "width": 1500,
+                "height": 1001,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Jgsh.nqNjUSuuVWagsTTbw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/the-only-3-growth-etfs-i-would-buy-and-hold-through-any-market/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/only-3-growth-etfs-buy-140246579.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      }
+    ]
+  },
+  {
+    "requested_symbol": "QQQ",
+    "records": [
+      {
+        "id": "5049005f-fd95-38b6-bb82-ae3b1b22598f",
+        "content": {
+          "id": "5049005f-fd95-38b6-bb82-ae3b1b22598f",
+          "contentType": "STORY",
+          "title": "Should You Buy the Invesco QQQ ETF During the Stock Market Sell-Off? History Offers a Clear Answer.",
+          "description": "",
+          "summary": "Stock market volatility is a normal part of the investing journey.",
+          "pubDate": "2026-03-23T08:50:00Z",
+          "displayTime": "2026-03-23T08:50:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/motleyfool.com/c9776300cf603bd08387d2d3aac0aba3",
+            "originalWidth": 1400,
+            "originalHeight": 933,
+            "caption": "A person looking at stock charts on their smartphone with a laptop sitting on a table in the background.",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/43Eu9GUZf_aBiAEy5M0z1A--~B/aD05MzM7dz0xNDAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/motleyfool.com/c9776300cf603bd08387d2d3aac0aba3",
+                "width": 1400,
+                "height": 933,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/BFPTPt.SDTEoa3XTFyTZMA--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/motleyfool.com/c9776300cf603bd08387d2d3aac0aba3",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Motley Fool",
+            "url": "http://www.fool.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.fool.com/investing/2026/03/23/should-buy-invesco-qqq-etf-stock-sell-off-history/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/buy-invesco-qqq-etf-during-085000083.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "eeafe434-c810-3789-99b6-e5da985dbad8",
+        "content": {
+          "id": "eeafe434-c810-3789-99b6-e5da985dbad8",
+          "contentType": "STORY",
+          "title": "NexGen Energy Up 123% This Past Year as Investor Adds $7.3 Million Before Major Approval",
+          "description": "",
+          "summary": "Canadian-based NexGen Energy advances uranium exploration and development, anchored by its flagship Rook I project in Saskatchewan.",
+          "pubDate": "2026-03-22T13:31:21Z",
+          "displayTime": "2026-03-22T13:31:21Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "Motley Fool",
+            "url": "http://www.fool.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.fool.com/coverage/filings/2026/03/22/nexgen-energy-up-123-this-past-year-as-investor-adds-usd7-3-million-before-major-approval/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/nexgen-energy-123-past-investor-133121068.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "bb42235a-4b01-3ebc-8526-6df04c704ab0",
+        "content": {
+          "id": "bb42235a-4b01-3ebc-8526-6df04c704ab0",
+          "contentType": "STORY",
+          "title": "USA Compression Partners Eyes Debt Reduction as Record Cash Flow Powers 1.6x Coverage Target",
+          "description": "",
+          "summary": "One of the largest independent providers of natural gas compression services, USA Compression Partners (NYSE:USAC) has rallied 24.61% year-to-date through mid-March 20, 2026, powered by record cash flow and the January 12, 2026, close of the J-W Power acquisition. The central question for income investors: Is a 1.6x-plus distribution coverage target cited at an investor ... USA Compression Partners Eyes Debt Reduction as Record Cash Flow Powers 1.6x Coverage Target",
+          "pubDate": "2026-03-22T11:52:26Z",
+          "displayTime": "2026-03-22T11:52:26Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/3fa11a8c96eccbbf37febbcb6031dd4c",
+            "originalWidth": 1366,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/IbpeS3lybQ8gTY_lY2edhA--~B/aD03Njg7dz0xMzY2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/3fa11a8c96eccbbf37febbcb6031dd4c",
+                "width": 1366,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Rct3fYGHQD73fOLrfIrh3A--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/3fa11a8c96eccbbf37febbcb6031dd4c",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/22/usa-compression-partners-eyes-debt-reduction-as-record-cash-flow-powers-1-6x-coverage-target/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/usa-compression-partners-eyes-debt-115226282.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "7379037d-144d-37ba-92fc-a25820fb5aee",
+        "content": {
+          "id": "7379037d-144d-37ba-92fc-a25820fb5aee",
+          "contentType": "STORY",
+          "title": "This Fidelity Growth ETF Is Quietly Outperforming Just About Everything",
+          "description": "",
+          "summary": "Most large-cap growth investors default to QQQ or VUG and never look back. That instinct is reasonable, but it has cost them returns over the past year. Fidelity Fundamental Large Cap Growth ETF (NYSEARCA:FFLG) returned 27% over the trailing twelve months, while Invesco QQQ Trust (NASDAQ:QQQ) returned 25% and Vanguard Growth ETF (NYSEARCA:VUG) returned 21% ... This Fidelity Growth ETF Is Quietly Outperforming Just About Everything",
+          "pubDate": "2026-03-22T11:02:31Z",
+          "displayTime": "2026-03-22T11:02:31Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/6050efae69ff341327b1702809b088b9",
+            "originalWidth": 1500,
+            "originalHeight": 1001,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/x8pJJYtihybtq0g4qt9lNg--~B/aD0xMDAxO3c9MTUwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/24_7_wall_st__718/6050efae69ff341327b1702809b088b9",
+                "width": 1500,
+                "height": 1001,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/3uN4QZkDgPoZdmjY0YxXvQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/6050efae69ff341327b1702809b088b9",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/22/this-fidelity-growth-etf-is-quietly-outperforming-just-about-everything/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/fidelity-growth-etf-quietly-outperforming-110231709.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "4de9f37d-b2bd-396c-b59c-7a91d924e1f2",
+        "content": {
+          "id": "4de9f37d-b2bd-396c-b59c-7a91d924e1f2",
+          "contentType": "STORY",
+          "title": "Coinbase Launches 24/7 Perpetual Futures Trading for Major U.S. Stocks and ETFs",
+          "description": "",
+          "summary": "Coinbase International customers can now ape stock-linked perpetual futures with up to 20x leverage at any time.",
+          "pubDate": "2026-03-20T18:52:38Z",
+          "displayTime": "2026-03-20T18:52:38Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/bankless_325/7022893060e81f09b812055c7cb077fc",
+            "originalWidth": 1920,
+            "originalHeight": 1080,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/K7kh64ofyGCTNoF6HtUymA--~B/aD0xMDgwO3c9MTkyMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/bankless_325/7022893060e81f09b812055c7cb077fc",
+                "width": 1920,
+                "height": 1080,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/g6qOyOcrb9tKdUxKer2oMw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/bankless_325/7022893060e81f09b812055c7cb077fc",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Bankless",
+            "url": "https://www.bankless.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.bankless.com/read/news/coinbase-launches-24-7-perpetual-futures-trading-for-major-u-s-stocks-and-etfs",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/crypto/articles/coinbase-launches-24-7-perpetual-185238663.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "1c5d0192-5d95-38b4-9614-7819c39cc712",
+        "content": {
+          "id": "1c5d0192-5d95-38b4-9614-7819c39cc712",
+          "contentType": "STORY",
+          "title": "Exchange-Traded Funds Decline as US Equities Point Lower After Midday",
+          "description": "",
+          "summary": "Broad Market Indicators Broad-market exchange-traded funds IWM and IVV fell. Actively traded Inve",
+          "pubDate": "2026-03-20T17:06:39Z",
+          "displayTime": "2026-03-20T17:06:39Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/articles/exchange-traded-funds-decline-us-170639705.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/articles/exchange-traded-funds-decline-us-170639705.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "12a77d6a-fdbc-3e8e-8e54-8afda9d4b91f",
+        "content": {
+          "id": "12a77d6a-fdbc-3e8e-8e54-8afda9d4b91f",
+          "contentType": "STORY",
+          "title": "The Nasdaq Sinks As Super Micro AI Chip Smuggling to China Takes Center Stage | SMCI IXIC",
+          "description": "",
+          "summary": "The Nasdaq composite fell about 1% by mid-morning on Friday, March 20, 2026, dragged lower after federal prosecutors charged Super Micro Computer (NASDAQ:SMCI) co-founder with conspiring to smuggle billions of dollars in AI chips to China. The Invesco QQQ Trust (NASDAQ:QQQ), which tracks the Nasdaq-100, slid about 1% in sympathy, extending a losing streak that ... The Nasdaq Sinks As Super Micro AI Chip Smuggling to China Takes Center Stage | SMCI IXIC",
+          "pubDate": "2026-03-20T15:27:44Z",
+          "displayTime": "2026-03-20T15:27:44Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/f24594b0e1a8a8428edfa30da1133050",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/CrQ.r3Zt9d9G4c9FZ49lrQ--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/f24594b0e1a8a8428edfa30da1133050",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/14AeDm9M7HmHFkN14yoppg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/f24594b0e1a8a8428edfa30da1133050",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/the-nasdaq-sinks-as-super-micro-ai-chip-fraud-takes-center-stage-smci-ixic/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/nasdaq-sinks-super-micro-ai-152744959.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "2bb91194-3c57-3e63-9afe-e31779d699a3",
+        "content": {
+          "id": "2bb91194-3c57-3e63-9afe-e31779d699a3",
+          "contentType": "STORY",
+          "title": "The VIX Rips 10% Higher As Oil Punches Through $100 A Barrel and Panic Enters The Arena",
+          "description": "",
+          "summary": "Brent crude surged past $108 per barrel on Friday following fresh attacks on Persian Gulf energy infrastructure, sending the CBOE Volatility Index sharply higher and fear through every major U.S. equity index. The VIX, which had been moderating earlier in the week, is now sitting in territory that signals genuine investor anxiety rather than routine ... The VIX Rips 10% Higher As Oil Punches Through $100 A Barrel and Panic Enters The Arena",
+          "pubDate": "2026-03-20T15:27:01Z",
+          "displayTime": "2026-03-20T15:27:01Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/78afdaccffa05c9f974701d4ac4f223a",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/3unzQj45mIGqOghb1M6mnQ--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/78afdaccffa05c9f974701d4ac4f223a",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/GK_tEsFhKlcXtG3UU.qTbg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/78afdaccffa05c9f974701d4ac4f223a",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/the-vix-rips-10-higher-as-oil-punches-through-100-a-barrel-and-panic-enters-the-arena/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/options/articles/vix-rips-10-higher-oil-152701381.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "f4b74863-c1db-31f0-938a-208338520f7f",
+        "content": {
+          "id": "f4b74863-c1db-31f0-938a-208338520f7f",
+          "contentType": "STORY",
+          "title": "The S&P Falls Close to 1% As Oil Blasts Past $100 A Barrel",
+          "description": "",
+          "summary": "The S&P 500 fell to 6,557.94, down 0.73% as of mid-morning Friday, with all three major indexes on pace for a fourth consecutive losing week as surging oil prices and Middle East conflict weighed on sentiment. Brent crude is trading at $108.6 a barrel after spiking as high as $119 earlier in the week, with ... The S&P Falls Close to 1% As Oil Blasts Past $100 A Barrel",
+          "pubDate": "2026-03-20T15:26:19Z",
+          "displayTime": "2026-03-20T15:26:19Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/2ae6b54cfccafc36d72ae1cd01b4db82",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/rLvsBWW9Uy8EBd9Tl.HokQ--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/2ae6b54cfccafc36d72ae1cd01b4db82",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/j6X8fqwX4TDMskjImnjPpQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/2ae6b54cfccafc36d72ae1cd01b4db82",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/the-sp-falls-close-to-1-as-oil-blasts-past-100-a-barrel/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/p-falls-close-1-oil-152619185.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "7a782052-e135-3b7d-bf60-cd7f6e10541b",
+        "content": {
+          "id": "7a782052-e135-3b7d-bf60-cd7f6e10541b",
+          "contentType": "STORY",
+          "title": "Spring Equinox: Reflecting on a Nearly Full Q1",
+          "description": "",
+          "summary": "Major indexes are down both in the past week and the past month of trading. Only the Russell 2000 is still in the green year to date.",
+          "pubDate": "2026-03-20T14:24:00Z",
+          "displayTime": "2026-03-20T14:24:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "Zacks",
+            "url": "http://www.zacks.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/spring-equinox-reflecting-nearly-full-142400626.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/spring-equinox-reflecting-nearly-full-142400626.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "cec8616d-7529-3e35-83e3-8e5419e401c5",
+        "content": {
+          "id": "cec8616d-7529-3e35-83e3-8e5419e401c5",
+          "contentType": "STORY",
+          "title": "The Only 3 Growth ETFs I Would Buy and Hold Through Any Market",
+          "description": "",
+          "summary": "Growth investing has had a choppy start to 2026. The major growth benchmarks are down in the low single digits year-to-date, and some of the biggest names in tech have pulled back meaningfully from their late-2025 highs. For investors with a multi-year horizon, that kind of consolidation is worth understanding in the context of each ... The Only 3 Growth ETFs I Would Buy and Hold Through Any Market",
+          "pubDate": "2026-03-20T14:02:46Z",
+          "displayTime": "2026-03-20T14:02:46Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+            "originalWidth": 1500,
+            "originalHeight": 1001,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Pa60PAW5L0V72K_0lo1S8w--~B/aD0xMDAxO3c9MTUwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+                "width": 1500,
+                "height": 1001,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Jgsh.nqNjUSuuVWagsTTbw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/the-only-3-growth-etfs-i-would-buy-and-hold-through-any-market/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/only-3-growth-etfs-buy-140246579.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "0971de79-a205-309f-b402-861e44a5ae13",
+        "content": {
+          "id": "0971de79-a205-309f-b402-861e44a5ae13",
+          "contentType": "STORY",
+          "title": "Exchange-Traded Funds, Equity Futures Lower Pre-Bell as Energy Market Disruptions Weigh on Investor Sentiment",
+          "description": "",
+          "summary": "The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was down 0.5% and the actively tr",
+          "pubDate": "2026-03-20T13:09:59Z",
+          "displayTime": "2026-03-20T13:09:59Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-equity-futures-130959610.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-equity-futures-130959610.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "752bf860-5abf-3043-aa4d-025eb2bc2922",
+        "content": {
+          "id": "752bf860-5abf-3043-aa4d-025eb2bc2922",
+          "contentType": "STORY",
+          "title": "This Under The Radar ETF Bets On Tech And Pays 11% Dividends",
+          "description": "",
+          "summary": "Monthly income checks from a tech-heavy portfolio sound appealing, but the mechanics behind how QYLD generates that income determine whether it belongs in your portfolio. The answer depends almost entirely on what you need your money to do. What QYLD Actually Does Global X NASDAQ 100 Covered Call ETF (NYSEARCA:QYLD) holds the same stocks as ... This Under The Radar ETF Bets On Tech And Pays 11% Dividends",
+          "pubDate": "2026-03-20T13:02:35Z",
+          "displayTime": "2026-03-20T13:02:35Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/8db51b93e975d901899281a5ff691ffa",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/LHxL.guPfC4_AfmG_5QC3Q--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/8db51b93e975d901899281a5ff691ffa",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/fDZSgdTfU.zHzeHGSjZEfw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/8db51b93e975d901899281a5ff691ffa",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/this-under-the-radar-etf-bets-on-tech-and-pays-11-dividends/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/options/articles/under-radar-etf-bets-tech-130235426.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "2093ee59-c577-3f78-845e-a6651a19e198",
+        "content": {
+          "id": "2093ee59-c577-3f78-845e-a6651a19e198",
+          "contentType": "STORY",
+          "title": "Forget Yield Chasing Right Now and Buy These Growth ETFs Instead",
+          "description": "",
+          "summary": "Chasing yield feels safe. A high-dividend ETF paying monthly, a covered-call fund with a flashy distribution rate. But investors who have parked capital in income-first vehicles over the past decade have quietly watched the compounding machine of the Nasdaq-100 leave them behind. Invesco QQQ Trust (NYSEARCA:QQQ) makes the case that for investors with time on ... Forget Yield Chasing Right Now and Buy These Growth ETFs Instead",
+          "pubDate": "2026-03-20T10:02:32Z",
+          "displayTime": "2026-03-20T10:02:32Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/15b8f447081cfb3627d8472efc239a16",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/IEVv3Tq22E4DspIkR_RliQ--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/15b8f447081cfb3627d8472efc239a16",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/lYgqRT9GUufBcUvcyfrsug--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/15b8f447081cfb3627d8472efc239a16",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/forget-yield-chasing-right-now-and-buy-these-growth-etfs-instead/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/forget-yield-chasing-now-buy-100232583.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "7162c2f1-6d70-3348-867b-daa96f802e56",
+        "content": {
+          "id": "7162c2f1-6d70-3348-867b-daa96f802e56",
+          "contentType": "STORY",
+          "title": "Invesco QEW ETF Targets Nasdaq 100 Concentration Risk And Growth Story",
+          "description": "",
+          "summary": "Invesco (NYSE:IVZ) has launched the Invesco QQQ Equal Weight ETF (QEW), expanding its QQQ Innovation Suite. The new ETF offers exposure to Nasdaq-100 companies using an equal-weight approach that aims to reduce concentration risk. This product adds another option for investors seeking systematic access to large US growth and technology oriented names. Invesco is adding QEW at a time when its own shares trade around $23.42, with a mixed return profile. The stock shows a 56.6% return over 1...",
+          "pubDate": "2026-03-19T19:05:15Z",
+          "displayTime": "2026-03-19T19:05:15Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/simply_wall_st__316/f88d3d8c5618aa88ce2627c2a1cda340",
+            "originalWidth": 1194,
+            "originalHeight": 432,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/SSw8naZrBB1tKswm10P8gw--~B/aD00MzI7dz0xMTk0O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/simply_wall_st__316/f88d3d8c5618aa88ce2627c2a1cda340",
+                "width": 1194,
+                "height": 432,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/79qko4F_hdhwRlGyEfLjcw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/simply_wall_st__316/f88d3d8c5618aa88ce2627c2a1cda340",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Simply Wall St.",
+            "url": "https://simplywall.st/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/invesco-qew-etf-targets-nasdaq-190515440.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/invesco-qew-etf-targets-nasdaq-190515440.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "f21b22eb-0a8d-30b8-8b8a-1b1aa2d16e10",
+        "content": {
+          "id": "f21b22eb-0a8d-30b8-8b8a-1b1aa2d16e10",
+          "contentType": "STORY",
+          "title": "Exchange-Traded Funds Edge Lower as US Equities Fall After Midday",
+          "description": "",
+          "summary": "Broad Market Indicators Broad-market exchange-traded funds IWM and IVV declined. Actively traded",
+          "pubDate": "2026-03-19T17:07:42Z",
+          "displayTime": "2026-03-19T17:07:42Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-edge-lower-170742555.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-edge-lower-170742555.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "19e7f0ce-2927-36fd-bfd7-815e82738dbd",
+        "content": {
+          "id": "19e7f0ce-2927-36fd-bfd7-815e82738dbd",
+          "contentType": "STORY",
+          "title": "MoneyMasters Podcast 3-19-26- The Golden Rule of Trading",
+          "description": "",
+          "summary": "In this double-header episode of the MoneyShow MoneyMasters Podcast, we’re coming to you from the 2026 Money Show in Las Vegas – sitting down with two seasoned market experts to discuss investing and trading strategies for a shifting market environment.",
+          "pubDate": "2026-03-19T16:30:00Z",
+          "displayTime": "2026-03-19T16:30:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MoneyShow",
+            "url": "https://www.moneyshow.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/moneymasters-podcast-3-19-26-163000363.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/moneymasters-podcast-3-19-26-163000363.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "218a985d-c70d-33c9-b736-cd3a64ff6981",
+        "content": {
+          "id": "218a985d-c70d-33c9-b736-cd3a64ff6981",
+          "contentType": "STORY",
+          "title": "Exchange-Traded Funds, Equity Futures Lower Pre-Bell Thursday Amid Rising Oil Prices, Reduced Rate-Cut Expectations",
+          "description": "",
+          "summary": "The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was down 0.4%, and the actively t",
+          "pubDate": "2026-03-19T12:49:23Z",
+          "displayTime": "2026-03-19T12:49:23Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-equity-futures-124923636.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-equity-futures-124923636.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "814bb311-d839-3ebe-9e9c-414071b98292",
+        "content": {
+          "id": "814bb311-d839-3ebe-9e9c-414071b98292",
+          "contentType": "STORY",
+          "title": "New Fed \"Dot Plot\" Sends Markets Sliding",
+          "description": "",
+          "summary": "The Fed's new dot-plot calls for just one rate cut this year and one in 2027.",
+          "pubDate": "2026-03-18T21:38:00Z",
+          "displayTime": "2026-03-18T21:38:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/zacks.com/bc12196d82ae69b6fcdffe7bd77300e1",
+            "originalWidth": 620,
+            "originalHeight": 419,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/HRwoBXi9VPpL3dehfHJHKQ--~B/aD00MTk7dz02MjA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/zacks.com/bc12196d82ae69b6fcdffe7bd77300e1",
+                "width": 620,
+                "height": 419,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/tr0yvFfrYOWmOv3wvrnSWQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/zacks.com/bc12196d82ae69b6fcdffe7bd77300e1",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Zacks",
+            "url": "http://www.zacks.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/economy/policy/articles/fed-dot-plot-sends-markets-213800794.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/economy/policy/articles/fed-dot-plot-sends-markets-213800794.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "486798e8-c8ca-33fb-8da0-1e90a49aa573",
+        "content": {
+          "id": "486798e8-c8ca-33fb-8da0-1e90a49aa573",
+          "contentType": "STORY",
+          "title": "Exchange-Traded Funds Fall as US Equities Decline After Midday",
+          "description": "",
+          "summary": "Broad Market Indicators Broad-market exchange-traded funds IWM and IVV were lower. Actively trade",
+          "pubDate": "2026-03-18T17:10:32Z",
+          "displayTime": "2026-03-18T17:10:32Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/exchange-traded-funds-fall-us-171032561.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/exchange-traded-funds-fall-us-171032561.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      }
+    ]
+  },
+  {
+    "requested_symbol": "TLT",
+    "records": [
+      {
+        "id": "f532890d-ab85-35d9-98a7-97e6d6fc1eb9",
+        "content": {
+          "id": "f532890d-ab85-35d9-98a7-97e6d6fc1eb9",
+          "contentType": "STORY",
+          "title": "Foreign Investors Hold $36 Trillion in U.S. Assets. High Oil Prices Might Make Them Sell.",
+          "description": "",
+          "summary": "Higher prices of crude  are a headache for foreign importers, but their pain can be passed on to U.S. portfolios.  The cost to import oil has moved higher globally after the U.S. and Israel attack on Iran while currencies of most major economies have taken a hit against  The dual blow creates an environment where countries and companies abroad might eventually turn to their growing pile of U.S. stocks and bondholdings as they hunt for dollars to pay for the suddenly more expensive oil.  It’s a risk worth monitoring, especially as foreign countries and governments hold a growing share of the U.S. market.",
+          "pubDate": "2026-03-20T12:05:00Z",
+          "displayTime": "2026-03-20T12:05:00Z",
+          "isHosted": false,
+          "bypassModal": false,
+          "previewUrl": "https://finance.yahoo.com/m/f532890d-ab85-35d9-98a7-97e6d6fc1eb9/foreign-investors-hold-36.html",
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/Barrons.com/22641bad8d8eb8517284b5cfccdac009",
+            "originalWidth": 1280,
+            "originalHeight": 640,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/RSOkfyR4hX3rLzT6btWODw--~B/aD02NDA7dz0xMjgwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/Barrons.com/22641bad8d8eb8517284b5cfccdac009",
+                "width": 1280,
+                "height": 640,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/QQPAbYZ8LDiD24alClXjag--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/Barrons.com/22641bad8d8eb8517284b5cfccdac009",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Barrons.com",
+            "url": "http://www.barrons.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.barrons.com/articles/foreign-investors-sell-us-stock-market-bonds-8ff8c6d8?siteid=yhoof2&yptr=yahoo",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": null,
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "8a3f0ee3-b88e-359c-8ccd-7b3e6cac4f29",
+        "content": {
+          "id": "8a3f0ee3-b88e-359c-8ccd-7b3e6cac4f29",
+          "contentType": "STORY",
+          "title": "3 Dividend ETFs That Can Replace a Pension in 2026",
+          "description": "",
+          "summary": "Social Security pays retirees $2,000 a month on average, and private tuitions are even lower than that. If you are hungry for more income, dividend ETFs like the iShares 20+ Year Treasury Bond BuyWrite Strat ETF (BATS:TLTW), VanEck Mortgage REIT Income ETF (NYSEARCA:MORT), and Virtus InfraCap US Preferred Stock ETF (NYSEARCA:PFFA) can deliver more income. ... 3 Dividend ETFs That Can Replace a Pension in 2026",
+          "pubDate": "2026-03-19T18:30:40Z",
+          "displayTime": "2026-03-19T18:30:40Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/aa5ac11a3c71e7472cb4c3e6921ca865",
+            "originalWidth": 1500,
+            "originalHeight": 844,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/8w72VGu6ZfG.NKxEAn9_mA--~B/aD04NDQ7dz0xNTAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/aa5ac11a3c71e7472cb4c3e6921ca865",
+                "width": 1500,
+                "height": 844,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/p35qS4lQOqCc96T6AOcFLg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/aa5ac11a3c71e7472cb4c3e6921ca865",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/19/3-dividend-etfs-that-can-replace-a-pension-in-2026/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/3-dividend-etfs-replace-pension-183040752.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "874d7b5e-2a20-3a22-8b1a-c7c4fd7064c2",
+        "content": {
+          "id": "874d7b5e-2a20-3a22-8b1a-c7c4fd7064c2",
+          "contentType": "STORY",
+          "title": "Market Minute 3-18-26- Oil, Fed in Focus",
+          "description": "",
+          "summary": "Energy prices started the morning out tame - but are on the move now. Equities and gold are sliding along with Treasuries, while the dollar is modestly higher.",
+          "pubDate": "2026-03-18T14:15:00Z",
+          "displayTime": "2026-03-18T14:15:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/moneyshow_610/d2119026261ff52a133611a6e19e951e",
+            "originalWidth": 545,
+            "originalHeight": 374,
+            "caption": "chart",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/TUQtSFWfv8rGFuscxOWnYA--~B/aD0zNzQ7dz01NDU7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/moneyshow_610/d2119026261ff52a133611a6e19e951e",
+                "width": 545,
+                "height": 374,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/.VjxwW67GDobyczGycbSvA--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/moneyshow_610/d2119026261ff52a133611a6e19e951e",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "MoneyShow",
+            "url": "https://www.moneyshow.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/sectors/energy/articles/market-minute-3-18-26-141500967.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/sectors/energy/articles/market-minute-3-18-26-141500967.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "d3012a9b-9557-392c-92a6-464fae85fde7",
+        "content": {
+          "id": "d3012a9b-9557-392c-92a6-464fae85fde7",
+          "contentType": "STORY",
+          "title": "Worried About a Market Crash? 3 ETFs to Buy to Sleep Well At Night",
+          "description": "",
+          "summary": "The VIX fear gauge has climbed more than 54% over the past month, sitting in the elevated uncertainty zone at a reading that ranks in the 93rd percentile of the past year. Meanwhile, the S&P 500 is down nearly 2% year-to-date while consumer sentiment sits at 56.4, deep in pessimistic territory. Geopolitical tensions, tariff uncertainty, ... Worried About a Market Crash? 3 ETFs to Buy to Sleep Well At Night",
+          "pubDate": "2026-03-17T14:49:57Z",
+          "displayTime": "2026-03-17T14:49:57Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/1826405e44315812ddb506ef617f11b5",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/E8YQstxaXyxEoE1XI3irvQ--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/1826405e44315812ddb506ef617f11b5",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/dE7dLaQ838.ksoWB0ibixw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/1826405e44315812ddb506ef617f11b5",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/17/worried-about-a-market-crash-3-etfs-to-buy-to-sleep-well-at-night/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/worried-market-crash-3-etfs-144957515.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "5158dc77-71b6-4609-a6b5-e4a25769326e",
+        "content": {
+          "id": "5158dc77-71b6-4609-a6b5-e4a25769326e",
+          "contentType": "STORY",
+          "title": "Why oil shocks turn markets into a game of whack-a-mole",
+          "description": "",
+          "summary": "Oil shocks rarely stay boxed inside the inflation story. They spread.",
+          "pubDate": "2026-03-17T13:01:42Z",
+          "displayTime": "2026-03-17T13:01:42Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2026-03/1f7ae920-21fc-11f1-bfff-0106b2afa3c4",
+            "originalWidth": 5616,
+            "originalHeight": 3744,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/dVcOm_6_38MP1NAzp8R1_A--~B/aD0zNzQ0O3c9NTYxNjthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/os/creatr-uploaded-images/2026-03/1f7ae920-21fc-11f1-bfff-0106b2afa3c4",
+                "width": 5616,
+                "height": 3744,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/pK2L9KljMs7THrQ7EPHdNw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://s.yimg.com/os/creatr-uploaded-images/2026-03/1f7ae920-21fc-11f1-bfff-0106b2afa3c4",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Yahoo Finance",
+            "url": "http://finance.yahoo.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/why-oil-shocks-turn-markets-into-a-game-of-whack-a-mole-130142557.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/why-oil-shocks-turn-markets-into-a-game-of-whack-a-mole-130142557.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "ec4e2055-945e-31a1-a5df-6d6020c10f99",
+        "content": {
+          "id": "ec4e2055-945e-31a1-a5df-6d6020c10f99",
+          "contentType": "STORY",
+          "title": "What Do You Need To Invest To Replace Your $95k Salary Just On Dividends Alone?",
+          "description": "",
+          "summary": "Let’s cut through the noise and get real about replacing a $95,000 salary with dividend income alone. In today’s market (March 2026, with rates steady and inflation cooling), investors need a hefty nest egg to generate that kind of cash flow without touching principal. The math is straightforward. Investors simply need to divide their target ... What Do You Need To Invest To Replace Your $95k Salary Just On Dividends Alone?",
+          "pubDate": "2026-03-17T12:45:54Z",
+          "displayTime": "2026-03-17T12:45:54Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/1a4146c19137ed174fed34e1c87ef5a6",
+            "originalWidth": 500,
+            "originalHeight": 500,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/AK5OFzvIFH8dUIg2fqIVaQ--~B/aD01MDA7dz01MDA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/1a4146c19137ed174fed34e1c87ef5a6",
+                "width": 500,
+                "height": 500,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/zfRM3h9nzr1ShGMD9.em7Q--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/1a4146c19137ed174fed34e1c87ef5a6",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/17/what-do-you-need-to-invest-to-replace-your-95k-salary-just-on-dividends-alone/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/invest-replace-95k-salary-just-124554600.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "dd21a9bf-1acb-352a-82cb-3f363544ec76",
+        "content": {
+          "id": "dd21a9bf-1acb-352a-82cb-3f363544ec76",
+          "contentType": "STORY",
+          "title": "Treasuries and Other Government Bonds Will Keep Selling Off, BlackRock Says. These Risks Are Lurking.",
+          "description": "",
+          "summary": "Bond investors shouldn’t be surprised by steeper losses because of inflation driven by higher prices for oil, AI chips, and military spending.",
+          "pubDate": "2026-03-16T19:53:00Z",
+          "displayTime": "2026-03-16T19:53:00Z",
+          "isHosted": false,
+          "bypassModal": false,
+          "previewUrl": "https://finance.yahoo.com/m/dd21a9bf-1acb-352a-82cb-3f363544ec76/treasuries-and-other.html",
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/Barrons.com/0ac2f3d61009b894e315ed2d186bb13a",
+            "originalWidth": 1280,
+            "originalHeight": 640,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/WH420SsIuOHA1UpG0q9Eew--~B/aD02NDA7dz0xMjgwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/Barrons.com/0ac2f3d61009b894e315ed2d186bb13a",
+                "width": 1280,
+                "height": 640,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/KLD1HhOLqkg4MwlcmgoDCQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/Barrons.com/0ac2f3d61009b894e315ed2d186bb13a",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Barrons.com",
+            "url": "http://www.barrons.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.barrons.com/articles/treasuries-inflation-oil-iran-fed-interest-rates-e51efed1?siteid=yhoof2&yptr=yahoo",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": null,
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "d10a0119-acce-3ab5-bb58-ea19f9a80f0b",
+        "content": {
+          "id": "d10a0119-acce-3ab5-bb58-ea19f9a80f0b",
+          "contentType": "STORY",
+          "title": "3 Dividend ETFs to Ride the “Great Rotation” as Investors Leave Growth Stocks in Droves",
+          "description": "",
+          "summary": "Investors are getting more selective, and this is causing growth stocks across the board to slow down. Dividend ETFs like the iShares 20+ Year Treasury Bond ETF (NASDAQ:TLT), Schwab US Dividend Equity ETF (NYSEARCA:SCHD), and Vanguard Consumer Staples Index Fund ETF (NYSEARCA:VDC) are well-positioned to be the biggest beneficiaries of this great rotation, considering investors ... 3 Dividend ETFs to Ride the “Great Rotation” as Investors Leave Growth Stocks in Droves",
+          "pubDate": "2026-03-16T18:00:19Z",
+          "displayTime": "2026-03-16T18:00:19Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/d1b5600d80b25bcad573b72d274a2427",
+            "originalWidth": 1000,
+            "originalHeight": 486,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/ym6Iz.QYlymrbujsk6TB6Q--~B/aD00ODY7dz0xMDAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/d1b5600d80b25bcad573b72d274a2427",
+                "width": 1000,
+                "height": 486,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/d0NrGN_WF8HgdrgyRGwSqQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/d1b5600d80b25bcad573b72d274a2427",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/16/3-dividend-etfs-to-ride-the-great-rotation-as-investors-leave-growth-stocks-in-droves/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/3-dividend-etfs-ride-great-180019354.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "3ebd85db-abcf-3e52-b1b9-7b1277f42180",
+        "content": {
+          "id": "3ebd85db-abcf-3e52-b1b9-7b1277f42180",
+          "contentType": "STORY",
+          "title": "Market Minute 3-16-26- Oil Holds Gains on Hormuz Worries",
+          "description": "",
+          "summary": "Crude oil prices are holding most of their recent gains, though they’ve been retreating the last few hours. Stocks are bouncing back along with Treasuries, while gold and silver are giving up some ground. The dollar is dipping.",
+          "pubDate": "2026-03-16T14:20:00Z",
+          "displayTime": "2026-03-16T14:20:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/moneyshow_610/16be6a250da9b37fe7501ea7851adb73",
+            "originalWidth": 624,
+            "originalHeight": 293,
+            "caption": "chart",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/0ckulKDVgCefpz76AGrckg--~B/aD0yOTM7dz02MjQ7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/moneyshow_610/16be6a250da9b37fe7501ea7851adb73",
+                "width": 624,
+                "height": 293,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/VBotrlX4zb95ojNje72.JQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/moneyshow_610/16be6a250da9b37fe7501ea7851adb73",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "MoneyShow",
+            "url": "https://www.moneyshow.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/market-minute-3-16-26-142000143.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/market-minute-3-16-26-142000143.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "b33ca643-1ed5-3209-a27a-d0b047a8c2f2",
+        "content": {
+          "id": "b33ca643-1ed5-3209-a27a-d0b047a8c2f2",
+          "contentType": "STORY",
+          "title": "Hedge Iran War Turmoil With These ETF Strategies",
+          "description": "",
+          "summary": "Iran war is reshaping hedging strategies as stocks and bonds fall together. Here are ETF ideas investors are using to navigate stagflation fears and oil shock.",
+          "pubDate": "2026-03-13T17:00:00Z",
+          "displayTime": "2026-03-13T17:00:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/zacks.com/03fca48475577988aa4e0db94f484b4e",
+            "originalWidth": 900,
+            "originalHeight": 600,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Tw87WEC1wh0JNb8.IBuFMA--~B/aD02MDA7dz05MDA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/zacks.com/03fca48475577988aa4e0db94f484b4e",
+                "width": 900,
+                "height": 600,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/tVH6SRortMqC754OczUM_w--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/zacks.com/03fca48475577988aa4e0db94f484b4e",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Zacks",
+            "url": "http://www.zacks.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/hedge-iran-war-turmoil-etf-170000281.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/hedge-iran-war-turmoil-etf-170000281.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "6c736ae2-ede9-49a5-a3f0-44d56277529b",
+        "content": {
+          "id": "6c736ae2-ede9-49a5-a3f0-44d56277529b",
+          "contentType": "STORY",
+          "title": "Why the real market shock is in long bonds",
+          "description": "",
+          "summary": "One glaring market reaction to the war headlines has been the sell-off in US government long-term bonds, pushing yields like the 10-year and 30-year yields materially higher.",
+          "pubDate": "2026-03-12T20:07:20Z",
+          "displayTime": "2026-03-13T06:08:44Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2026-03/fa613b60-1e4c-11f1-be2e-24ebbb8ebe6a",
+            "originalWidth": 6000,
+            "originalHeight": 4000,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/o3.hSsCMrbvRF1qOwzInDg--~B/aD00MDAwO3c9NjAwMDthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/os/creatr-uploaded-images/2026-03/fa613b60-1e4c-11f1-be2e-24ebbb8ebe6a",
+                "width": 6000,
+                "height": 4000,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/4qxmrYaFcyjXj565YQcF7w--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://s.yimg.com/os/creatr-uploaded-images/2026-03/fa613b60-1e4c-11f1-be2e-24ebbb8ebe6a",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Yahoo Finance",
+            "url": "http://finance.yahoo.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/why-the-real-market-shock-is-in-long-bonds-200720064.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/why-the-real-market-shock-is-in-long-bonds-200720064.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "381a6504-3c7d-3936-9a7e-48ddac09e2e6",
+        "content": {
+          "id": "381a6504-3c7d-3936-9a7e-48ddac09e2e6",
+          "contentType": "STORY",
+          "title": "Market Minute 3-11-26- Will Massive Oil Releases Offset War Worries",
+          "description": "",
+          "summary": "Stocks remain in a holding pattern today, while gold and silver are pulling back. Crude oil is climbing again, while Treasuries remain under modest pressure.",
+          "pubDate": "2026-03-11T14:25:00Z",
+          "displayTime": "2026-03-11T14:25:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/moneyshow_610/4b9e263e4a88ca6f9fcaeda7f05f47ab",
+            "originalWidth": 612,
+            "originalHeight": 291,
+            "caption": "chart",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/VwDiHvGmFyETZ44saXZiIw--~B/aD0yOTE7dz02MTI7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/moneyshow_610/4b9e263e4a88ca6f9fcaeda7f05f47ab",
+                "width": 612,
+                "height": 291,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/8Kbz23RdgNoZY3tjFv5qSQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/moneyshow_610/4b9e263e4a88ca6f9fcaeda7f05f47ab",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "MoneyShow",
+            "url": "https://www.moneyshow.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/market-minute-3-11-26-142500256.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/market-minute-3-11-26-142500256.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "d220b7f7-5b8c-355b-b672-bce56e4ed4f5",
+        "content": {
+          "id": "d220b7f7-5b8c-355b-b672-bce56e4ed4f5",
+          "contentType": "STORY",
+          "title": "The Stock Market Needs More Than Oracle Earnings to Forget About the Iran War",
+          "description": "",
+          "summary": "U.S.  were back on oil watch Wednesday with investors eyeing headlines tied to the potential for coordinated support for global crude markets that could steady the nerves of a jittery market that remains focused on developments in the U.S. war with Iran.  The International Energy Agency, formed during the Arab  embargo in 1974 with the aim of establishing collective action against supply disruptions, has proposed the release of around 400 million barrels of crude from the strategic reserves of its 32 members.  President Emmanuel Macron, meanwhile, will host a virtual meeting of G-7 leaders prior to the announcement.",
+          "pubDate": "2026-03-11T12:10:00Z",
+          "displayTime": "2026-03-11T12:10:00Z",
+          "isHosted": false,
+          "bypassModal": false,
+          "previewUrl": "https://finance.yahoo.com/m/d220b7f7-5b8c-355b-b672-bce56e4ed4f5/the-stock-market-needs-more.html",
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/Barrons.com/782895a67ccb1ab3abf68b1ba313e2e5",
+            "originalWidth": 1280,
+            "originalHeight": 640,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/YbFfeWoVqlLJ9BGz5meDgA--~B/aD02NDA7dz0xMjgwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/Barrons.com/782895a67ccb1ab3abf68b1ba313e2e5",
+                "width": 1280,
+                "height": 640,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/b1Xf4U9rokP4YmhtnerLvg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/Barrons.com/782895a67ccb1ab3abf68b1ba313e2e5",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Barrons.com",
+            "url": "http://www.barrons.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.barrons.com/articles/stock-market-oil-iran-oracle-earnings-68cb4d59?siteid=yhoof2&yptr=yahoo",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": null,
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "bece3e7d-7c6d-345f-a98a-b74486a0e8ba",
+        "content": {
+          "id": "bece3e7d-7c6d-345f-a98a-b74486a0e8ba",
+          "contentType": "STORY",
+          "title": "Bramshill Sells Nuveen Quality Municipal Income Fund",
+          "description": "",
+          "summary": "Nuveen Quality Municipal Income Fund invests in high-grade municipal bonds, aiming to deliver federally tax-exempt income for shareholders.",
+          "pubDate": "2026-03-10T12:53:56Z",
+          "displayTime": "2026-03-10T12:53:56Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/motleyfool.com/fc4e7308bab84ca64d2d9b8ed6703ee0",
+            "originalWidth": 384,
+            "originalHeight": 384,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/6HG8ltK9Yd_KaICyZ9T9JA--~B/aD0zODQ7dz0zODQ7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/motleyfool.com/fc4e7308bab84ca64d2d9b8ed6703ee0",
+                "width": 384,
+                "height": 384,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/byvmna9xoQSo5VENhn6tTg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/motleyfool.com/fc4e7308bab84ca64d2d9b8ed6703ee0",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Motley Fool",
+            "url": "http://www.fool.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.fool.com/coverage/filings/2026/03/10/bramshill-sells-nuveen-quality-municipal-income-fund/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/bramshill-sells-nuveen-quality-municipal-125356106.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "7d0fd863-9545-375b-ba85-fb0d7572aefd",
+        "content": {
+          "id": "7d0fd863-9545-375b-ba85-fb0d7572aefd",
+          "contentType": "STORY",
+          "title": "EWY, IEUR See Inflows Amidst Ongoing Tensions",
+          "description": "",
+          "summary": "<p>Here are the daily ETF fund flows for March 9, 2026.</p>",
+          "pubDate": "2026-03-09T21:00:04Z",
+          "displayTime": "2026-03-09T21:00:04Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/indexuniverse.com/1d45f9488d95ad21b16acbe33a9dfed0",
+            "originalWidth": 760,
+            "originalHeight": 520,
+            "caption": "etf.com",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/l1TnB8UpFqI42pxuQtFjcg--~B/aD01MjA7dz03NjA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/indexuniverse.com/1d45f9488d95ad21b16acbe33a9dfed0",
+                "width": 760,
+                "height": 520,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/ZAcWl4GGOFSLqDO1rMzHZQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/indexuniverse.com/1d45f9488d95ad21b16acbe33a9dfed0",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "etf.com",
+            "url": "https://www.etf.com/"
+          },
+          "canonicalUrl": {
+            "url": "http://www.etf.com/sections/daily-etf-flows/ewy-ieur-see-inflows-amidst-ongoing-tensions?utm_source=yahoo-finance&utm_medium=rss&utm_campaign=yahoo-finance-rss",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/ewy-ieur-see-inflows-amidst-210004869.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "7f577a6f-e03d-311f-a1e4-5ffbf1352545",
+        "content": {
+          "id": "7f577a6f-e03d-311f-a1e4-5ffbf1352545",
+          "contentType": "STORY",
+          "title": "Market Minute 3-9-26- Oil Rockets, Stocks Tumble as Energy Squeeze Intensifies",
+          "description": "",
+          "summary": "Global markets are reeling today, with oil prices rocketing higher and stocks tumbling. Gold and silver are modestly lower along with Treasuries, while the dollar and Bitcoin are rising a bit.",
+          "pubDate": "2026-03-09T14:15:00Z",
+          "displayTime": "2026-03-09T14:15:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/moneyshow_610/1c3581d0f4575b3dbf6bcfb60808e2f4",
+            "originalWidth": 548,
+            "originalHeight": 305,
+            "caption": "chart",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/wnIkdlIxM2R2CyL.O.Vnyg--~B/aD0zMDU7dz01NDg7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/moneyshow_610/1c3581d0f4575b3dbf6bcfb60808e2f4",
+                "width": 548,
+                "height": 305,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/6acz0g8PGpN8ymOMcRXlbA--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/moneyshow_610/1c3581d0f4575b3dbf6bcfb60808e2f4",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "MoneyShow",
+            "url": "https://www.moneyshow.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/market-minute-3-9-26-141500968.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/market-minute-3-9-26-141500968.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "35e225b4-626f-356e-85f9-47d25bd93d94",
+        "content": {
+          "id": "35e225b4-626f-356e-85f9-47d25bd93d94",
+          "contentType": "STORY",
+          "title": "The 4 ETFs To Buy Before The Fed Lowers Rates And Shoots Them Higher",
+          "description": "",
+          "summary": "The Federal Reserve cut rates three times between September and December 2025, bringing its benchmark rate down from 4.5% to its current level of 3.75%. Then it stopped. The January 2026 meeting ended with a hold, and the minutes that followed showed a Fed genuinely divided on what comes next, with some members openly debating ... The 4 ETFs To Buy Before The Fed Lowers Rates And Shoots Them Higher",
+          "pubDate": "2026-03-06T14:37:07Z",
+          "displayTime": "2026-03-06T14:37:07Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/3c722c27ef853a62522724c8bfd1fea7",
+            "originalWidth": 1376,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/rydvGBhUmk_cgc4xkvEyrg--~B/aD03Njg7dz0xMzc2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/3c722c27ef853a62522724c8bfd1fea7",
+                "width": 1376,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/9c7eAzEBLCAZYuTAvf_BqQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/3c722c27ef853a62522724c8bfd1fea7",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/06/the-4-etfs-to-buy-before-the-fed-lowers-rates-and-shoots-them-higher/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/4-etfs-buy-fed-lowers-143707325.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "a1151e5e-1e94-3826-9c7b-5dd7d5446ade",
+        "content": {
+          "id": "a1151e5e-1e94-3826-9c7b-5dd7d5446ade",
+          "contentType": "STORY",
+          "title": "Daily ETF Flows: TLT Scoops Up $914M",
+          "description": "",
+          "summary": "<p>Here are the daily ETF fund flows for March 3, 2026.</p>",
+          "pubDate": "2026-03-04T23:00:04Z",
+          "displayTime": "2026-03-04T23:00:04Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/indexuniverse.com/1d45f9488d95ad21b16acbe33a9dfed0",
+            "originalWidth": 760,
+            "originalHeight": 520,
+            "caption": "etf.com",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/l1TnB8UpFqI42pxuQtFjcg--~B/aD01MjA7dz03NjA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/indexuniverse.com/1d45f9488d95ad21b16acbe33a9dfed0",
+                "width": 760,
+                "height": 520,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/ZAcWl4GGOFSLqDO1rMzHZQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/indexuniverse.com/1d45f9488d95ad21b16acbe33a9dfed0",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "etf.com",
+            "url": "https://www.etf.com/"
+          },
+          "canonicalUrl": {
+            "url": "http://www.etf.com/sections/daily-etf-flows/daily-etf-flows-tlt-scoops-914m?utm_source=yahoo-finance&utm_medium=rss&utm_campaign=yahoo-finance-rss",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/daily-etf-flows-tlt-scoops-230004590.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "1be3d75e-80c0-35d4-bf04-a0962bccd190",
+        "content": {
+          "id": "1be3d75e-80c0-35d4-bf04-a0962bccd190",
+          "contentType": "STORY",
+          "title": "LQD Offers Broader Bonds and Higher Yield Than TLT",
+          "description": "",
+          "summary": "Explore how LQD’s broader bond mix and TLT’s Treasury focus shape risk, yield, and diversification for fixed income portfolios.",
+          "pubDate": "2026-03-04T18:38:04Z",
+          "displayTime": "2026-03-04T18:38:04Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/motleyfool.com/8f23c815054e35c05ed9bbab18eea3d7",
+            "originalWidth": 384,
+            "originalHeight": 384,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/isMdCp80oqO2ltHP2akSow--~B/aD0zODQ7dz0zODQ7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/motleyfool.com/8f23c815054e35c05ed9bbab18eea3d7",
+                "width": 384,
+                "height": 384,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/U4HNVydbVf6SFE5r.92PSA--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/motleyfool.com/8f23c815054e35c05ed9bbab18eea3d7",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Motley Fool",
+            "url": "http://www.fool.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.fool.com/coverage/etfs/2026/03/04/lqd-offers-broader-bonds-higher-yield-than-tlt/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/lqd-offers-broader-bonds-higher-183804502.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "c3382379-2477-3dff-963e-4ec159416d1e",
+        "content": {
+          "id": "c3382379-2477-3dff-963e-4ec159416d1e",
+          "contentType": "STORY",
+          "title": "MoneyMasters Bonus Podcast- How the Mideast War Impacts Oil, Gas,  US Stocks",
+          "description": "",
+          "summary": "War has erupted again in the Middle East, raising major questions for energy markets, inflation, and the global economy.",
+          "pubDate": "2026-03-04T14:45:00Z",
+          "displayTime": "2026-03-04T14:45:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MoneyShow",
+            "url": "https://www.moneyshow.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/moneymasters-bonus-podcast-mideast-war-144500844.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/moneymasters-bonus-podcast-mideast-war-144500844.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      }
+    ]
+  },
+  {
+    "requested_symbol": "GLD",
+    "records": [
+      {
+        "id": "4c3cbc99-60e1-32f5-b0ee-dc44d416e485",
+        "content": {
+          "id": "4c3cbc99-60e1-32f5-b0ee-dc44d416e485",
+          "contentType": "STORY",
+          "title": "Gold Eyes Worst Month Against Oil Since 1973; Mining Stocks Slump Most Since 2008",
+          "description": "",
+          "summary": "A movement unseen since the Arab oil embargo is reshaping commodity markets — and the longer the Iran war and the Hormuz blockade hold, the deeper the damage runs. Gold prices are facing their worst monthly performance against Brent crude since December 1973 — and the shockwave is tearing through the mining sector with historic force. Gold-Oil Ratio Crashes 43% — Worst Monthly Drop Since 1973 Gold, tracked by the SPDR Gold Shares, is down 13% month-to-date, falling to $4,580 per ounce as of Thur",
+          "pubDate": "2026-03-22T19:31:10Z",
+          "displayTime": "2026-03-22T19:31:10Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/Benzinga/53ec3ef4db19f3a1418e6849765e6d8c",
+            "originalWidth": 1024,
+            "originalHeight": 720,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/15WQwbkE8x9FX4OEGNZD4g--~B/aD03MjA7dz0xMDI0O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/Benzinga/53ec3ef4db19f3a1418e6849765e6d8c",
+                "width": 1024,
+                "height": 720,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/s4ngkyekWmqz6QF2ZWBvgQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/Benzinga/53ec3ef4db19f3a1418e6849765e6d8c",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Benzinga",
+            "url": "http://www.benzinga.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-eyes-worst-month-against-193110100.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-eyes-worst-month-against-193110100.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "2166b4e2-da6a-3d95-a5d0-c82c93e91fcc",
+        "content": {
+          "id": "2166b4e2-da6a-3d95-a5d0-c82c93e91fcc",
+          "contentType": "STORY",
+          "title": "Better Asset to Buy Now With $500 and Hold for 3 Years: Bitcoin vs. Gold",
+          "description": "",
+          "summary": "We live in interesting times, and these assets are built for exactly that.",
+          "pubDate": "2026-03-22T04:50:00Z",
+          "displayTime": "2026-03-22T04:50:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/motleyfool.com/cda758a35a0696b838aa43532dfb3b6e",
+            "originalWidth": 1400,
+            "originalHeight": 933,
+            "caption": "Bars of gold embossed with the Bitcoin logo.",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/BWucsPl5qXhinpROQHC6ow--~B/aD05MzM7dz0xNDAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/motleyfool.com/cda758a35a0696b838aa43532dfb3b6e",
+                "width": 1400,
+                "height": 933,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/EzVwZ6.9NHcZxZ3kNj0z0Q--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/motleyfool.com/cda758a35a0696b838aa43532dfb3b6e",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Motley Fool",
+            "url": "http://www.fool.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.fool.com/investing/2026/03/22/better-asset-to-buy-now-with-500-and-hold-for-3-ye/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/better-asset-buy-now-500-045000521.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "b9727493-9820-3e65-8dfa-807d4e0d98bc",
+        "content": {
+          "id": "b9727493-9820-3e65-8dfa-807d4e0d98bc",
+          "contentType": "STORY",
+          "title": "World Gold Council Releases Framework for Tokenized Gold",
+          "description": "",
+          "summary": "The World Gold Council, in strategic partnership with Boston Consulting Group, announced on Thursday the launch of a new framework designed to standardize the issuance and management of tokenized gold products. Dubbed “Gold as a Service,” the initiative aims to build a shared infrastructure that connects physical gold custody directly ...",
+          "pubDate": "2026-03-21T11:18:47Z",
+          "displayTime": "2026-03-21T11:18:47Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/coinspeaker_us_106/0d8d093a4e3bc1eb943ed804d77046c3",
+            "originalWidth": 768,
+            "originalHeight": 439,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/29gavpGlf6R3lBOIeh9Irw--~B/aD00Mzk7dz03Njg7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/coinspeaker_us_106/0d8d093a4e3bc1eb943ed804d77046c3",
+                "width": 768,
+                "height": 439,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/VrYqq0bhjNcjvaeByDJNdQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/coinspeaker_us_106/0d8d093a4e3bc1eb943ed804d77046c3",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Coinspeaker",
+            "url": "https://www.coinspeaker.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.coinspeaker.com/world-gold-council-releases-tokenized-gold-framework/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/crypto/articles/world-gold-council-releases-framework-111847754.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "f4524b8d-d2cc-3e9b-b528-5dcd9b79d7ad",
+        "content": {
+          "id": "f4524b8d-d2cc-3e9b-b528-5dcd9b79d7ad",
+          "contentType": "STORY",
+          "title": "Update: Gold Drops to a Two-Month Low as the Dollar and Yields Rise",
+          "description": "",
+          "summary": "(Updates prices.) Gold traded lower midafternoon Friday, falling to a two-month low as the dollar",
+          "pubDate": "2026-03-20T18:00:11Z",
+          "displayTime": "2026-03-20T18:00:11Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-drops-two-month-low-180011367.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-drops-two-month-low-180011367.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "d891b99e-afa7-3fdd-831f-634d2011758a",
+        "content": {
+          "id": "d891b99e-afa7-3fdd-831f-634d2011758a",
+          "contentType": "STORY",
+          "title": "Gold Is Back Under $5,000, And This ETF May Be The Best Bet On A Rebound Run Higher",
+          "description": "",
+          "summary": "Gold crossed $5,000 per ounce for the first time in history in January, but has since pulled back below that threshold and now trades below $4,600 per ounce. For investors who want exposure without storing a single bar, iShares Gold Trust (NYSEARCA:IAU) offers one of the cleanest, most cost-efficient ways to track gold’s price. With ... Gold Is Back Under $5,000, And This ETF May Be The Best Bet On A Rebound Run Higher",
+          "pubDate": "2026-03-20T17:55:28Z",
+          "displayTime": "2026-03-20T17:55:28Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/c43d9c973a9155d985c366bcbeed9db3",
+            "originalWidth": 1366,
+            "originalHeight": 768,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/qQnoJHdwj7kEYiLh7flLaA--~B/aD03Njg7dz0xMzY2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/24_7_wall_st__718/c43d9c973a9155d985c366bcbeed9db3",
+                "width": 1366,
+                "height": 768,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/V40yaBCTmvKZWnvEgRMWHQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/c43d9c973a9155d985c366bcbeed9db3",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/20/gold-back-under-5000-is-this-the-best-etf-to-buy-for-its-next-run-higher/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-back-under-5-000-175528606.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "c563bd70-99c6-3c04-811f-016b591d18a9",
+        "content": {
+          "id": "c563bd70-99c6-3c04-811f-016b591d18a9",
+          "contentType": "STORY",
+          "title": "Gold Heads for Biggest Weekly Loss in Six Years as Prices Drop Over 7%",
+          "description": "",
+          "summary": "Bullion trades near $4,660 as energy-driven inflation fears reduce expectations for interest-rate cuts and pressure safe-haven demand.",
+          "pubDate": "2026-03-20T17:08:52Z",
+          "displayTime": "2026-03-20T17:08:52Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "GuruFocus.com",
+            "url": "http://www.gurufocus.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-heads-biggest-weekly-loss-170852461.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-heads-biggest-weekly-loss-170852461.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "1e003246-8635-3cd6-8f49-3d62e3adcd60",
+        "content": {
+          "id": "1e003246-8635-3cd6-8f49-3d62e3adcd60",
+          "contentType": "STORY",
+          "title": "Gold Rises Off a Two-Month Low Even as the Dollar and Yields Rise",
+          "description": "",
+          "summary": "Gold rose off a two-month low early Friday, rebounding despite a higher dollar, rising treasury yiel",
+          "pubDate": "2026-03-20T13:33:42Z",
+          "displayTime": "2026-03-20T13:33:42Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-rises-off-two-month-133342173.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-rises-off-two-month-133342173.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "0971de79-a205-309f-b402-861e44a5ae13",
+        "content": {
+          "id": "0971de79-a205-309f-b402-861e44a5ae13",
+          "contentType": "STORY",
+          "title": "Exchange-Traded Funds, Equity Futures Lower Pre-Bell as Energy Market Disruptions Weigh on Investor Sentiment",
+          "description": "",
+          "summary": "The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was down 0.5% and the actively tr",
+          "pubDate": "2026-03-20T13:09:59Z",
+          "displayTime": "2026-03-20T13:09:59Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-equity-futures-130959610.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-equity-futures-130959610.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "d65b8166-9bbc-3331-8e2d-2c23a6af2002",
+        "content": {
+          "id": "d65b8166-9bbc-3331-8e2d-2c23a6af2002",
+          "contentType": "STORY",
+          "title": "Better Investment to Buy Now With $2,500 and Hold for 10 Years: XRP vs. Gold or Silver",
+          "description": "",
+          "summary": "Only two of these assets are winners over the long term.",
+          "pubDate": "2026-03-20T11:40:00Z",
+          "displayTime": "2026-03-20T11:40:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/motleyfool.com/f52cccffbb427c7998bcab64a166f361",
+            "originalWidth": 1400,
+            "originalHeight": 933,
+            "caption": "An investor sits on a train and holds a cell phone while looking out the window.",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/psIWFFuw3rKjfXytw7iMnw--~B/aD05MzM7dz0xNDAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/motleyfool.com/f52cccffbb427c7998bcab64a166f361",
+                "width": 1400,
+                "height": 933,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/9MpyBw.kWTKOVrpMk.O.mQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/motleyfool.com/f52cccffbb427c7998bcab64a166f361",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Motley Fool",
+            "url": "http://www.fool.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.fool.com/investing/2026/03/20/better-investment-to-buy-now-with-2500-and-hold-fo/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/crypto/articles/better-investment-buy-now-2-114000498.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "0da3eb67-edf7-351f-aad7-f23ee62d0f79",
+        "content": {
+          "id": "0da3eb67-edf7-351f-aad7-f23ee62d0f79",
+          "contentType": "STORY",
+          "title": "Update: Gold Prices Plunge as Hopes for Lower U.S. Interest Rates Fade",
+          "description": "",
+          "summary": "(Updates prices.) Gold prices plunged Thursday, dropping 5.9% to the lowest in more than two mont",
+          "pubDate": "2026-03-19T18:00:07Z",
+          "displayTime": "2026-03-19T18:00:07Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-prices-plunge-hopes-lower-180007611.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-prices-plunge-hopes-lower-180007611.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "c0595a32-c9ad-31d8-9d4c-666f18673707",
+        "content": {
+          "id": "c0595a32-c9ad-31d8-9d4c-666f18673707",
+          "contentType": "STORY",
+          "title": "Gold Drops 1.2% to $4,760 as Oil Surge Clouds Fed Rate Path",
+          "description": "",
+          "summary": "Bullion extends seventh-day slide as rising energy prices and Fed outlook reduce prospects for near-term rate cuts.",
+          "pubDate": "2026-03-19T16:14:23Z",
+          "displayTime": "2026-03-19T16:14:23Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "GuruFocus.com",
+            "url": "http://www.gurufocus.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-drops-1-2-4-161423358.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-drops-1-2-4-161423358.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "4cd97b58-668c-3e14-afc9-b6bbc400f9d4",
+        "content": {
+          "id": "4cd97b58-668c-3e14-afc9-b6bbc400f9d4",
+          "contentType": "STORY",
+          "title": "The 12% Yield Gold Income ETF That Nobody Knows About",
+          "description": "",
+          "summary": "Gold pays no income. That is the trade-off every investor accepts when they buy a traditional gold ETF. NEOS Gold High Income ETF (NYSEARCA:IAUI) was built specifically to solve that problem, layering a covered call strategy on top of gold exposure to generate monthly distributions that plain gold ownership never could. The fund launched in ... The 12% Yield Gold Income ETF That Nobody Knows About",
+          "pubDate": "2026-03-19T14:07:41Z",
+          "displayTime": "2026-03-19T14:07:41Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+            "originalWidth": 1500,
+            "originalHeight": 1001,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Pa60PAW5L0V72K_0lo1S8w--~B/aD0xMDAxO3c9MTUwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+                "width": 1500,
+                "height": 1001,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/Jgsh.nqNjUSuuVWagsTTbw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/24_7_wall_st__718/3410dd058bb3a61a14d3f96118f3942d",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "24/7 Wall St.",
+            "url": "https://247wallst.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://247wallst.com/investing/2026/03/19/the-12-yield-gold-income-etf-that-nobody-knows-about/",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/12-yield-gold-income-etf-140741812.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "23d03552-afff-3c7f-bbba-97ceb80a927e",
+        "content": {
+          "id": "23d03552-afff-3c7f-bbba-97ceb80a927e",
+          "contentType": "STORY",
+          "title": "Bybit Offers Interest Payments On Tokenized Gold",
+          "description": "",
+          "summary": "Cryptocurrency exchange Bybit is enabling customers to earn interest payments on tokenized gold products.",
+          "pubDate": "2026-03-19T13:49:00Z",
+          "displayTime": "2026-03-19T13:49:00Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/cryptoprowl_304/333672907fadd2ea81ca83066f4c2307",
+            "originalWidth": 1000,
+            "originalHeight": 600,
+            "caption": "Bybit Offers Interest Payments On Tokenized Gold",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/zlDmhnLBv0iafd08rL4Lyw--~B/aD02MDA7dz0xMDAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/cryptoprowl_304/333672907fadd2ea81ca83066f4c2307",
+                "width": 1000,
+                "height": 600,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/s1aRxm1wjkFtmBFQSSedzA--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/cryptoprowl_304/333672907fadd2ea81ca83066f4c2307",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "CryptoProwl",
+            "url": "https://www.cryptoprowl.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.cryptoprowl.com/releases/bybit-offers-interest-payments-on-tokenized-gold-3906",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/crypto/articles/bybit-offers-interest-payments-tokenized-134900896.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "894eed0c-eacc-3116-946d-bed4dd5f071d",
+        "content": {
+          "id": "894eed0c-eacc-3116-946d-bed4dd5f071d",
+          "contentType": "STORY",
+          "title": "Gold Prices Plunge 7.3% as Hopes for Lower U.S. Interest Rates Fade",
+          "description": "",
+          "summary": "Gold prices plunged early Thursday, dropping 7.3% to the lowest in more than three months on profit-",
+          "pubDate": "2026-03-19T13:37:23Z",
+          "displayTime": "2026-03-19T13:37:23Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-prices-plunge-7-3-133723637.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gold-prices-plunge-7-3-133723637.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "218a985d-c70d-33c9-b736-cd3a64ff6981",
+        "content": {
+          "id": "218a985d-c70d-33c9-b736-cd3a64ff6981",
+          "contentType": "STORY",
+          "title": "Exchange-Traded Funds, Equity Futures Lower Pre-Bell Thursday Amid Rising Oil Prices, Reduced Rate-Cut Expectations",
+          "description": "",
+          "summary": "The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was down 0.4%, and the actively t",
+          "pubDate": "2026-03-19T12:49:23Z",
+          "displayTime": "2026-03-19T12:49:23Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-equity-futures-124923636.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/stocks/articles/exchange-traded-funds-equity-futures-124923636.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "8a4616f0-9ccd-3207-89fd-14d3407606e8",
+        "content": {
+          "id": "8a4616f0-9ccd-3207-89fd-14d3407606e8",
+          "contentType": "STORY",
+          "title": "GLD, SLV Slide As Fed Holds Rates",
+          "description": "",
+          "summary": "Higher yields continue weighing on metals prices",
+          "pubDate": "2026-03-19T10:07:45Z",
+          "displayTime": "2026-03-19T10:07:45Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "GuruFocus.com",
+            "url": "http://www.gurufocus.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gld-slv-slide-fed-holds-100745210.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/markets/commodities/articles/gld-slv-slide-fed-holds-100745210.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "c868a78c-a52f-3f5a-b699-0654c6ac9e5b",
+        "content": {
+          "id": "c868a78c-a52f-3f5a-b699-0654c6ac9e5b",
+          "contentType": "STORY",
+          "title": "The Fed Expects Inflation to Stay High. Here Are Moves to Make With Your Portfolio.",
+          "description": "",
+          "summary": "Retirees, who are particularly vulnerable to inflation, must shield their investments from major hits.",
+          "pubDate": "2026-03-18T21:37:00Z",
+          "displayTime": "2026-03-18T21:37:00Z",
+          "isHosted": false,
+          "bypassModal": false,
+          "previewUrl": "https://finance.yahoo.com/m/c868a78c-a52f-3f5a-b699-0654c6ac9e5b/the-fed-expects-inflation-to.html",
+          "thumbnail": {
+            "originalUrl": "https://media.zenfs.com/en/Barrons.com/9fe9c6075676a549bdcb68cc75139c44",
+            "originalWidth": 1280,
+            "originalHeight": 640,
+            "caption": "",
+            "resolutions": [
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/HfTOlBF6kgYiyuGVkIuw2w--~B/aD02NDA7dz0xMjgwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/Barrons.com/9fe9c6075676a549bdcb68cc75139c44",
+                "width": 1280,
+                "height": 640,
+                "tag": "original"
+              },
+              {
+                "url": "https://s.yimg.com/uu/api/res/1.2/0VQGYWj1WaOWRsKegtwcmw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/Barrons.com/9fe9c6075676a549bdcb68cc75139c44",
+                "width": 170,
+                "height": 128,
+                "tag": "170x128"
+              }
+            ]
+          },
+          "provider": {
+            "displayName": "Barrons.com",
+            "url": "http://www.barrons.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://www.barrons.com/articles/fed-inflation-retirement-portfolio-stocks-bonds-562fb087?siteid=yhoof2&yptr=yahoo",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": null,
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "0c2f9df7-63ec-35e8-b5ad-22fac542d1c9",
+        "content": {
+          "id": "0c2f9df7-63ec-35e8-b5ad-22fac542d1c9",
+          "contentType": "STORY",
+          "title": "Update: Gold Falls to a Six-Week Low as U.S. Wholesale Prices Surged Last Month, Lowering Rate-Cut Hopes",
+          "description": "",
+          "summary": "(Updates prices.) Gold traded at a six-week low midafternoon on Wednesday as a report showed U.S.",
+          "pubDate": "2026-03-18T18:00:07Z",
+          "displayTime": "2026-03-18T18:00:07Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/gold-falls-six-week-low-180007761.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/gold-falls-six-week-low-180007761.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "5f58cdd3-0398-3d39-82c3-381329671a87",
+        "content": {
+          "id": "5f58cdd3-0398-3d39-82c3-381329671a87",
+          "contentType": "STORY",
+          "title": "Gold Holds Near $5,000 as Fed Outlook and Middle East Tensions Collide",
+          "description": "",
+          "summary": "Bullion stays rangebound as investors weigh steady Fed rates against rising energy-driven inflation risks from ongoing regional conflict.",
+          "pubDate": "2026-03-18T17:22:55Z",
+          "displayTime": "2026-03-18T17:22:55Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "GuruFocus.com",
+            "url": "http://www.gurufocus.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/gold-holds-near-5-000-172255255.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/gold-holds-near-5-000-172255255.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": false,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      },
+      {
+        "id": "19e03827-5229-3ab1-ab87-7192e18213ba",
+        "content": {
+          "id": "19e03827-5229-3ab1-ab87-7192e18213ba",
+          "contentType": "STORY",
+          "title": "Exchange-Traded Funds, Equity Futures Lower Ahead of Key Economic Data, FOMC Meeting",
+          "description": "",
+          "summary": "The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was down 0.3% and the actively tr",
+          "pubDate": "2026-03-18T13:28:29Z",
+          "displayTime": "2026-03-18T13:28:29Z",
+          "isHosted": true,
+          "bypassModal": false,
+          "previewUrl": null,
+          "thumbnail": null,
+          "provider": {
+            "displayName": "MT Newswires",
+            "url": "https://www.mtnewswires.com/"
+          },
+          "canonicalUrl": {
+            "url": "https://finance.yahoo.com/news/exchange-traded-funds-equity-futures-132829827.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "clickThroughUrl": {
+            "url": "https://finance.yahoo.com/news/exchange-traded-funds-equity-futures-132829827.html",
+            "site": "finance",
+            "region": "US",
+            "lang": "en-US"
+          },
+          "metadata": {
+            "editorsPick": false
+          },
+          "finance": {
+            "premiumFinance": {
+              "isPremiumNews": true,
+              "isPremiumFreeNews": false
+            }
+          },
+          "storyline": null
+        }
+      }
+    ]
+  }
+]
