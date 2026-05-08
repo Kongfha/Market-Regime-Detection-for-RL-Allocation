@@ -16,7 +16,20 @@ from .policies import (
     RuleBasedRegimeHeuristicPolicy,
     default_baseline_policies,
 )
-from .reporting import bootstrap_metric_table, plot_equity_curves, summary_table
+try:
+    from .reporting import bootstrap_metric_table, plot_equity_curves, summary_table
+except ModuleNotFoundError as exc:
+    _reporting_import_error = exc
+
+    def _missing_reporting_dependency(*args, **kwargs):
+        raise ImportError(
+            "evaluation.reporting requires optional plotting dependencies. "
+            "Install matplotlib to use reporting helpers."
+        ) from _reporting_import_error
+
+    bootstrap_metric_table = _missing_reporting_dependency
+    plot_equity_curves = _missing_reporting_dependency
+    summary_table = _missing_reporting_dependency
 
 __all__ = [
     "ActionSpace",

@@ -1,0 +1,55 @@
+{
+  "selection_rule": "Highest validation Sharpe, tie-broken by validation cumulative return, max drawdown, then lower turnover. Locked test was not used for selection.",
+  "best_trial": {
+    "stage": "stage3",
+    "trial_id": "stage3_dqn_000_seed7",
+    "candidate_id": "dqn_000",
+    "algorithm": "dqn",
+    "seed": 7,
+    "timesteps": 2000000,
+    "params": {
+      "learning_rate": 0.0001,
+      "buffer_size": 250000,
+      "batch_size": 256,
+      "gamma": 0.99,
+      "exploration_fraction": 0.15,
+      "exploration_final_eps": 0.05,
+      "target_update_interval": 2000
+    }
+  },
+  "model_weights_path": "output/jump_rl_long_dqn/checkpoints/best_model.zip",
+  "portfolio_weight_files": {
+    "validation": "output/jump_rl_long_dqn/best_validation_weights.csv",
+    "locked_test": "output/jump_rl_long_dqn/best_locked_test_weights.csv"
+  },
+  "validation_metrics": {
+    "weeks": 104.0,
+    "cumulative_return": -0.07848611934764049,
+    "annualized_return": -0.04004485487479181,
+    "annualized_volatility": 0.1487867128802046,
+    "annualized_excess_return": -0.06370816550156921,
+    "sharpe_ratio": -0.42959517540757175,
+    "sortino_ratio": -0.6772998433593707,
+    "max_drawdown": -0.2390825593107162,
+    "calmar_ratio": -0.16749383556141695,
+    "average_turnover": 0.5,
+    "total_transaction_cost": 0.052000000000000005,
+    "win_rate": 0.4807692307692308,
+    "mean_reward": -0.001507195813760019
+  },
+  "locked_test_metrics": {
+    "weeks": 115.0,
+    "cumulative_return": -0.059712433399366494,
+    "annualized_return": -0.027456169580906686,
+    "annualized_volatility": 0.1440726247335917,
+    "annualized_excess_return": -0.06309993523680497,
+    "sharpe_ratio": -0.438250114905365,
+    "sortino_ratio": -0.5646539678128858,
+    "max_drawdown": -0.2232997943805326,
+    "calmar_ratio": -0.12295653767650908,
+    "average_turnover": 0.5704347826086956,
+    "total_transaction_cost": 0.06559999999999999,
+    "win_rate": 0.4782608695652174,
+    "mean_reward": -0.0012292537000393115
+  }
+}

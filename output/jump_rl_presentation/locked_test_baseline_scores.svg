@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="520" viewBox="0 0 1080 520">
+<rect width="1080" height="520" fill="#ffffff"/>
+<text x="55.0" y="38.0" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#202124" text-anchor="start">Locked-Test Baseline Context</text>
+<text x="55.0" y="64.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5f6368" text-anchor="start">Bars rank excess-return Sharpe; right-side labels show total cumulative return.</text>
+<line x1="570.0" x2="570.0" y1="77" y2="411" stroke="#5f6368" stroke-width="1.2"/>
+<text x="244.0" y="115.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">cash_only</text>
+<rect x="570.0" y="95" width="1.0" height="26" fill="#4C78A8" rx="2"/>
+<text x="577.0" y="113.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#202124" text-anchor="start">0.00</text>
+<text x="930.0" y="113.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">10.6%</text>
+<text x="244.0" y="159.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">defensive_20_60_20</text>
+<rect x="570.0" y="139" width="102.3" height="26" fill="#4C78A8" rx="2"/>
+<text x="679.3" y="157.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#202124" text-anchor="start">0.65</text>
+<text x="930.0" y="157.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">25.3%</text>
+<text x="244.0" y="203.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">spy_only</text>
+<rect x="570.0" y="183" width="134.9" height="26" fill="#4C78A8" rx="2"/>
+<text x="711.9" y="201.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#202124" text-anchor="start">0.86</text>
+<text x="930.0" y="201.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">42.3%</text>
+<text x="244.0" y="247.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">balanced_60_30_10</text>
+<rect x="570.0" y="227" width="148.3" height="26" fill="#4C78A8" rx="2"/>
+<text x="725.3" y="245.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#202124" text-anchor="start">0.95</text>
+<text x="930.0" y="245.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">34.3%</text>
+<text x="244.0" y="291.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">momentum_rotation_20d</text>
+<rect x="570.0" y="271" width="168.9" height="26" fill="#4C78A8" rx="2"/>
+<text x="745.9" y="289.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#202124" text-anchor="start">1.08</text>
+<text x="930.0" y="289.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">60.6%</text>
+<text x="244.0" y="335.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">equal_weight_spy_tlt_gld</text>
+<rect x="570.0" y="315" width="225.0" height="26" fill="#4C78A8" rx="2"/>
+<text x="802.0" y="333.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#202124" text-anchor="start">1.44</text>
+<text x="930.0" y="333.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">47.1%</text>
+<text x="244.0" y="379.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">gld_only</text>
+<rect x="570.0" y="359" width="276.8" height="26" fill="#4C78A8" rx="2"/>
+<text x="853.8" y="377.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#202124" text-anchor="start">1.77</text>
+<text x="930.0" y="377.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#202124" text-anchor="end">118.1%</text>
+<text x="570.0" y="445.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#5f6368" text-anchor="middle">Sharpe = 0</text>
+<text x="930.0" y="79.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#5f6368" text-anchor="end">Cum. return</text>
+</svg>
