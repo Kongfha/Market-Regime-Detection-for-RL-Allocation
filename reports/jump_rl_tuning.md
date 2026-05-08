@@ -89,17 +89,65 @@ winning model.
 
 ## Current Scores
 
-The full jump-RL training sweep has not been run yet in the project RL
-environment, so there is no tuned RL winner score yet.
+Existing trained outputs are available in two places. No new training was run
+for this report update.
 
-When the sweep runs, scores will be written here:
+### Quick Jump RL Runner
 
-- trial scores: `output/jump_rl_tuning/trial_metrics.csv`
-- selected model metrics: `output/jump_rl_tuning/best_config.json`
-- validation ranking: `output/jump_rl_tuning/summary_validation.csv`
-- locked-test report: `output/jump_rl_tuning/summary_locked_test.csv`
+Artifact:
 
-Current validation-only baseline sanity-check scores:
+- `output/full_pipeline/jump_rl_training_summary.json`
+
+Command represented by the artifact:
+
+```bash
+python scripts/train_jump_rl.py --timesteps 30000 --seed 123 --min-action-hold-weeks 8 --reward-scale 100.0 --risk-penalty 0.05
+```
+
+Net-return metrics:
+
+| Split | Cumulative Return | Annualized Return | Sharpe | Max Drawdown | Mean Turnover |
+|---|---:|---:|---:|---:|---:|
+| validation | `19.56%` | `9.34%` | `0.6032` | `-18.58%` | `0.1154` |
+| locked test | `9.65%` | `4.25%` | `0.2961` | `-11.90%` | `0.1130` |
+
+### Long DQN Tuning Artifact
+
+Artifact:
+
+- `output/jump_rl_long_dqn/best_config.json`
+
+Selection rule: highest validation Sharpe, tie-broken by validation cumulative
+return, validation max drawdown, and lower turnover. Locked test was not used
+for model selection.
+
+Selected trial:
+
+| Field | Value |
+|---|---|
+| stage | `stage3` |
+| trial id | `stage3_dqn_000_seed7` |
+| algorithm | `dqn` |
+| seed | `7` |
+| timesteps | `2,000,000` |
+| learning rate | `0.0001` |
+| buffer size | `250000` |
+| batch size | `256` |
+| gamma | `0.99` |
+
+Excess-return metrics:
+
+| Split | Cumulative Return | Annualized Excess Return | Sharpe | Max Drawdown | Mean Turnover |
+|---|---:|---:|---:|---:|---:|
+| validation | `-7.85%` | `-6.37%` | `-0.4296` | `-23.91%` | `0.5000` |
+| locked test | `-5.97%` | `-6.31%` | `-0.4383` | `-22.33%` | `0.5704` |
+
+The long DQN artifact underperforms simple baselines and has high turnover. This
+suggests that the current regime representation is useful for analysis, but the
+policy/reward/action setup still needs more work before it can reliably beat
+simple allocation rules.
+
+Current baseline sanity-check scores from `output/jump_rl_long_dqn/`:
 
 | Strategy | Split | Cumulative Return | Sharpe | Max Drawdown |
 |---|---|---:|---:|---:|

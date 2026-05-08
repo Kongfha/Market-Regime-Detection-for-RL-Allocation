@@ -1,0 +1,784 @@
+\section{Final Project Report Draft}\label{final-project-report-draft}
+
+Generated: 2026-05-08
+
+This report summarizes the current project state from existing artifacts
+only. No new RL training was run while preparing this document.
+
+\subsection{Executive Summary}\label{executive-summary}
+
+This project studies whether market-regime information can improve
+weekly portfolio allocation across \texttt{SPY}, \texttt{TLT},
+\texttt{GLD}, and cash. The original pipeline used an HMM regime model,
+but the active research path now uses a PCA Jump Model because it gives
+direct control over regime-switching frequency, supports an
+interpretable K sweep, and produces compact state features for RL and
+attention models.
+
+The current leak-safe Jump Model pipeline builds weekly price and macro
+features, applies causal rolling robust standardization, compresses the
+feature set with train-fitted PCA, fits Jump Model centroids on the
+train split only, and assigns validation/test regimes with online causal
+rules. A 12-week sequence dataset is then exported for attention or RL
+training.
+
+Main findings:
+
+\begin{itemize}
+\tightlist
+\item
+  The selected smoothed PCA Jump Model uses 6 PCs, K=3, jump penalty
+  32.0, and explains 53.94\% of feature variance. The compression ratio
+  is 54 original numeric market/macro features to 6 PCs, or 9.0:1.
+\item
+  The selected regimes are economically interpretable: calm/risk-on,
+  growth/trend, and stress/risk-off. The stress regime has the highest
+  VIX and deepest SPY drawdown profile.
+\item
+  K=2 has the best raw silhouette, while K=5 is the elbow choice. K=3 is
+  the recommended reporting choice because it balances interpretability,
+  duration, minimum cluster size, and attention-readiness.
+\item
+  Mutual information supports using volatility, drawdown, rates, and
+  bond-market features as regime/RL inputs, but the signal is modest and
+  target dependent.
+\item
+  Existing RL results are mixed. A quick Jump RL run performs well on
+  validation and modestly on locked test, but the long DQN tuning
+  artifact underperforms simple baselines. This is an important result,
+  not just a failure: regime detection can be useful descriptively while
+  the trading policy still needs stronger action design, reward design,
+  and validation discipline.
+\end{itemize}
+
+\subsection{Project Evolution}\label{project-evolution}
+
+The proposal began with HMM-style market-regime detection and RL
+allocation. During experimentation, several HMM-specific assumptions
+became limiting:
+
+\begin{itemize}
+\tightlist
+\item
+  Gaussian emission assumptions made the states sensitive to scaling and
+  outliers.
+\item
+  Prior filtering rules constrained the model before the data structure
+  was fully understood.
+\item
+  Regime persistence was indirect, controlled through transition
+  probabilities rather than a clear switch penalty.
+\item
+  Full-sample standardization risked making early years look
+  artificially quiet compared with later high-variance or high-volume
+  periods.
+\end{itemize}
+
+The Jump Model path addresses these issues by clustering in PCA space
+while penalizing label changes through an explicit jump penalty. This
+makes it easier to tune the model around market-regime behavior: not
+only cluster separation, but also switch frequency, average duration,
+and usefulness for the downstream attention/RL state.
+
+\subsection{Data And Splits}\label{data-and-splits}
+
+The core state table is:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{data/processed/model\_state\_weekly\_price\_macro.csv}
+\end{itemize}
+
+The train-ready Jump Model artifacts are:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{data/processed/jump\_model\_train\_ready\_weekly.csv}
+\item
+  \texttt{data/processed/jump\_model\_train\_ready\_sequences.csv}
+\item
+  \texttt{data/processed/jump\_model\_train\_ready\_sequences.npz}
+\item
+  \texttt{data/processed/jump\_model\_train\_ready\_metadata.json}
+\end{itemize}
+
+The split design is chronological:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lrll@{}}
+\toprule\noalign{}
+split & rows & start\_week & end\_week \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+train & 406 & 2014-03-28 & 2021-12-31 \\
+validation & 104 & 2022-01-07 & 2023-12-29 \\
+locked test & 115 & 2024-01-05 & 2026-03-13 \\
+\end{longtable}
+}
+
+The sequence dataset uses a 12-week lookback. A validation or test
+sequence may look back into prior history, which is acceptable for
+online inference because that history would already be known. The split
+assignment is based on the sequence end week, and no target values from
+the future are included in features.
+
+\subsection{Leakage-Safe
+Preprocessing}\label{leakage-safe-preprocessing}
+
+Leakage control is one of the most important report topics for this
+project. The active train-ready dataset avoids the major leakage paths
+as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  Target columns such as \texttt{next\_return\_spy},
+  \texttt{next\_return\_tlt}, \texttt{next\_return\_gld}, and
+  \texttt{best\_asset\_next\_week} are excluded from \texttt{x\_*}
+  features.
+\item
+  PCA is fit on the train split only.
+\item
+  Jump Model centroids are fit on the train split only.
+\item
+  Validation and locked-test regimes are assigned using current and past
+  information only.
+\item
+  Continuous RL features are standardized using train-split statistics
+  after the causal Jump Model features are built.
+\item
+  Soft-score temperature and regime naming/VIX ordering are derived from
+  train assignments only.
+\end{itemize}
+
+The rolling raw-feature scaler is causal, not full-sample. For week
+\texttt{t}, the rolling robust scaler uses trailing observed history up
+to that point, with a 52-week window, at least 12 weeks of history, and
+clipping at +/-6.0. This is appropriate for online inference because a
+deployed system can always look back at past market history. It is
+different from full-sample standardization, which would leak future
+distribution shifts into earlier observations.
+
+\subsection{Why Rolling Robust Scaling Was
+Needed}\label{why-rolling-robust-scaling-was-needed}
+
+The first Jump Model visualizations showed many early short-lived
+regimes and later regimes dominated by higher variance and larger
+changes in volume or macro levels. This is consistent with a common
+clustering failure mode: nonstationary feature scale can dominate
+distance-based models.
+
+The rolling robust scaler reduces this issue by standardizing each
+feature relative to its recent local history. Median/MAD-style scaling
+is less sensitive to spikes than mean/std scaling, and the clip value
+prevents extreme values from overpowering PCA and cluster distances. The
+goal is not to erase market stress; the goal is to let the model
+distinguish unusual moves relative to the market context available at
+that time.
+
+\subsection{PCA Compression}\label{pca-compression}
+
+The selected Jump Model uses 6 PCA components from 54 numeric
+market/macro features:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+item & value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+original features & 54 \\
+PCA components & 6 \\
+compression ratio & 9.0:1 \\
+explained variance & 53.94\% \\
+\end{longtable}
+}
+
+The compression ratio is a mechanical ratio: original feature count
+divided by PCA component count. It should not be optimized alone. In
+this project, 6 PCs are preferred because they preserve more structure
+for downstream attention than 2 PCs, while still reducing noise and
+collinearity enough for stable clustering.
+
+\subsection{Jump Model Selection}\label{jump-model-selection}
+
+The selected research Jump Model is:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+parameter & value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+scaler & rolling robust \\
+scaler window & 52 weeks \\
+scaler min history & 12 weeks \\
+scaler clip & +/-6.0 \\
+PCA components & 6 \\
+K & 3 \\
+jump penalty & 32.0 \\
+post-cluster smoothing & 3-week minimum run \\
+\end{longtable}
+}
+
+Selected-K metrics:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+metric & value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+inertia & 26732.84 \\
+silhouette & 0.1844 \\
+jumps & 29 \\
+min duration & 3 weeks \\
+average duration & 19.30 weeks \\
+max duration & 95 weeks \\
+\end{longtable}
+}
+
+The K sweep shows why this should not be chosen by silhouette alone:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrrr@{}}
+\toprule\noalign{}
+K & inertia & silhouette & jumps & average duration \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2 & 31094.35 & 0.3256 & 24 & 23.16 \\
+3 & 26732.84 & 0.1844 & 29 & 19.30 \\
+4 & 23927.78 & 0.1670 & 27 & 20.68 \\
+5 & 21622.99 & 0.1728 & 26 & 21.44 \\
+6 & 19851.10 & 0.1761 & 34 & 16.54 \\
+7 & 18346.26 & 0.1643 & 39 & 14.48 \\
+8 & 17105.95 & 0.1734 & 42 & 13.47 \\
+9 & 16622.98 & 0.1686 & 40 & 14.12 \\
+10 & 15920.72 & 0.1666 & 43 & 13.16 \\
+\end{longtable}
+}
+
+K=2 wins raw silhouette because it separates the sample into broad
+low-stress and high-stress areas. K=5 is the elbow-selected value. K=3
+is more useful for attention/RL because it keeps a distinct stress state
+while avoiding too many thin regimes.
+
+\subsection{Regime Interpretation}\label{regime-interpretation}
+
+Regime IDs are ordered from lowest average VIX to highest average VIX.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1154}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1154}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1538}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1538}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1538}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1538}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1538}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+regime
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+interpretation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+weeks
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+share
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+VIX
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+SPY 20d return
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+next SPY annualized
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+R0 & Calm / risk-on & 309 & 53.37\% & 15.44 & 1.93\% & 16.33\% \\
+R1 & Growth / trend & 172 & 29.71\% & 17.46 & 2.26\% & 21.02\% \\
+R2 & Stress / risk-off & 98 & 16.93\% & 25.29 & -4.37\% & -6.49\% \\
+\end{longtable}
+}
+
+This broadly aligns with real-world market behavior. The stress/risk-off
+regime has higher VIX, deeper SPY drawdown, higher SPY volatility, and
+negative forward SPY returns. The calm and growth regimes both support
+risk assets, but the growth state shows stronger trend behavior and
+higher forward SPY return.
+
+The report should be careful not to claim perfect event detection. These
+are statistical states derived from price/macro features, not named
+macro events. The stronger claim is that the states have economically
+coherent profiles.
+
+\subsection{Smoothing And Duration}\label{smoothing-and-duration}
+
+There are two smoothing concepts in the project:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Descriptive post-clustering smoothing for charts and static Jump Model
+  artifacts. Runs shorter than the configured minimum duration are
+  merged into the closest adjacent regime by PCA-centroid distance. This
+  reduces 1-2 week visual noise in regime timelines.
+\item
+  Causal confirmation smoothing for RL features. A new regime must
+  persist for the configured number of weeks before the confirmed regime
+  switches. This creates a delay, but it does not inspect future weeks
+  and is therefore acceptable for online inference.
+\end{enumerate}
+
+This distinction should be highlighted in the final report. Static
+smoothing is for interpretation; causal smoothing is for train-ready RL
+state construction.
+
+\subsection{Mutual Information
+Evidence}\label{mutual-information-evidence}
+
+Mutual information was used to check whether market/macro features
+contain signal for next-week allocation targets. The analysis used 579
+rows and 54 numeric features, excluding close levels and future returns.
+
+For the primary classification target, \texttt{best\_asset\_next\_week},
+the top features were:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rlrr@{}}
+\toprule\noalign{}
+rank & feature & MI & permutation p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & \texttt{tnx\_level} & 0.0407 & 0.0198 \\
+2 & \texttt{gld\_vol\_20d} & 0.0338 & 0.0594 \\
+3 & \texttt{dgs10\_level} & 0.0289 & 0.0495 \\
+4 & \texttt{tlt\_ret\_1d} & 0.0281 & 0.0990 \\
+5 & \texttt{spy\_drawdown\_60d} & 0.0267 & 0.0495 \\
+\end{longtable}
+}
+
+For SPY next return, the strongest signals were
+\texttt{spy\_drawdown\_60d}, \texttt{vix\_level},
+\texttt{spy\_intraday\_range}, \texttt{umcsent\_level}, and
+\texttt{spy\_vol\_20d}. For TLT, bond volatility and the yield curve
+were more important. For GLD, TLT returns and rate features were more
+informative.
+
+Interpretation: the signal is real but modest. This supports using these
+features in a regime-aware state representation, but it also explains
+why a high-capacity RL agent can overfit if the action and reward setup
+is not tightly controlled.
+
+\subsection{RL-Ready Dataset}\label{rl-ready-dataset}
+
+The train-ready dataset is designed for attention and RL:
+
+\begin{itemize}
+\tightlist
+\item
+  12-week lookback sequences.
+\item
+  21 leak-safe features.
+\item
+  PCA features, regime scores, centroid-distance information, regime
+  duration, regime-change indicators, and target-only next-week returns.
+\item
+  Targets: \texttt{y\_next\_return\_spy}, \texttt{y\_next\_return\_tlt},
+  \texttt{y\_next\_return\_gld}, \texttt{y\_best\_asset\_id}, and
+  \texttt{y\_best\_asset}.
+\end{itemize}
+
+The attention context is important: the model should not only see the
+current regime label. It should also see the trajectory into that
+regime, distances to alternative regimes, and whether a regime
+transition is newly forming or already persistent.
+
+\subsection{RL Setup}\label{rl-setup}
+
+The Jump RL environment uses weekly allocation actions over:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+action & allocation \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{cash\_only} & 100\% cash \\
+\texttt{spy\_only} & 100\% SPY \\
+\texttt{tlt\_only} & 100\% TLT \\
+\texttt{gld\_only} & 100\% GLD \\
+\texttt{spy\_80\_tlt\_20} & 80\% SPY / 20\% TLT \\
+\texttt{balanced\_60\_30\_10} & 60\% SPY / 30\% TLT / 10\% GLD \\
+\texttt{defensive\_20\_60\_20} & 20\% SPY / 60\% TLT / 20\% GLD \\
+\end{longtable}
+}
+
+The evaluation protocol selects models using validation metrics only.
+Locked test is reported after selection and must not be used to choose
+hyperparameters.
+
+\subsection{Existing RL Results}\label{existing-rl-results}
+
+Two relevant RL result sets exist in the repository.
+
+\subsubsection{Quick Jump RL Runner}\label{quick-jump-rl-runner}
+
+Artifact:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{output/full\_pipeline/jump\_rl\_training\_summary.json}
+\end{itemize}
+
+Configuration:
+
+\begin{verbatim}
+python scripts/train_jump_rl.py \
+  --timesteps 30000 --seed 123 --min-action-hold-weeks 8 \
+  --reward-scale 100.0 --risk-penalty 0.05
+\end{verbatim}
+
+Metrics are net of transaction costs:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+split
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+cumulative return
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+annualized return
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+volatility
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Sharpe
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+max drawdown
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+turnover
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+validation & 19.56\% & 9.34\% & 15.49\% & 0.603 & -18.58\% & 0.115 \\
+locked test & 9.65\% & 4.25\% & 14.37\% & 0.296 & -11.90\% & 0.113 \\
+\end{longtable}
+}
+
+This run is promising because it improves validation performance while
+keeping turnover low. The locked-test result is positive but much
+weaker, so it should be reported as preliminary rather than definitive.
+Because this is a limited runner artifact rather than the full long-DQN
+tuning sweep, it should be framed as an exploratory result.
+
+\subsubsection{Long DQN Tuning Artifact}\label{long-dqn-tuning-artifact}
+
+Artifact:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{output/jump\_rl\_long\_dqn/best\_config.json}
+\end{itemize}
+
+Best selected trial:
+
+\begin{itemize}
+\tightlist
+\item
+  algorithm: DQN
+\item
+  seed: 7
+\item
+  timesteps: 2,000,000
+\item
+  learning rate: 0.0001
+\item
+  buffer size: 250,000
+\item
+  batch size: 256
+\item
+  gamma: 0.99
+\end{itemize}
+
+Metrics:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1304}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1739}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+split
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+cumulative return
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+annualized excess return
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Sharpe
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+max drawdown
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+turnover
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+validation & -7.85\% & -6.37\% & -0.430 & -23.91\% & 0.500 \\
+locked test & -5.97\% & -6.31\% & -0.438 & -22.33\% & 0.570 \\
+\end{longtable}
+}
+
+This long run underperforms simple baselines and has high turnover. That
+result suggests the current DQN setup is not yet robust, even if the
+regime model itself is meaningful.
+
+\subsection{Baselines}\label{baselines}
+
+The strongest locked-test baselines are difficult to beat:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}llrrr@{}}
+\toprule\noalign{}
+strategy & split & cumulative return & Sharpe & max drawdown \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{momentum\_rotation\_20d} & validation & 16.88\% & 0.394 &
+-11.64\% \\
+\texttt{gld\_only} & validation & 12.76\% & 0.258 & -17.35\% \\
+\texttt{gld\_only} & locked test & 118.10\% & 1.770 & -14.55\% \\
+\texttt{equal\_weight\_spy\_tlt\_gld} & locked test & 47.14\% & 1.439 &
+-8.32\% \\
+\texttt{momentum\_rotation\_20d} & locked test & 60.61\% & 1.080 &
+-14.86\% \\
+\end{longtable}
+}
+
+The 2024-2026 locked-test period strongly favors GLD, which makes static
+GLD and simple baseline comparisons unusually strong. The report should
+therefore avoid claiming that the RL model is generally superior. A
+better conclusion is that regime-aware state construction is promising,
+but policy learning remains the main bottleneck.
+
+\subsection{Streamlit Dashboard}\label{streamlit-dashboard}
+
+The Streamlit dashboard supports real-time-style market replay and
+regime diagnostics:
+
+\begin{itemize}
+\tightlist
+\item
+  market replay with indexed SPY/TLT/GLD prices
+\item
+  cluster scatter view
+\item
+  PCA component visualization
+\item
+  regime time-series timeline
+\item
+  elbow/K sweep diagnostics
+\item
+  regime summary table
+\item
+  heatmap-style regime feature profiles
+\end{itemize}
+
+Research defaults reflected in the dashboard:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+control & default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+scaler window weeks & 52 \\
+scaler minimum history weeks & 12 \\
+scaler clip & 6.0 \\
+jump penalty & 6.0 \\
+minimum displayed regime duration & 6 \\
+K sweep & 2 to 10 \\
+K selection & manual \\
+manual K & 4 \\
+\end{longtable}
+}
+
+The dashboard is useful for research exploration, but final RL artifacts
+should be produced by the leak-safe pipeline scripts, not by full-sample
+interactive refits.
+
+\subsection{Topics That Should Not Be Missing From The Final
+Report}\label{topics-that-should-not-be-missing-from-the-final-report}
+
+The final submitted report should explicitly include these topics:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+topic
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+why it matters
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+HMM-to-Jump-Model pivot & Explains why the project changed method rather
+than silently switching. \\
+Leakage controls & Prevents the most common critique of financial ML
+projects. \\
+Rolling robust scaling & Addresses nonstationary variance/volume scale
+and the user's observed early-regime noise. \\
+PCA compression ratio & Shows the theoretical feature compression and
+why 6 PCs were selected. \\
+K selection tradeoff & Explains why raw silhouette was not the only
+objective. \\
+Jump penalty and duration & Shows regimes are intended to be persistent
+market states, not weekly noise. \\
+Static vs causal smoothing & Clarifies what is safe for RL and what is
+only descriptive. \\
+Mutual information & Provides feature-target evidence before RL. \\
+Baseline comparison & Keeps the RL results honest. \\
+Locked-test discipline & Shows test was not used to choose model
+settings. \\
+Failure analysis & Turns weak long-DQN performance into a research
+insight. \\
+Streamlit dashboard & Demonstrates inspection, replay, and
+interpretability. \\
+Future RL improvements & Gives a credible path beyond current
+results. \\
+\end{longtable}
+}
+
+\subsection{Limitations}\label{limitations}
+
+\begin{itemize}
+\tightlist
+\item
+  Regime labels are statistical and should not be treated as
+  ground-truth macro states.
+\item
+  Silhouette is low for K\textgreater2 because market regimes overlap;
+  low silhouette does not automatically invalidate the regimes, but it
+  limits confidence.
+\item
+  The locked-test period is unusual because GLD performs extremely well.
+\item
+  The long DQN artifact underperforms baselines, suggesting overfitting,
+  poor exploration, action-template mismatch, or reward instability.
+\item
+  Transaction costs and turnover matter materially; high-frequency
+  regime switching can destroy performance.
+\item
+  The current asset universe is small. Adding more ETFs may improve
+  allocation opportunities but also increases action complexity.
+\end{itemize}
+
+\subsection{Future Work}\label{future-work}
+
+Recommended next steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Keep the leak-safe Jump Model dataset as the canonical regime feature
+  source.
+\item
+  Compare RL against a simple supervised policy that predicts the best
+  next-week asset from the same leak-safe features.
+\item
+  Add regime-aware but rule-based allocation baselines, such as stress
+  regime to cash/GLD and calm/growth regime to SPY.
+\item
+  Tune action templates, especially reducing all-in actions and adding
+  smoother allocation choices.
+\item
+  Train attention models with explicit regime score and regime duration
+  inputs, then inspect attention weights by market period.
+\item
+  Evaluate across rolling walk-forward windows so the conclusion is not
+  too dependent on the 2024-2026 GLD-dominated test period.
+\end{enumerate}
+
+\subsection{Reproducibility}\label{reproducibility}
+
+Build the train-ready Jump Model dataset:
+
+\begin{verbatim}
+python scripts/build_train_ready_dataset.py
+\end{verbatim}
+
+Run the Streamlit dashboard:
+
+\begin{verbatim}
+streamlit run app/streamlit_jump_model.py
+\end{verbatim}
+
+Quick Jump RL command represented by the existing summary artifact:
+
+\begin{verbatim}
+python scripts/train_jump_rl.py \
+  --timesteps 30000 --seed 123 --min-action-hold-weeks 8 \
+  --reward-scale 100.0 --risk-penalty 0.05
+\end{verbatim}
+
+Long DQN tuning artifacts are already stored under:
+
+\begin{verbatim}
+output/jump_rl_long_dqn/
+\end{verbatim}
+
+Key supporting reports:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{reports/jump\_model\_train\_ready\_dataset.md}
+\item
+  \texttt{reports/jump\_model\_tuning\_rolling\_robust52\_smoothed.md}
+\item
+  \texttt{reports/mutual\_information\_results.md}
+\item
+  \texttt{reports/jump\_rl\_tuning.md}
+\end{itemize}

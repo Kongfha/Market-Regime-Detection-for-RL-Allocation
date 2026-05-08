@@ -15,6 +15,10 @@ An alternate Jump Model path is also available:
 2. train a DQN allocation agent with `scripts/train_jump_rl.py`
 3. evaluate the exported Jump RL actions from `output/full_pipeline/`
 
+The current report draft for the PCA Jump Model + RL path is:
+
+- `reports/final_project_report.md`
+
 The active notebook workflow lives in `full_pipeline/`. Older notebook experiments and the alternate `pattern_recognition/` stack remain in the repo for reference, but they are not the source of truth.
 
 ## Canonical Pipeline

@@ -1,0 +1,169 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1.7cm]{geometry}
+\usepackage{graphicx}
+\usepackage{calc}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[hyperfootnotes=false]{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{ragged2e}
+\usepackage{setspace}
+\usepackage{colortbl}
+
+\definecolor{navy}{HTML}{0B3954}
+\definecolor{teal}{HTML}{087E8B}
+\definecolor{gold}{HTML}{F4B942}
+\definecolor{coral}{HTML}{FF6B35}
+\definecolor{plum}{HTML}{7B2CBF}
+\definecolor{slate}{HTML}{34495E}
+\definecolor{softblue}{HTML}{EEF6FA}
+\definecolor{softteal}{HTML}{EAF7F8}
+\definecolor{softgold}{HTML}{FFF7E3}
+\definecolor{softgray}{HTML}{F7FAFC}
+\definecolor{linegray}{HTML}{D6DEE8}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=teal,
+  linkcolor=navy,
+  citecolor=plum,
+  pdftitle={PCA Jump Model Market Regime Detection for RL Allocation},
+  pdfauthor={Pattern Recognition Course Project Team},
+  pdfsubject={Portfolio Management, Regime Detection, Reinforcement Learning},
+  pdfkeywords={Portfolio Management, Reinforcement Learning, Market Regimes, Jump Model, PCA}
+}
+\urlstyle{same}
+\onehalfspacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\renewcommand{\arraystretch}{1.2}
+\emergencystretch=2em
+
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\color{navy}\bfseries PCA Jump Model Final Report}
+\fancyhead[R]{\color{slate}RL ETF Allocation}
+\fancyfoot[C]{\color{slate}\thepage}
+\setlength{\headheight}{15pt}
+
+\newtcolorbox{summarybox}[1][]{
+  colback=softblue,
+  colframe=navy,
+  boxrule=0.8pt,
+  arc=3mm,
+  left=2mm,
+  right=2mm,
+  top=1.5mm,
+  bottom=1.5mm,
+  #1
+}
+
+\newtcolorbox{insightbox}[1][]{
+  colback=softteal,
+  colframe=teal,
+  boxrule=0.8pt,
+  arc=3mm,
+  left=2mm,
+  right=2mm,
+  top=1.5mm,
+  bottom=1.5mm,
+  #1
+}
+
+\newtcolorbox{warningbox}[1][]{
+  colback=softgold,
+  colframe=gold!70!black,
+  boxrule=0.8pt,
+  arc=3mm,
+  left=2mm,
+  right=2mm,
+  top=1.5mm,
+  bottom=1.5mm,
+  #1
+}
+
+% Pandoc-generated table helpers.
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\def\fps@figure{htbp}
+\newcounter{none}
+
+\begin{document}
+
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[navy] (current page.north west) rectangle ([yshift=-7.8cm]current page.north east);
+  \fill[teal] (current page.south west) rectangle ([yshift=1.6cm]current page.south east);
+  \fill[gold,opacity=0.95] ([xshift=-1.8cm,yshift=-1.2cm]current page.north east) circle (1.85cm);
+  \fill[coral,opacity=0.88] ([xshift=1.4cm,yshift=-3.0cm]current page.north west) circle (1.2cm);
+\end{tikzpicture}
+
+\vspace*{1.4cm}
+
+{\color{white}\sffamily\bfseries\fontsize{24}{28}\selectfont
+PCA Jump Model\\[0.12em]
+Market Regime Detection\\[0.12em]
+for RL ETF Allocation\par}
+
+\vspace{0.8cm}
+
+{\color{white}\Large\sffamily Final Project Report Draft\par}
+
+\vspace{0.6cm}
+
+{\color{white}\large\sffamily Leakage-Safe Regime Features, Streamlit Replay, and RL Evaluation\par}
+
+\vspace{1.3cm}
+
+\begin{summarybox}[width=\textwidth,colback=white,colframe=white]
+\textbf{\color{navy}Executive Positioning.}
+This report reframes the project around a leak-safe PCA Jump Model regime pipeline.
+The regime model is the core pattern-recognition contribution; reinforcement
+learning is treated as the downstream allocation test that reveals both the
+promise and the remaining limitations of the current state representation.
+\end{summarybox}
+
+\vspace{0.5cm}
+
+\begin{tabularx}{\textwidth}{@{}P{0.24\textwidth}Y@{}}
+\textbf{\color{navy}Report Date} & May 8, 2026 \\
+\textbf{\color{navy}Primary Data Window} & March 28, 2014 to March 13, 2026 \\
+\textbf{\color{navy}Core Tradable Assets} & SPY, TLT, GLD, with cash as an action option \\
+\textbf{\color{navy}Main Regime Model} & PCA Jump Model with causal rolling robust scaling \\
+\textbf{\color{navy}Final RL Context} & Existing trained artifacts only; no new training was run for this PDF \\
+\end{tabularx}
+
+\vfill
+
+{\color{white}\large\sffamily Prepared as the final report companion to the existing project proposal PDF\par}
+\end{titlepage}
+\clearpage
+\pagenumbering{arabic}
+\hypersetup{pageanchor=true}
+
+\tableofcontents
+\newpage
+
+\input{final_project_report_body.tex}
+
+\end{document}
