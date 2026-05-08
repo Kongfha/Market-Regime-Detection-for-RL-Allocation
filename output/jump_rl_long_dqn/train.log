@@ -1,0 +1,8 @@
+Stage 1: 1 candidates at 100,000 timesteps
+[stage1] dqn dqn_000 seed=7
+Stage 2: 1 candidates at 500,000 timesteps
+[stage2] dqn dqn_000 seed=7
+Stage 3: 1 candidates x 1 seeds at 2,000,000 timesteps
+[stage3] dqn dqn_000 seed=7
+Best validation Sharpe: -0.4296
+Artifacts: output/jump_rl_long_dqn

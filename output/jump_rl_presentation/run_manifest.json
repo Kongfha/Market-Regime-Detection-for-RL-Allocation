@@ -1,0 +1,29 @@
+{
+  "weekly_path": "\\\\wsl.localhost\\Ubuntu-24.04\\home\\yuaylong\\Market-Regime-Detection-for-RL-Allocation\\data\\processed\\jump_model_train_ready_weekly.csv",
+  "metadata_path": "\\\\wsl.localhost\\Ubuntu-24.04\\home\\yuaylong\\Market-Regime-Detection-for-RL-Allocation\\data\\processed\\jump_model_train_ready_metadata.json",
+  "source_state_path": "\\\\wsl.localhost\\Ubuntu-24.04\\home\\yuaylong\\Market-Regime-Detection-for-RL-Allocation\\data\\processed\\model_state_weekly_price_macro.csv",
+  "budget": "thorough",
+  "preset": {
+    "stage1_per_algo": 12,
+    "stage1_timesteps": 100000,
+    "stage2_top": 12,
+    "stage2_timesteps": 300000,
+    "stage3_top": 4,
+    "stage3_timesteps": 1000000,
+    "stage3_seeds": [
+      7,
+      21,
+      42,
+      84,
+      168
+    ]
+  },
+  "feature_count": 21,
+  "weekly_rows": 625,
+  "split_counts": {
+    "train": 406,
+    "test": 115,
+    "validation": 104
+  },
+  "best_trial_id": null
+}

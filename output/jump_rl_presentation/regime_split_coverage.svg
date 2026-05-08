@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="430" viewBox="0 0 1040 430">
+<rect width="1040" height="430" fill="#ffffff"/>
+<text x="60.0" y="40.0" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#202124" text-anchor="start">Regime Coverage By Split</text>
+<text x="60.0" y="66.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5f6368" text-anchor="start">This shows whether train, validation, and locked test all contain meaningful regime variety.</text>
+<text x="60.0" y="139.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#202124" text-anchor="start">train (406w)</text>
+<rect x="210.0" y="105" width="169.0" height="54" fill="#4C78A8" rx="2"/>
+<text x="294.5" y="138.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">R0 94w</text>
+<rect x="379.0" y="105" width="465.7" height="54" fill="#59A14F" rx="2"/>
+<text x="611.9" y="138.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">R1 259w</text>
+<rect x="844.7" y="105" width="62.9" height="54" fill="#F28E2B" rx="2"/>
+<text x="876.2" y="138.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">R2 35w</text>
+<rect x="907.6" y="105" width="32.4" height="54" fill="#E15759" rx="2"/>
+<text x="60.0" y="235.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#202124" text-anchor="start">validation (104w)</text>
+<rect x="210.0" y="201" width="168.5" height="54" fill="#4C78A8" rx="2"/>
+<text x="294.2" y="234.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">R0 24w</text>
+<rect x="378.5" y="201" width="393.1" height="54" fill="#59A14F" rx="2"/>
+<text x="575.0" y="234.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">R1 56w</text>
+<rect x="771.5" y="201" width="168.5" height="54" fill="#F28E2B" rx="2"/>
+<text x="855.8" y="234.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">R2 24w</text>
+<text x="60.0" y="331.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#202124" text-anchor="start">test (115w)</text>
+<rect x="210.0" y="297" width="304.7" height="54" fill="#4C78A8" rx="2"/>
+<text x="362.3" y="330.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">R0 48w</text>
+<rect x="514.7" y="297" width="425.3" height="54" fill="#59A14F" rx="2"/>
+<text x="727.3" y="330.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">R1 67w</text>
+<rect x="60" y="353" width="14" height="14" fill="#4C78A8"/>
+<text x="80.0" y="365.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#5f6368" text-anchor="start">R0: Calm / risk-on</text>
+<rect x="290" y="353" width="14" height="14" fill="#59A14F"/>
+<text x="310.0" y="365.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#5f6368" text-anchor="start">R1: Growth / trend</text>
+<rect x="520" y="353" width="14" height="14" fill="#F28E2B"/>
+<text x="540.0" y="365.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#5f6368" text-anchor="start">R2: Transition / mixed</text>
+<rect x="750" y="353" width="14" height="14" fill="#E15759"/>
+<text x="770.0" y="365.0" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#5f6368" text-anchor="start">R3: Stress / risk-off</text>
+</svg>
